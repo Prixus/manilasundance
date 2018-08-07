@@ -1,0 +1,20 @@
+#bazaarboxes{
+    margin-top:20px;
+    text-align: center;
+    color: blue;
+}
+
+#bazaarboxes .box{
+    float: left;
+    text-align: center;
+    padding: 10px;
+}
+
+#bazaarboxes .box img{
+    width: 150px;
+}
+
+#picsize{
+    width: 180px;
+    height: 260px;
+}
