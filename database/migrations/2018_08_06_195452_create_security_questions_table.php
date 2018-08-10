@@ -14,7 +14,9 @@ class CreateSecurityQuestionsTable extends Migration
     public function up()
     {
         Schema::create('security_questions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('PK_SecurityID');
+            $table->string('Security_Question',255);
+            $table->string('Security_Answer',255);
             $table->timestamps();
         });
     }
