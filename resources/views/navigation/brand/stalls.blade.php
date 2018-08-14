@@ -8,91 +8,9 @@
 
 <h2 class="sub-header">Reserve Stalls</h2>
 <br><br>
-<div class="sub-header" style="background-color:teal;padding:1px;"></div>
-<h4 style="margin-left:50px;color:teal;">Legend:</h4>
-<button class="btnlegend" style="border: 2px solid #0077FF;margin-left:65px">Corner Stall</button>
-<button class="btnlegend" style="border: 2px solid #4CAF50;">Regular Stall</button>
-<button class="btnlegend" style="border: 2px solid #9A00FF;">Prime Stall</button>
-<button class="btnlegend" style="border: 2px solid #FFA500;">Food Stall</button>
-<button class="btnlegend" style="background-color:#f79391;">Permanently Reserved</button>
-<button class="btnlegend" style="background-color:#f3f35f;">Temporarily Reserved</button>
-<button class="btnlegend sub-header">Vacant</button>
-<br><br><br><br>
-<div class="sub-header" style="background-color:teal;padding:1px;"></div>
-<h4 style="margin-left:50px;color:teal;">Stall Map:</h4>
-<br>
 <center>
-<div style=float:left;>
-<button class="button buttonCorner" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonPrime" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-
-
-<div style=float:left;margin-bottom:60px;>
-<button class="button buttonPrime bottomlane" style="margin-left:65px;margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-right:60px;margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-right:60px;margin-top:50px;">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-</div>
+<img src='/{{$StallMap->Bazaar_StallMap}}' width = "600">
 </center>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<div class="sub-header" style="background-color:teal;padding:1px;"></div>
-<br>
 <br><br>
 <h2 class="sub-header">Available Stalls<div style = "float:right;font-size:14px;">
 <input type = "text" placeholder = "Search...">
