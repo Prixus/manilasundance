@@ -3,13 +3,97 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
-
           <h2 class="sub-header">Manage Stalls<div style = "float:right;font-size:14px;">
 					<input type = "text" placeholder = "Search...">
 					<button class = "btnSearch">GO</button>
 					</div>
 					</h2>
+
+        </h2><div class="sub-header" style="background-color:teal;padding:1px;"></div>
+<h4 style="margin-left:50px;color:teal;">Legend:</h4>
+<button class="btnlegend" style="border: 2px solid #0077FF;margin-left:65px">Corner Stall</button>
+<button class="btnlegend" style="border: 2px solid #4CAF50;">Regular Stall</button>
+<button class="btnlegend" style="border: 2px solid #9A00FF;">Prime Stall</button>
+<button class="btnlegend" style="border: 2px solid #FFA500;">Food Stall</button>
+<button class="btnlegend" style="background-color:#f79391;">Permanently Reserved</button>
+<button class="btnlegend" style="background-color:#f3f35f;">Temporarily Reserved</button>
+<button class="btnlegend sub-header">Vacant</button>
+<br><br><br><br>
+<div class="sub-header" style="background-color:teal;padding:1px;"></div>
+<h4 style="margin-left:50px;color:teal;">Stall Map:</h4>
+<br>
+<center>
+<div style=float:left;>
+<button class="button buttonCorner" style="margin-right:70px;margin-left:65px">prm-1001</button>
+<button class="button buttonCorner">prm-1001</button>
+<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonCorner">prm-1001</button>
+<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonCorner">prm-1001</button>
+<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonCorner">prm-1001</button>
+</div>
+
+<div style=float:left;>
+<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+</div>
+
+<div style=float:left;>
+<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+</div>
+
+<div style=float:left;>
+<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonRegular">prm-1001</button>
+</div>
+
+<div style=float:left;>
+<button class="button buttonPrime" style="margin-right:70px;margin-left:65px">prm-1001</button>
+<button class="button buttonPrime">prm-1001</button>
+<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonPrime">prm-1001</button>
+<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonPrime">prm-1001</button>
+<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
+<button class="button buttonPrime">prm-1001</button>
+
+
+<div style=float:left;margin-bottom:60px;>
+<button class="button buttonPrime bottomlane" style="margin-left:65px;margin-top:50px">prm-1001</button>
+<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
+<button class="button buttonPrime bottomlane" style="margin-right:60px;margin-top:50px">prm-1001</button>
+<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
+<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
+<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
+<button class="button buttonFood bottomlane" style="margin-right:60px;margin-top:50px;">prm-1001</button>
+<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
+<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
+<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
+</div>
+</center>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class="sub-header" style="background-color:teal;padding:1px;"></div>
+<br><br>
           <div class="table-responsive">
 
 		  <button style = "background-color:red;float:right;margin:5px;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/bazaar">Back</a></button>

@@ -35,7 +35,7 @@ class ReservationsController extends Controller
 
     public function showStalls($id){
         $ldate = date('Y-m-d H:i:s');
-        $BazaarStalls = stall::where([["FK_BazaarID", "=", $id], ["Stall_Status", "=", "Available"]])->paginate(15);
+        $BazaarStalls = stall::where(["FK_BazaarID", "=", $id])->get();
         $StallMap = bazaar::where("PK_BazaarID",$id)->first();
 
         $ReservedStalls = DB::table('stalls')

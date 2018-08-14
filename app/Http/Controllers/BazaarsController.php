@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\bazaar;
+use App\stall;
 use Validator;
 use Response;
 
@@ -83,16 +84,60 @@ class BazaarsController extends Controller
         $bazaar->Bazaar_BookingCost = $request->Bazaar_BookingCost;
         $bazaar->Bazaar_Status = "Available";
         $bazaar->save();
-
-        $bazaars = bazaar::orderBy('PK_BazaarID','DESC')->get();
-        return view('navigation/admin/bazaar', ['bazaars' => $bazaars]);
+        //    $path = $request->file('avatar')->store('avatars'); $file = $request->photo  $file = $request->file('imgUpload1')->store('images');
 
 
+        $cornerStall = 0;
+        for($cornerStall = 0;$cornerStall<8;$cornerStall++){
+          $stall = new stall;
+          $stall->Stall_Type = 'Corner';
+          $stall->Stall_Size = '2x3 m';
+          $stall->Stall_Status = 'Available';
+          $stall->FK_BazaarID = $bazaar->PK_BazaarID;
+          $stall->Stall_RentalCost = 250.00;
+          $stall->Stall_BookingCost = 250.00;
+          $stall->save();
+        }
+
+        $regularStall = 0;
+        for($regularStall = 0;$regularStall<24;$regularStall++){
+          $stall = new stall;
+          $stall->Stall_Type = 'Regular';
+          $stall->Stall_Size = '2x3 m';
+          $stall->Stall_Status = 'Available';
+          $stall->FK_BazaarID = $bazaar->PK_BazaarID;
+          $stall->Stall_RentalCost = 250.00;
+          $stall->Stall_BookingCost = 250.00;
+          $stall->save();
+        }
+
+        $primeStall = 0;
+        for($primeStall = 0;$primeStall<14;$primeStall++){
+          $stall = new stall;
+          $stall->Stall_Type = 'Prime';
+          $stall->Stall_Size = '2x3 m';
+          $stall->Stall_Status = 'Available';
+          $stall->Stall_RentalCost = 250.00;
+          $stall->Stall_BookingCost = 250.00;
+          $stall->FK_BazaarID = $bazaar->PK_BazaarID;
+          $stall->save();
+        }
+
+        $foodStall = 0;
+        for($foodStall = 0;$foodStall<4;$foodStall++){
+          $stall = new stall;
+          $stall->Stall_Type = 'Food';
+          $stall->Stall_Size = '2x3 m';
+          $stall->Stall_Status = 'Available';
+          $stall->FK_BazaarID = $bazaar->PK_BazaarID;
+          $stall->Stall_RentalCost = 250.00;
+          $stall->Stall_BookingCost = 250.00;
+          $stall->save();
+        }
 
 
-//    $path = $request->file('avatar')->store('avatars'); $file = $request->photo  $file = $request->file('imgUpload1')->store('images');
-
-
+                $bazaars = bazaar::orderBy('PK_BazaarID','DESC')->get();
+                return view('navigation/admin/bazaar', ['bazaars' => $bazaars]);
 
     }
 
