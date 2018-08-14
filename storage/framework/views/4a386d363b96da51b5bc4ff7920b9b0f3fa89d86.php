@@ -80,6 +80,9 @@
 <link href='/css/accountsettings.css' rel='stylesheet' />
 <?php endif; ?>
 
+<?php if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls')): ?>
+<link href='/css/map.css' rel='stylesheet' />
+<?php endif; ?>
 </head>
 <body>
   <?php if(request()->segment(1)=='admin'): ?>
