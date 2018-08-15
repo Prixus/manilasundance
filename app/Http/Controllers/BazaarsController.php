@@ -55,18 +55,11 @@ class BazaarsController extends Controller
         //
 
         $this->validate($request,[
-          'Bazaar_StallMap' => 'required',
           'Bazaar_EventPoster' => 'required'
         ]);
 
         $bazaar = new bazaar();
-        $fileName = md5(rand());
-        $fileName = $fileName.".jpg"; // generates file name
-        $target = "stallmaps/";
-        $fileTarget = $target.$fileName;
-        $tempFileName = $_FILES['Bazaar_StallMap']['tmp_name'];
-        $result = move_uploaded_file($tempFileName,$fileTarget);
-        $bazaar->Bazaar_StallMap = $fileTarget;
+
 
         $fileName = md5(rand());
         $fileName = $fileName.".jpg"; // generates file name
@@ -81,7 +74,6 @@ class BazaarsController extends Controller
         $bazaar->Bazaar_DateEnd = $request->Bazaar_DateEnd;
         $bazaar->Bazaar_TimeStart = $request->Bazaar_TimeStart;
         $bazaar->Bazaar_TimeEnd = $request->Bazaar_TimeEnd;
-        $bazaar->Bazaar_BookingCost = $request->Bazaar_BookingCost;
         $bazaar->Bazaar_Status = "Available";
         $bazaar->save();
         //    $path = $request->file('avatar')->store('avatars'); $file = $request->photo  $file = $request->file('imgUpload1')->store('images');
@@ -94,8 +86,8 @@ class BazaarsController extends Controller
           $stall->Stall_Size = '2x3 m';
           $stall->Stall_Status = 'Available';
           $stall->FK_BazaarID = $bazaar->PK_BazaarID;
-          $stall->Stall_RentalCost = 250.00;
-          $stall->Stall_BookingCost = 250.00;
+          $stall->Stall_RentalCost = 17000.00;
+          $stall->Stall_BookingCost = 5000.00;
           $stall->save();
         }
 
@@ -106,19 +98,20 @@ class BazaarsController extends Controller
           $stall->Stall_Size = '2x3 m';
           $stall->Stall_Status = 'Available';
           $stall->FK_BazaarID = $bazaar->PK_BazaarID;
-          $stall->Stall_RentalCost = 250.00;
-          $stall->Stall_BookingCost = 250.00;
+          $stall->Stall_RentalCost = 16000.00;
+          $stall->Stall_BookingCost = 5000.00;
           $stall->save();
         }
 
+
         $primeStall = 0;
-        for($primeStall = 0;$primeStall<14;$primeStall++){
+        for($primeStall = 0;$primeStall<11;$primeStall++){
           $stall = new stall;
           $stall->Stall_Type = 'Prime';
           $stall->Stall_Size = '2x3 m';
           $stall->Stall_Status = 'Available';
-          $stall->Stall_RentalCost = 250.00;
-          $stall->Stall_BookingCost = 250.00;
+          $stall->Stall_RentalCost = 18000.00;
+          $stall->Stall_BookingCost = 5000.00;
           $stall->FK_BazaarID = $bazaar->PK_BazaarID;
           $stall->save();
         }
@@ -130,12 +123,22 @@ class BazaarsController extends Controller
           $stall->Stall_Size = '2x3 m';
           $stall->Stall_Status = 'Available';
           $stall->FK_BazaarID = $bazaar->PK_BazaarID;
-          $stall->Stall_RentalCost = 250.00;
-          $stall->Stall_BookingCost = 250.00;
+          $stall->Stall_RentalCost = 17500.00;
+          $stall->Stall_BookingCost = 5000.00;
           $stall->save();
         }
 
 
+        for($primeStall1 = $primeStall;$primeStall1<14;$primeStall1++){
+          $stall = new stall;
+          $stall->Stall_Type = 'Prime';
+          $stall->Stall_Size = '2x3 m';
+          $stall->Stall_Status = 'Available';
+          $stall->Stall_RentalCost = 18000.00;
+          $stall->Stall_BookingCost = 5000.00;
+          $stall->FK_BazaarID = $bazaar->PK_BazaarID;
+          $stall->save();
+        }
                 $bazaars = bazaar::orderBy('PK_BazaarID','DESC')->get();
                 return view('navigation/admin/bazaar', ['bazaars' => $bazaars]);
 

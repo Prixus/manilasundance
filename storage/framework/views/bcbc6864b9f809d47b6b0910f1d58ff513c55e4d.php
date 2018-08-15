@@ -15,7 +15,7 @@
                 <?php $__currentLoopData = $bazaars; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bazaar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div style = "display:inline-block;width:20%;margin:50px;" class='bazaarbox'>
                         <img id='picsize' src='/<?php echo e($bazaar->Bazaar_EventPoster); ?>' width="256" height="200">
-                        <h4><button class="btn btn-primary" id="btnShowBazaar" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-datestart="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-dateend="<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-timestart="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-timeend="<?php echo e($bazaar->Bazaar_TimeEnd); ?>" data-bookingcost="<?php echo e($bazaar->BookingCost); ?>" data-status="<?php echo e($bazaar->Status); ?>" data-stallmap="<?php echo e($bazaar->Bazaar_StallMap); ?>" data-eventposter = "<?php echo e($bazaar->Bazaar_EventPoster); ?>" data-description = "<?php echo e($bazaar->Bazaar_Description); ?>">Click for more details</button></h4>
+                        <h4><button class="btn btn-primary" id="btnShowBazaar" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-datestart="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-dateend="<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-timestart="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-timeend="<?php echo e($bazaar->Bazaar_TimeEnd); ?>" data-bookingcost="<?php echo e($bazaar->BookingCost); ?>" data-status="<?php echo e($bazaar->Status); ?>" data-eventposter = "<?php echo e($bazaar->Bazaar_EventPoster); ?>" data-description = "<?php echo e($bazaar->Bazaar_Description); ?>">Click for more details</button></h4>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php echo e($bazaars->links()); ?>
@@ -33,9 +33,7 @@
               <h4 class ="modal-title">Show Bazaar</h4>
             </div>
             <div class="modal-body">
-              <div>
-              <img id='stallmap' src='' width="500" height="320">
-            </div>
+
             <div>
               <h2 id="BazaarTitle"></h2>
             </div>
@@ -67,7 +65,6 @@
   $(document).ready(function(){
 
     $(document).on('click','#btnShowBazaar',function(){
-      $('#stallmap').attr('src','/'+$(this).data('stallmap'));
       $('#redirect').attr('href','/brand/stalls/'+$(this).data('id'));
       $('#BazaarTitle').replaceWith($(this).data('name'));
       $('#DateStart').val($(this).data('datestart'));

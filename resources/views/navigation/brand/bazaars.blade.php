@@ -17,7 +17,7 @@
                 @foreach($bazaars as $bazaar)
                 <div style = "display:inline-block;width:20%;margin:50px;" class='bazaarbox'>
                         <img id='picsize' src='/{{$bazaar->Bazaar_EventPoster}}' width="256" height="200">
-                        <h4><button class="btn btn-primary" id="btnShowBazaar" data-id="{{$bazaar->PK_BazaarID}}" data-name="{{$bazaar->Bazaar_Name}}" data-venue="{{$bazaar->Bazaar_Venue}}" data-datestart="{{$bazaar->Bazaar_DateStart}}" data-dateend="{{$bazaar->Bazaar_DateEnd}}" data-timestart="{{$bazaar->Bazaar_TimeStart}}" data-timeend="{{$bazaar->Bazaar_TimeEnd}}" data-bookingcost="{{$bazaar->BookingCost}}" data-status="{{$bazaar->Status}}" data-stallmap="{{$bazaar->Bazaar_StallMap}}" data-eventposter = "{{$bazaar->Bazaar_EventPoster}}" data-description = "{{$bazaar->Bazaar_Description}}">Click for more details</button></h4>
+                        <h4><button class="btn btn-primary" id="btnShowBazaar" data-id="{{$bazaar->PK_BazaarID}}" data-name="{{$bazaar->Bazaar_Name}}" data-venue="{{$bazaar->Bazaar_Venue}}" data-datestart="{{$bazaar->Bazaar_DateStart}}" data-dateend="{{$bazaar->Bazaar_DateEnd}}" data-timestart="{{$bazaar->Bazaar_TimeStart}}" data-timeend="{{$bazaar->Bazaar_TimeEnd}}" data-bookingcost="{{$bazaar->BookingCost}}" data-status="{{$bazaar->Status}}" data-eventposter = "{{$bazaar->Bazaar_EventPoster}}" data-description = "{{$bazaar->Bazaar_Description}}">Click for more details</button></h4>
                 </div>
                 @endforeach
                 {{$bazaars->links()}}
@@ -34,9 +34,7 @@
               <h4 class ="modal-title">Show Bazaar</h4>
             </div>
             <div class="modal-body">
-              <div>
-              <img id='stallmap' src='' width="500" height="320">
-            </div>
+
             <div>
               <h2 id="BazaarTitle"></h2>
             </div>
@@ -68,7 +66,6 @@
   $(document).ready(function(){
 
     $(document).on('click','#btnShowBazaar',function(){
-      $('#stallmap').attr('src','/'+$(this).data('stallmap'));
       $('#redirect').attr('href','/brand/stalls/'+$(this).data('id'));
       $('#BazaarTitle').replaceWith($(this).data('name'));
       $('#DateStart').val($(this).data('datestart'));

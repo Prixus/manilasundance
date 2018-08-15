@@ -10,10 +10,7 @@
 					<button class = "btnSearch">GO</button>
 					</div>
 					</h2>
-
-        </h2><div class="sub-header" style="background-color:teal;padding:1px;"></div>
-<h4 style="margin-left:50px;color:teal;">Legend:</h4>
-<button class="btnlegend" style="border: 2px solid #0077FF;margin-left:65px">Corner Stall</button>
+          <button class="btnlegend" style="border: 2px solid #0077FF;margin-left:65px">Corner Stall</button>
 <button class="btnlegend" style="border: 2px solid #4CAF50;">Regular Stall</button>
 <button class="btnlegend" style="border: 2px solid #9A00FF;">Prime Stall</button>
 <button class="btnlegend" style="border: 2px solid #FFA500;">Food Stall</button>
@@ -24,118 +21,76 @@
 <div class="sub-header" style="background-color:teal;padding:1px;"></div>
 <h4 style="margin-left:50px;color:teal;">Stall Map:</h4>
 <br>
+  {{ csrf_field() }}
 <center>
-<div style=float:left;>
-<button class="button buttonCorner" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-<button class="button buttonCorner" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonCorner">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonRegular" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-<button class="button buttonRegular" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonRegular">prm-1001</button>
-</div>
-
-<div style=float:left;>
-<button class="button buttonPrime" style="margin-right:70px;margin-left:65px">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-<button class="button buttonPrime" style="margin-right:70px;">prm-1001</button>
-<button class="button buttonPrime">prm-1001</button>
-
+  @php $ctr=0 @endphp
+  @for($i=0;$i<=4;$i++)
+  @if($i==0)
+  <div style=float:left;>
+      <button class="button button{{$stalls[$ctr]->Stall_Type}}" style="margin-right:70px;margin-left:65px" id="BtnEdit"  data-id= "{{$stalls[$ctr]->PK_StallID}}" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-0000{{$stalls[$ctr]->PK_StallID}}</button>
+  @php $ctr++ @endphp
+      @for($x=0;$x<=2;$x++)
+        <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-id= "{{$stalls[$ctr]->PK_StallID}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-0000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+        <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-right:70px;" data-type=   "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-0000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+      @endfor
+      <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}"  data-id= "{{$stalls[$ctr]->PK_StallID}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-0000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+  </div>
+  @elseif($i==1)
+  <div style=float:left;>
+      <button class="button button{{$stalls[$ctr]->Stall_Type}}" style="margin-right:70px;margin-left:65px" id="BtnEdit"  data-id= "{{$stalls[$ctr]->PK_StallID}}"  data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-0000{{$stalls[$ctr]->PK_StallID}}</button>
+  @php $ctr++ @endphp
+      @for($x=0;$x<=2;$x++)
+        <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-id= "{{$stalls[$ctr]->PK_StallID}}"  data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+        <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-right:70px;" data-type=  "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+      @endfor
+      <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" data-type= "{{$stalls[$ctr]->Stall_Type}}"  data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+  </div>
+  @else
+  <div style=float:left;>
+      <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-right:70px;margin-left:65px" data-type= "{{$stalls[0]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+  @php $ctr++ @endphp
+      @for($x=0;$x<=2;$x++)
+        <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+        <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-right:70px;" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+      @endfor
+      <button class="button button{{$stalls[$ctr]->Stall_Type}}" id="BtnEdit" data-id= "{{$stalls[$ctr]->PK_StallID}}" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-000{{$stalls[$ctr]->PK_StallID}}</button>
+        @php $ctr++ @endphp
+  </div>
+  @endif
+  @endfor
 
 <div style=float:left;margin-bottom:60px;>
-<button class="button buttonPrime bottomlane" style="margin-left:65px;margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-right:60px;margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonFood bottomlane" style="margin-right:60px;margin-top:50px;">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-<button class="button buttonPrime bottomlane" style="margin-top:50px">prm-1001</button>
-</div>
+  <button class="button button{{$stalls[$ctr]->Stall_Type}} bottomlane" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-left:65px;margin-top:50px" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-00{{$stalls[$ctr]->PK_StallID}}</button>
+  @php $ctr++ @endphp
+
+    <button class="button button{{$stalls[$ctr]->Stall_Type}} bottomlane" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-top:50px" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-00{{$stalls[$ctr]->PK_StallID}}</button>
+    @php $ctr++ @endphp
+
+  <button class="button button{{$stalls[$ctr]->Stall_Type}} bottomlane" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-right:60px;margin-top:50px" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-00{{$stalls[$ctr]->PK_StallID}}</button>
+  @php $ctr++ @endphp
+
+  @for($x=0;$x<=2;$x++)
+    <button class="button button{{$stalls[$ctr]->Stall_Type}} bottomlane" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-top:50px"  id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-1001</button>
+        @php $ctr++ @endphp
+  @endfor
+
+  <button class="button button{{$stalls[$ctr]->Stall_Type}} bottomlane" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-right:60px;margin-top:50px"  id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-1001</button>
+          @php $ctr++ @endphp
+  @for($x=0;$x<=2;$x++)
+      <button class="button button{{$stalls[$ctr]->Stall_Type}} bottomlane" data-id= "{{$stalls[$ctr]->PK_StallID}}" style="margin-top:50px" id="BtnEdit" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">prm-00{{$stalls[$ctr]->PK_StallID}}</button>
+          @php $ctr++ @endphp
+  @endfor
+  </div>
+
 </center>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<div class="sub-header" style="background-color:teal;padding:1px;"></div>
-<br><br>
-          <div class="table-responsive">
-
-		  <button style = "background-color:red;float:right;margin:5px;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/bazaar">Back</a></button>
-          <button style = "background-color:#337ab7;float:right;margin:5px;" type="button" class="btn btn-primary" id="BtnAdd">Add Stall</button>
-
-            <table class="table table-striped" id="StallTable">
-              <thead>
-                <tr>
-                  <th>Stall ID</th>
-                  <th>Stall Rental Cost</th>
-                  <th>Stall Booking Cost</th>
-                  <th>Stall Type</th>
-                  <th>Stall Status</th>
-                </tr>
-                      {{ csrf_field() }}
-              </thead>
-              <tbody>
-                @foreach($stalls as $stall)
-                <tr id = "Stall{{$stall->PK_StallID}}">
-                  <td>{{$stall->PK_StallID}}</td>
-                  <td>{{$stall->Stall_RentalCost}}</td>
-                  <td>{{$stall->Stall_BookingCost}}</td>
-                  <td>{{$stall->Stall_Type}}</td>
-                  <td>{{$stall->Stall_Size}}</td>
-                  <td>{{$stall->Stall_Status}}</td>
-				          <td>
-                    <button id = "BtnDelete" style = "background-color:red;margin-left:5px;" type="button" class="btn btn-primary" data-id="{{$stall->PK_StallID}}" data-rentalcost="{{$stall->Stall_RentalCost}}" data-bookingcost="{{$stall->Stall_BookingCost}}" data-type="{{$stall->Stall_Type}}" data-size = "{{$stall->Stall_Size}}" data-status = "{{$stall->Stall_Status}}">Delete</button>
-                    <button id = "BtnEdit" style = "background-color:green;" type="button" class="btn btn-primary" data-id="{{$stall->PK_StallID}}" data-rentalcost="{{$stall->Stall_RentalCost}}" data-bookingcost="{{$stall->Stall_BookingCost}}" data-type="{{$stall->Stall_Type}}" data-size = "{{$stall->Stall_Size}}" data-status = "{{$stall->Stall_Status}}">Edit</button>
-                  </td>
-                </tr>
-
-                @endforeach
-                {{$stalls->links()}}
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- This is the Modal that will be called for add column -->
     <div class = "modal fade" id = "ModalAdd" role = "dialog">
@@ -233,6 +188,7 @@
                             <option value="Regular">Regular</option>
                             <option value="Prime">Prime</option>
                             <option value="Food">Food</option>
+                            <option value="Corner">Corner</option>
                           </select>
                         </div>
 
@@ -375,6 +331,8 @@
                     });
 
                     $('.modal-footer').on('click','#SubmitEdit',function(){
+
+
                       $.ajax({
                         type: "PUT",
                         url: '/admin/manage_stalls/' + id,
@@ -385,6 +343,7 @@
                           'type': $('#EditStallType').val(),
                           'size': $('#EditStallSize').val(),
                           'status': $('#EditStallStatus').val(),
+                          'bazaarID': BazaarID,
                         },
                         success: function(response){
                           if(response.errrors){

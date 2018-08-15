@@ -39,9 +39,6 @@ Route::get('brand/reservations', function () {
 Route::get('/brand/billing', function () {
     return view('navigation/brand/billing');
 });
-Route::get('/brand/calendar', function () {
-    return view('navigation/brand/calendar');
-});
 Route::get('/brand/bill', function () {
     return view('navigation/brand/bill');
 });
@@ -63,9 +60,6 @@ Route::get('/admin/accounts', function () {
     return view('navigation/admin/accounts');
 });
 */
-Route::get('/admin/calendar', function () {
-    return view('navigation/admin/calendar');
-});
 Route::get('/admin/billing', function () {
     return view('navigation/admin/billing');
 });
@@ -95,7 +89,8 @@ Route::resource('/brand/bazaars','BrandBazaarsController');
 Route::resource('/brand/products','ProductsController');
 Route::resource('/admin/bazaar','BazaarsController');
 Route::resource('/admin/manage_stalls', 'StallsController');
-
+Route::resource('/admin/calendar','CalendarController');
+Route::resource('/brand/calendar','CalendarController');
 
 Route::resource('/admin/accounts','AccountsController');
 Route::post('/admin/accounts/search','AccountsController@search');

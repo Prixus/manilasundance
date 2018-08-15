@@ -7,7 +7,6 @@
 <br><br>
         <div id='calendar'></div>
         <script>
-
         $(document).ready(function() {
 
             $('#calendar').fullCalendar({
@@ -16,65 +15,23 @@
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay,listWeek'
             },
-            defaultDate: '2018-03-12',
+
+            defaultDate: Date('YYYY-DD-MM'),
             navLinks: true, // can click day/week names to navigate views
-            editable: true,
+            editable: false,
             eventLimit: true, // allow "more" link when too many events
             events: [
+
+                <?php $__currentLoopData = $bazaars; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bazaar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 {
-                title: 'All Day Event',
-                start: '2018-03-01',
+                id:  '<?php echo e($bazaar->PK_BazaarID); ?>',
+                title:  '<?php echo e($bazaar->Bazaar_Name); ?>',
+                //url: '',
+                start: '<?php echo e($bazaar->Bazaar_DateStart); ?>',
+                end: '<?php echo e($bazaar->Bazaar_DateEnd); ?>',
                 },
-                {
-                title: 'Long Event',
-                start: '2018-03-07',
-                end: '2018-03-10'
-                },
-                {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2018-03-09T16:00:00'
-                },
-                {
-                id: 999,
-                title: 'Repeating Event',
-                start: '2018-03-16T16:00:00'
-                },
-                {
-                title: 'Conference',
-                start: '2018-03-11',
-                end: '2018-03-13'
-                },
-                {
-                title: 'Meeting',
-                start: '2018-03-12T10:30:00',
-                end: '2018-03-12T12:30:00'
-                },
-                {
-                title: 'Lunch',
-                start: '2018-03-12T12:00:00'
-                },
-                {
-                title: 'Meeting',
-                start: '2018-03-12T14:30:00'
-                },
-                {
-                title: 'Happy Hour',
-                start: '2018-03-12T17:30:00'
-                },
-                {
-                title: 'Dinner',
-                start: '2018-03-12T20:00:00'
-                },
-                {
-                title: 'Birthday Party',
-                start: '2018-03-13T07:00:00'
-                },
-                {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2018-03-28'
-                }
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
             ]
             });
 
@@ -88,4 +45,5 @@
 </div>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

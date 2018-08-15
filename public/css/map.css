@@ -1,5 +1,5 @@
 .button {
-    background-color: #4CAF50;
+
     border: none;
     color: white;
     padding: 15px 15px;
@@ -15,8 +15,8 @@
 }
 
 .buttonPrime {
-    background-color: white; 
-    color: black; 
+    background-color: white;
+    color: black;
     border: 2px solid #9A00FF;
 }
 
@@ -78,4 +78,11 @@
     padding: 0px;
     margin-bottom: 20px;
     background-color: white;
+}
+.TemporarilyReserved{
+  background-color:#f3f35f;
+}
+
+.Reserved{
+background-color:#f79391;
 }

@@ -79,10 +79,12 @@ class StallsController extends Controller
     public function show($id)
     {
         //
-        $stalls = stall::where("FK_BazaarID", $id)->paginate(15);
+        $stalls = stall::where("FK_BazaarID", $id)->get();
+        $stallCount = stall::where("FK_BazaarID", $id)->count();
+        $stallFirst = stall::where("FK_BazaarID", $id)->pluck("PK_StallID")->first();
         Session::put('BazaarID',$id);
 
-        return view("navigation/admin/manage_stalls" , ['stalls' => $stalls]);
+        return view("navigation/admin/manage_stalls" , ['stalls' => $stalls,'stallCount'=>$stallCount,'stallFirst'=>$stallFirst]);
 
 
     }
@@ -113,7 +115,7 @@ class StallsController extends Controller
           return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
         }
         else{
-          $stall = find::stall($id);
+          $stall = stall::find($id);
           $stall->Stall_RentalCost = $request->rentalcost;
           $stall->Stall_BookingCost = $request->bookingcost;
           $stall->Stall_Type = $request->type;

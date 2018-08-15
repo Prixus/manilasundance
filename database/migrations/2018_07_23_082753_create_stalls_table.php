@@ -17,7 +17,7 @@ class CreateStallsTable extends Migration
             $table->increments('PK_StallID');
             $table->enum('Stall_Type',['Regular','Corner','Prime','Food']);
             $table->enum('Stall_Size',['2x3 m','2x2 m']);
-            $table->enum('Stall_Status',['Available','Not Available','Reserved']);
+            $table->enum('Stall_Status',['Available','Not Available','Reserved','TemporarilyReserved']);
             $table->decimal('Stall_RentalCost',15,2);
             $table->decimal('Stall_BookingCost',15,2);
             $table->integer('FK_ReservationID')->unsigned()->nullable();

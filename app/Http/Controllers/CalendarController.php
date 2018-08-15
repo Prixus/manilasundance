@@ -28,32 +28,7 @@ class CalendarController extends Controller
       return view('navigation/admin/calendar', ['bazaars' => $bazaars]);
     }
 
-    public function viewCalendar(){
-                $TotalCost = 0.00;
-                
-                $reservationID = Session::get('ReservationID');
-                $reservation = reservation::find($reservationID);
-
-                foreach($reservation->stalls as $stalls){
-                                  $TotalCost += $stalls->Stall_RentalCost + $stalls->Stall_BookingCost;
-                }
-
-                $billing = billing::find(Session::get('BillingID'));
-                $billing->Billing_SubTotal = $TotalCost;
-                $billing->Billing_NetTotal = $TotalCost-$billing->Billing_SubTotalDiscount;
-                $billing->save();
-
-                $ReservationAccountBrandInformations = DB::table('stalls')
-                ->join('reservations','stalls.FK_ReservationID', '=', 'reservations.PK_ReservationID')
-                ->join('accounts','reservations.FK_AccountID', '=', 'accounts.PK_AccountID')
-                ->join('guest_brands','accounts.FK_GuestBrandID','=','guest_brands.PK_GuestBrandID')
-                ->where('PK_ReservationID', '=', $reservationID)
-                ->get();
-
-                return view("navigation/brand/bill", ['ReservedStalls'=> $reservation->stalls,'TotalCost' => $TotalCost, 'ReservationAccountBrandInformations' => $ReservationAccountBrandInformations]);
-
-
-    }
+  
     /**
      * Show the form for creating a new resource.
      *
@@ -70,7 +45,7 @@ class CalendarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Display the specified resource.
@@ -104,8 +79,8 @@ class CalendarController extends Controller
     public function update(Request $request, $id)
     {
         //
-       
-        
+
+
     }
 
     /**

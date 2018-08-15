@@ -43,9 +43,8 @@
         					<td><?php echo e($bazaar->Bazaar_TimeEnd); ?></td>
         					<td><?php echo e($bazaar->Bazaar_Venue); ?></td>
                   <td><?php echo e($bazaar->Bazaar_Status); ?></td>
-                  <td><?php echo e($bazaar->Bazaar_BookingCost); ?></td>
-        					<td><button id="BtnEdit"    style = "background-color:green;float:left;"  class="btn btn-primary"  aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "<?php echo e($bazaar->Bazaar_TimeEnd); ?>" data-end="<?php echo e($bazaar->Bazaar_DateTimeEnd); ?>" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>" data-bookingcost="<?php echo e($bazaar->Bazaar_BookingCost); ?>">Edit</button></td>
-                  <td><button id="BtnDelete" style = "background-color:red;float:right;"   class="btn btn-primary" aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "$bazaar->Bazaar_TimeEnd" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>" data-bookingcost="<?php echo e($bazaar->Bazaar_BookingCost); ?>">Delete</button></td>
+        					<td><button id="BtnEdit"    style = "background-color:green;float:left;"  class="btn btn-primary"  aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "<?php echo e($bazaar->Bazaar_TimeEnd); ?>" data-end="<?php echo e($bazaar->Bazaar_DateTimeEnd); ?>" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>" >Edit</button></td>
+                  <td><button id="BtnDelete" style = "background-color:red;float:right;"   class="btn btn-primary" aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "$bazaar->Bazaar_TimeEnd" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>">Delete</button></td>
                   <td><button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary"><a href = "/admin/manage_stalls/<?php echo e($bazaar->PK_BazaarID); ?>" >Manage Stalls</a></button></td>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -101,17 +100,6 @@
           					  <div class = "form-group">
                         <label> Bazaar Venue: </label>
                         <?php echo e(Form::text('Bazaar_Venue',null,array('placeholder'=>'Enter Bazaar Venue','required'=>'required'))); ?>
-
-                      </div>
-                      <div class = "form-group">
-                        <label> Bazaar Booking Cost: </label>
-                        <?php echo e(Form::number('Bazaar_BookingCost',null,array('step'=>'0.01','min'=>'1'))); ?>
-
-
-                      </div>
-                      <div class = "form-group">
-                        <label> Bazaar Stall Map: </label>
-                        <?php echo e(Form::file('Bazaar_StallMap')); ?>
 
                       </div>
                       <div class = "form-group">
@@ -178,10 +166,6 @@
                         <input type="text" placeholder="Enter Bazaar Venue" id="EditVenue" required>
                       </div>
                       <div class = "form-group">
-                        <label> Bazaar Booking Cost: </label>
-                        <input type="number" placeholder="Enter Booking Cost" step ="0.01"  min = "0" id= "EditBookingCost" required>
-                      </div>
-                      <div class = "form-group">
                         <label> Bazaar Status: </label>
                         <select id= "EditStatus">
                           <option value="Available">Available</option>
@@ -244,10 +228,6 @@
                         <input type="text" placeholder="Enter Bazaar Venue" id="DeleteVenue" disabled>
                       </div>
                       <div class = "form-group">
-                        <label> Bazaar Booking Cost: </label>
-                        <input type="text" placeholder="Enter Booking Cost" step ="0.01"  min = "0" id= "DeleteBookingCost" disabled>
-                      </div>
-                      <div class = "form-group">
                         <label> Bazaar Status: </label>
                         <select id= "DeleteStatus" disabled>
                           <option value="Available">Available</option>
@@ -288,16 +268,15 @@
               'Bazaar_TimeStart': $('input[name=Bazaar_TimeStart]').val(),
               'Bazaar_TimeEnd': $('input[name=Bazaar_TimeEnd]').val(),
               'Bazaar_Venue': $('input[name=Bazaar_Venue]').val(),
-              'Bazaar_BookingCost': $('input[name=Bazaar_BookingCost]').val(),
               'Bazaar_EventPoster': $('input[name=Bazaar_EventPoster]').val(),
-              'Bazaar_StallMap': $('input[name=Bazaar_StallMap]').val()
+
 
 
             },
             success: function(response){
 
               toastr.success('Successfully Added Bazaar','Success Alert', {timeOut: 5000});
-              $('#BazaarTable').prepend("<tr id = 'bazaar"+response.PK_BazaarID + "'><td>" + response.PK_BazaarID + "</td><td>" + response.Bazaar_Name + "</td><td>" + response.Bazaar_DateStart + "</td><td>" + response.Bazaar_DateEnd + "</td><td>" + response.Bazaar_TimeStart + "</td><td>" + response.Bazaar_TimeEnd + "</td><td>" +  response.Bazaar_Venue + "</td><td>" + response.Bazaar_Status + "</td><td>" + response.Bazaar_BookingCost + "</td><td> <button id='BtnEdit'    style = 'background-color:green;float:left;'  class='btn btn-primary'  aria-pressed='false' data-id=' " + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "data-enddate = '" + response.Bazaar_DateEnd + "' data-venue= '" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "' data-bookingcost='" + response.Bazaar_BookingCost + "'>Edit</button></td><td><button id='BtnDelete' style = 'background-color:red;float:right;'   class='btn btn-primary' aria-pressed='false' data-id= '" + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "data-enddate = '" + response.Bazaar_DateEnd + "' data-venue='" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "' data-bookingcost='" + response.Bazaar_BookingCost + "'>Delete</button></td><td><button style = 'background-color:#337ab7;float:right;' type='button' class='btn btn-primary' aria-pressed='false'><a href = '/admin/manage_stalls/" + response.PK_BazaarID + "' >Manage Stalls</a></button></td></tr>");
+              $('#BazaarTable').prepend("<tr id = 'bazaar"+response.PK_BazaarID + "'><td>" + response.PK_BazaarID + "</td><td>" + response.Bazaar_Name + "</td><td>" + response.Bazaar_DateStart + "</td><td>" + response.Bazaar_DateEnd + "</td><td>" + response.Bazaar_TimeStart + "</td><td>" + response.Bazaar_TimeEnd + "</td><td>" +  response.Bazaar_Venue + "</td><td>" + response.Bazaar_Status + "</td><td> <button id='BtnEdit'    style = 'background-color:green;float:left;'  class='btn btn-primary'  aria-pressed='false' data-id=' " + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "data-enddate = '" + response.Bazaar_DateEnd + "' data-venue= '" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "'>Edit</button></td><td><button id='BtnDelete' style = 'background-color:red;float:right;'   class='btn btn-primary' aria-pressed='false' data-id= '" + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "data-enddate = '" + response.Bazaar_DateEnd + "' data-venue='" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "'>Delete</button></td><td><button style = 'background-color:#337ab7;float:right;' type='button' class='btn btn-primary' aria-pressed='false'><a href = '/admin/manage_stalls/" + response.PK_BazaarID + "' >Manage Stalls</a></button></td></tr>");
             }
           });
         });
@@ -337,7 +316,7 @@
               }
               else{
                 toastr.success('Successfully Edited Bazaar','Success Alert', {timeOut: 5000});
-                $('#bazaar'+ response.PK_BazaarID).replaceWith("<tr id = 'bazaar"+response.PK_BazaarID + "'><td>" + response.PK_BazaarID + "</td><td>" + response.Bazaar_Name + "</td><td>" + response.Bazaar_DateStart + "</td><td>" + response.Bazaar_DateEnd + "</td><td>" + response.Bazaar_TimeStart + "</td><td>" + response.Bazaar_TimeEnd + "</td><td>" +  response.Bazaar_Venue + "</td><td>" + response.Bazaar_Status + "</td><td>" + response.Bazaar_BookingCost + "</td><td> <button id='BtnEdit'    style = 'background-color:green;float:left;'  class='btn btn-primary'  aria-pressed='false' data-id=' " + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "'data-enddate = '" + response.Bazaar_DateEnd + "' data-venue= '" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "' data-bookingcost='" + response.Bazaar_BookingCost + "'>Edit</button></td><td><button id='BtnDelete' style = 'background-color:red;float:right;'   class='btn btn-primary' aria-pressed='false' data-id= '" + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "data-enddate = '" + response.Bazaar_DateEnd + "' data-venue='" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "' data-bookingcost='" + response.Bazaar_BookingCost + "'>Delete</button></td><td><button style = 'background-color:#337ab7;float:right;' type='button' class='btn btn-primary' aria-pressed='false'><a href = '/admin/manage_stalls/" + response.PK_BazaarID + "' >Manage Stalls</a></button></td></tr>");
+                $('#bazaar'+ response.PK_BazaarID).replaceWith("<tr id = 'bazaar"+response.PK_BazaarID + "'><td>" + response.PK_BazaarID + "</td><td>" + response.Bazaar_Name + "</td><td>" + response.Bazaar_DateStart + "</td><td>" + response.Bazaar_DateEnd + "</td><td>" + response.Bazaar_TimeStart + "</td><td>" + response.Bazaar_TimeEnd + "</td><td>" +  response.Bazaar_Venue + "</td><td>" + response.Bazaar_Status + "</td><td> <button id='BtnEdit'    style = 'background-color:green;float:left;'  class='btn btn-primary'  aria-pressed='false' data-id=' " + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "'data-enddate = '" + response.Bazaar_DateEnd + "' data-venue= '" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "'>Edit</button></td><td><button id='BtnDelete' style = 'background-color:red;float:right;'   class='btn btn-primary' aria-pressed='false' data-id= '" + response.PK_BazaarID + "' data-name='" + response.Bazaar_Name + "' data-starttime='" + response.Bazaar_TimeStart + "' data-endtime='" + response.Bazaar_TimeEnd + "' data-startdate = '" + response.Bazaar_DateStart + "data-enddate = '" + response.Bazaar_DateEnd + "' data-venue='" + response.Bazaar_Venue + "' data-status='" + response.Bazaar_Status + "'>Delete</button></td><td><button style = 'background-color:#337ab7;float:right;' type='button' class='btn btn-primary' aria-pressed='false'><a href = '/admin/manage_stalls/" + response.PK_BazaarID + "' >Manage Stalls</a></button></td></tr>");
               }
 
             }

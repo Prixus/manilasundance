@@ -35,7 +35,7 @@ class ReservationsController extends Controller
 
     public function showStalls($id){
         $ldate = date('Y-m-d H:i:s');
-        $BazaarStalls = stall::where(["FK_BazaarID", "=", $id])->get();
+        $BazaarStalls = stall::where("FK_BazaarID",$id)->get();
         $StallMap = bazaar::where("PK_BazaarID",$id)->first();
 
         $ReservedStalls = DB::table('stalls')
@@ -71,7 +71,7 @@ class ReservationsController extends Controller
 
 
         }
-                return view("navigation/brand/stalls", ['BazaarStalls'=> $BazaarStalls,'StallMap'=>$StallMap, 'ReservedStalls' => $ReservedStalls]);
+                return view("navigation/brand/stalls", ['stalls'=> $BazaarStalls, 'ReservedStalls' => $ReservedStalls]);
 
     }
 
@@ -79,7 +79,7 @@ class ReservationsController extends Controller
               $ldate = date('Y-m-d H:i:s');
 
               $stall = stall::find($request->id);
-              $stall->Stall_Status = "Reserved";
+              $stall->Stall_Status = "TemporarilyReserved";
               $stall->FK_ReservationID = Session::get('ReservationID');
               $stall->save();
 

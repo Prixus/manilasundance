@@ -21,9 +21,7 @@ class CreateBazaarsTable extends Migration
             $table->date('Bazaar_DateEnd');
             $table->time('Bazaar_TimeStart');
             $table->time('Bazaar_TimeEnd');
-            $table->decimal('Bazaar_BookingCost',15,2);
             $table->enum('Bazaar_Status',['Available','Not Available']);
-            $table->string('Bazaar_StallMap',1028);
             $table->string('Bazaar_EventPoster',1028);
             $table->string('Bazaar_Description',1028)->nullable();
             $table->timestamps();
