@@ -80,9 +80,14 @@
 <link href='/css/accountsettings.css' rel='stylesheet' />
 @endif
 
-@if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls'))
+@if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls' AND request()->segment(3)!='2') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls' AND request()->segment(3)!='2'))
 <link href='/css/map.css' rel='stylesheet' />
 @endif
+
+@if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls' AND request()->segment(3)=='2') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls' AND request()->segment(3)=='2'))
+<link href='/css/map2.css' rel='stylesheet' />
+@endif
+
 </head>
 <body>
   @if(request()->segment(1)=='admin')

@@ -22,9 +22,7 @@ class CreateAccountsTable extends Migration
           $table->enum('Account_AccessLevel',['Admin','Brand']);
           $table->string('Account_ProfilePicture',1028)->default("profilepicture/profilepicture.jpg");
           $table->integer('FK_GuestBrandID')->unsigned()->nullable();
-          $table->integer('FK_BillingID')->unsigned()->nullable();
           $table->foreign('FK_GuestBrandID')->references('PK_GuestBrandID')->on('guest_brands')->onUpdate('cascade')->onDelete('cascade');
-          $table->foreign('FK_BillingID')->references('PK_BillingID')->on('billings')->onUpdate('cascade')->onDelete('cascade');
 
           $table->timestamps();
         });

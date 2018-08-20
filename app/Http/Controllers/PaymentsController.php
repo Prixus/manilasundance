@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\payment;
 use App\billing;
+use App\reservation;
+use App\stall;
 use Session;
 use DB;
 
@@ -108,11 +110,25 @@ class PaymentsController extends Controller
         $payment->Payment_Status = "Approved";
         $payment->save();
 
-        $billing = billing::find($payment->FK_BillingID);
+            $billing = billing::find($payment->FK_BillingID);
+        $reservation = reservation::where('FK_BillingID', '=', $billing->PK_BillingID)->first();
         $billing->Billing_AmountPaid = $billing->Billing_AmountPaid + $request->PaymentAmount;
             if($billing->Billing_AmountPaid >= $billing->Billing_NetTotal){
             $billing->Billing_Status = "Paid";
+            foreach($reservation->stalls as $stalls){
+                                  $stall = stall::find($stalls->PK_StallID);
+                                  $stall->Stall_Status = "Reserved";
+                                  $stall->save();
+                }
             }
+            else{
+            $billing->Billing_Status = "Half Paid";
+            foreach($reservation->stalls as $stalls){
+                                  $stall = stall::find($stalls->PK_StallID);
+                                  $stall->Stall_Status = "TemporailyReserved";
+                                  $stall->save();
+                }
+        }
         $billing->save();
         return response()->json($payment);
 

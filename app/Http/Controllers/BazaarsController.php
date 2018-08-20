@@ -19,12 +19,11 @@ class BazaarsController extends Controller
      protected $rules =
      [
        'BazaarName' => 'required|max:255',
-       'BazaarStartDate' => 'required|after:today|before:BazaarEndDate',
+       'BazaarStartDate' => 'required|before:BazaarEndDate',
        'BazaarEndDate' => 'required|after:BazaarStartDate',
        'BazaarStartTime' => 'required',
        'BazaarEndTime' => 'required',
        'BazaarVenue' => 'required',
-       'BazaarBookingCost' => 'required|min:0',
        'BazaarStatus' => 'required',
      ];
 
@@ -55,7 +54,13 @@ class BazaarsController extends Controller
         //
 
         $this->validate($request,[
-          'Bazaar_EventPoster' => 'required'
+          'Bazaar_EventPoster' => 'required',
+          'Bazaar_Name' => 'required|max:255',
+          'Bazaar_Venue' => 'required',
+          'Bazaar_DateEnd' => 'required|after:BazaarStartDate',
+          'Bazaar_DateStart' => 'required|before:BazaarEndDate',
+          'Bazaar_TimeStart' => 'required',
+          'Bazaar_TimeEnd' => 'required',
         ]);
 
         $bazaar = new bazaar();
@@ -188,7 +193,6 @@ class BazaarsController extends Controller
             $bazaar->Bazaar_DateEnd = $request->BazaarEndDate;
             $bazaar->Bazaar_TimeStart = $request->BazaarStartTime;
             $bazaar->Bazaar_TimeEnd = $request->BazaarEndTime;
-            $bazaar->Bazaar_BookingCost = $request->BazaarBookingCost;
             $bazaar->Bazaar_Status = $request->BazaarStatus;
             $bazaar->save();
             return response()->json($bazaar);

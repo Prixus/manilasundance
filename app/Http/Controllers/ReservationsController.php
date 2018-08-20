@@ -1,135 +1,80 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\stall;
-use App\bazaar;
-use App\reservation;
-use App\billing;
-use App\account;
-use PDF;
-use Session;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-
-class ReservationsController extends Controller
+use App\account;
+use App\guestBrand;
+use App\socialMediaAssets;
+use Session;
+class UpdateAccountSettings extends Controller
 {
     //
-    public function index(){
-      /*$reservations = DB::table('accounts')
-      ->join('reservations','accounts.PK_AccountID', '=', 'reservations.FK_AccountID')
-      ->join('stalls','reservations.PK_ReservationID', '=', 'stalls.FK_ReservationID')
-      ->join('bazaars','stalls.FK_BazaarID', '=', 'bazaars.PK_BazaarID')
-      ->join('billings','reservations.FK_BillingID','=','billings.PK_BillingID')
-      ->where('PK_AccountID','=',Session::get('UserID'))
-      ->get();
-      */
+    public function updateBrand(Request $request){
+      $this->validate($request,[
+        'txtBrandName' => 'required|max:255',
+        'txtBrandTinNumber' => 'required|digits:9',
+        'txtBrandOwnerName' => 'required|max:255',
+        'txtBrandWebsiteName' => 'max:255|nullable',
+        'txtBrandSocialMediaAssets' => 'max:255|nullable',
+        'txtBrandMobileNumber' => 'required|digits:11',
+        'txtBrandEmailAddress' => 'required|max:255',
+        'txtBrandUsername' => 'required|max:255',
+        'txtBrandPassword' => 'required|max:255',
+        'txtBrandDescription' => 'required|max:1028'
+      ]);
+          /*
+                $message = new Message;
+                  $message->name =  $request->input('name');
+                  $message->email =  $request->input('email');
+                  $message->message =  $request->input('message');
+                  $message->save();
 
-      $reservations = DB::table('accounts')
-      ->join('reservations','accounts.PK_AccountID', '=', 'reservations.FK_AccountID')
-      ->join('billings','reservations.FK_BillingID','=','billings.PK_BillingID')
-      ->where('PK_AccountID','=',Session::get('UserAccountID'))
-      ->get();
-      return view('navigation/brand/reservations', ['reservations' => $reservations]);
-    }
-
-    public function showStalls($id){
-        $ldate = date('Y-m-d H:i:s');
-        $BazaarStalls = stall::where("FK_BazaarID",$id)->get();
-        $StallMap = bazaar::where("PK_BazaarID",$id)->first();
-
-        $ReservedStalls = DB::table('stalls')
-        ->join('reservations','stalls.FK_ReservationID', '=', 'reservations.PK_ReservationID')
-        ->where('FK_AccountID', '=', Session::get('UserAccountID'))
-        ->get();
-
-
-        $pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
-        if($pageWasRefreshed ) {
-        //do something because page was refreshed;
-        }
-        else {
-          //do nothing;
-          $billing = new billing;
-          $billing->Billing_SubTotalDiscount = 0;
-          $billing->Billing_SubTotal = 0;
-          $billing->Billing_NetTotal = 0;
-          $billing->Billing_AmountPaid = 0;
-          $billing->Billing_Status = "Not Paid";
-          $billing->save();
-        Session::put('BillingID', $billing->PK_BillingID);
-          $reservation = new reservation;
-          $reservation->Reservation_DateTime = $ldate;
-          $reservation->FK_BillingID = $billing->PK_BillingID;
-          $reservation->Reservation_Cost = 0.00;
-          $reservation->FK_AccountID = Session::get('UserAccountID');
-          $reservation->save();
+                  return redirect('/');
+          */
+      $Brand =  guestBrand::find(Session::get('BrandID'));
+      $Brand->GuestBrand_Name = $request->input('txtBrandName');
+      $Brand->GuestBrand_Description = $request->input('txtBrandDescription');
+      $Brand->GuestBrand_OwnerName = $request->input('txtBrandOwnerName');
+      $Brand->GuestBrand_TinNumber = $request->input('txtBrandTinNumber');
+      $Brand->GuestBrand_Website = $request->input('txtBrandWebsiteName');
+      $Brand->GuestBrand_MobileNumber = $request->input('txtBrandMobileNumber');
+      $Brand->GuestBrand_EmailAddress = $request->input('txtBrandEmailAddress');
+      $Brand->save();
 
 
-          Session::put('ReservationID', $reservation->PK_ReservationID);
-
-
-
-        }
-                return view("navigation/brand/stalls", ['stalls'=> $BazaarStalls, 'ReservedStalls' => $ReservedStalls]);
-
-    }
-
-    public function reserveStall(Request $request){
-              $ldate = date('Y-m-d H:i:s');
-
-              $stall = stall::find($request->id);
-              $stall->Stall_Status = "TemporarilyReserved";
-              $stall->FK_ReservationID = Session::get('ReservationID');
-              $stall->save();
-
-              return response()->json($stall);
-    }
-
-    public function viewBill(){
-                $TotalCost = 0.00;
-                $reservationID = Session::get('ReservationID');
-                $reservation = reservation::find($reservationID);
-
-                foreach($reservation->stalls as $stalls){
-                                  $TotalCost += $stalls->Stall_RentalCost + $stalls->Stall_BookingCost;
+      foreach($Brand->socialMediaAssets as $socialMediaAsset){
+                if($socialMediaAsset->SocialMediaAsset_Type=="Facebook"){
+                  $socialMediaAsset->SocialMediaAsset_Info = $request->input('txtFacebook');
                 }
+                else if($socialMediaAsset->SocialMediaAsset_Type=="Twitter"){
+                  $socialMediaAsset->SocialMediaAsset_Info = $request->input('txtTwitter');
+                }
+                else if($socialMediaAsset->SocialMediaAsset_Type=="Instagram"){
+                  $socialMediaAsset->SocialMediaAsset_Info = $request->input('txtInstagram');
+                }
+                else{
+                    $socialMediaAsset->SocialMediaAsset_Info = "";
+                }
+                      $socialMediaAsset->save();
+        }
 
-                $billing = billing::find(Session::get('BillingID'));
-                $billing->Billing_SubTotal = $TotalCost;
-                $billing->Billing_NetTotal = $TotalCost-$billing->Billing_SubTotalDiscount;
-                $billing->save();
+      $Account = account::find(Session::get('UserAccountID'));
+      $Account->Account_UserName = $request->input('txtBrandUsername');
+      $Account->Account_Password = $request->input('txtBrandPassword');
+      $Account->FK_GuestBrandID = Session::get('BrandID');
 
-                $ReservationAccountBrandInformations = DB::table('stalls')
-                ->join('reservations','stalls.FK_ReservationID', '=', 'reservations.PK_ReservationID')
-                ->join('accounts','reservations.FK_AccountID', '=', 'accounts.PK_AccountID')
-                ->join('guest_brands','accounts.FK_GuestBrandID','=','guest_brands.PK_GuestBrandID')
-                ->where('PK_ReservationID', '=', $reservationID)
-                ->get();
+      $fileName = md5(rand());
+      $fileName = $fileName.".jpg"; // generates file name
+      $target = "profilepicture/";
+      $fileTarget = $target.$fileName;
+      $tempFileName = $_FILES['ProfilePic']['tmp_name'];
+      $result = move_uploaded_file($tempFileName,$fileTarget);
+      $Account->Account_ProfilePicture = $fileTarget;
 
-                return view("navigation/brand/bill", ['ReservedStalls'=> $reservation->stalls,'TotalCost' => $TotalCost, 'ReservationAccountBrandInformations' => $ReservationAccountBrandInformations]);
+      $Account->save();
 
+      return redirect('/brand/settings');
 
-    }
-
-    public function downloadPDF(){
-      $TotalCost = 0.00;
-      $reservationID = Session::get('ReservationID');
-      $reservation = reservation::find($reservationID);
-
-      foreach($reservation->stalls as $stalls){
-        $TotalCost += $stalls->Stall_RentalCost + $stalls->Stall_BookingCost;
-      }
-
-
-      $ReservationAccountBrandInformations = DB::table('stalls')
-      ->join('reservations','stalls.FK_ReservationID', '=', 'reservations.PK_ReservationID')
-      ->join('accounts','reservations.FK_AccountID', '=', 'accounts.PK_AccountID')
-      ->join('guest_brands','accounts.FK_GuestBrandID','=','guest_brands.PK_GuestBrandID')
-      ->where('PK_ReservationID', '=', $reservationID)
-      ->get();
-
-        $brand = PDF::loadView("pdf/bill",['ReservedStalls'=> $reservation->stalls,'TotalCost' => $TotalCost, 'ReservationAccountBrandInformations' => $ReservationAccountBrandInformations]);
-        return $brand->download('invoice.pdf');
     }
 }

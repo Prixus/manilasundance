@@ -7,36 +7,15 @@
 <br>
 <section id ="boxes">
             <div class ="container" >
+
+                @foreach($bazaars as $bazaar)
                 <div class='box'>
-                        <img id='samesize' src='/img/bazaars/Event1.jpg'>
-                        <h4>Wedding Package 1</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet lorem molestie, feugiat diam vel, posuere lacus. Maecenas sit amet pretium nibh, ut blandit risus.</p>
+                        <img id='samesize' src='{{$bazaar->Bazaar_EventPoster}}'>
+                        <h4>{{$bazaar->Bazaar_Name}}</h4>
+                        <p id="bazaarDesc">{{$bazaar->Bazaar_Description}}</p>
                 </div>
-                <div class='box'>
-                        <img id='samesize' src='/img/bazaars/Event2.jpg'>
-                        <h4>Debut Package 1</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet lorem molestie, feugiat diam vel, posuere lacus. Maecenas sit amet pretium nibh, ut blandit risus.</p>
-                </div>
-                <div class='box'>
-                        <img id='samesize' src='/img/bazaars/Event3.jpg'>
-                        <h4>Baptism Package 1</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet lorem molestie, feugiat diam vel, posuere lacus. Maecenas sit amet pretium nibh, ut blandit risus.</p>
-                </div>
-                <div class='box'>
-                        <img id='samesize' src='/img/bazaars/Event4.jpg'>
-                        <h4>Graduation Package 1</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet lorem molestie, feugiat diam vel, posuere lacus. Maecenas sit amet pretium nibh, ut blandit risus.</p>
-                </div>
-                <div class='box'>
-                        <img id='samesize' src='/img/bazaars/Event5.jpg'>
-                        <h4>Wedding Package 2</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet lorem molestie, feugiat diam vel, posuere lacus. Maecenas sit amet pretium nibh, ut blandit risus.</p>
-                </div>
-                <div class='box'>
-                        <img id='samesize' src='/img/bazaars/Event6.jpg'>
-                        <h4>Debut Package 2</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet lorem molestie, feugiat diam vel, posuere lacus. Maecenas sit amet pretium nibh, ut blandit risus.</p>
-                </div>
+                @endforeach
+
             </div>
 </section>
 

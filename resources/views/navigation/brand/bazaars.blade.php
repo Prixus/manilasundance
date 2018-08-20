@@ -16,7 +16,7 @@
 <section style = "width:100%;" id ="bazaarboxes">
                 @foreach($bazaars as $bazaar)
                 <div style = "display:inline-block;width:20%;margin:50px;" class='bazaarbox'>
-                        <img id='picsize' src='/{{$bazaar->Bazaar_EventPoster}}' width="256" height="200">
+                        <img id='picsize' src='\{{$bazaar->Bazaar_EventPoster}}' width="256" height="200">
                         <h4><button class="btn btn-primary" id="btnShowBazaar" data-id="{{$bazaar->PK_BazaarID}}" data-name="{{$bazaar->Bazaar_Name}}" data-venue="{{$bazaar->Bazaar_Venue}}" data-datestart="{{$bazaar->Bazaar_DateStart}}" data-dateend="{{$bazaar->Bazaar_DateEnd}}" data-timestart="{{$bazaar->Bazaar_TimeStart}}" data-timeend="{{$bazaar->Bazaar_TimeEnd}}" data-bookingcost="{{$bazaar->BookingCost}}" data-status="{{$bazaar->Status}}" data-eventposter = "{{$bazaar->Bazaar_EventPoster}}" data-description = "{{$bazaar->Bazaar_Description}}">Click for more details</button></h4>
                 </div>
                 @endforeach

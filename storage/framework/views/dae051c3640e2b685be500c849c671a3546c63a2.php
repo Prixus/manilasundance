@@ -26,7 +26,7 @@
           <th>Bazaar Ending Time</th>
 					<th>Bazaar Venue</th>
           <th>Bazaar Status</th>
-          <th>Booking Cost</th>
+
           <th></th>
                 </tr>
                 <?php echo e(csrf_field()); ?>
@@ -43,7 +43,7 @@
         					<td><?php echo e($bazaar->Bazaar_TimeEnd); ?></td>
         					<td><?php echo e($bazaar->Bazaar_Venue); ?></td>
                   <td><?php echo e($bazaar->Bazaar_Status); ?></td>
-        					<td><button id="BtnEdit"    style = "background-color:green;float:left;"  class="btn btn-primary"  aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "<?php echo e($bazaar->Bazaar_TimeEnd); ?>" data-end="<?php echo e($bazaar->Bazaar_DateTimeEnd); ?>" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>" >Edit</button></td>
+        					<td><button id="BtnEdit"    style = "background-color:green;float:left;"  class="btn btn-primary"  aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "<?php echo e($bazaar->Bazaar_TimeEnd); ?>"  data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>" >Edit</button></td>
                   <td><button id="BtnDelete" style = "background-color:red;float:right;"   class="btn btn-primary" aria-pressed="false" data-id="<?php echo e($bazaar->PK_BazaarID); ?>" data-name="<?php echo e($bazaar->Bazaar_Name); ?>" data-startdate="<?php echo e($bazaar->Bazaar_DateStart); ?>" data-enddate = "<?php echo e($bazaar->Bazaar_DateEnd); ?>" data-starttime="<?php echo e($bazaar->Bazaar_TimeStart); ?>" data-endtime= "$bazaar->Bazaar_TimeEnd" data-venue="<?php echo e($bazaar->Bazaar_Venue); ?>" data-status="<?php echo e($bazaar->Bazaar_Status); ?>">Delete</button></td>
                   <td><button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary"><a href = "/admin/manage_stalls/<?php echo e($bazaar->PK_BazaarID); ?>" >Manage Stalls</a></button></td>
                 </tr>

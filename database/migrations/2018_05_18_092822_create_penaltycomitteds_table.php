@@ -16,6 +16,8 @@ class CreatePenaltycomittedsTable extends Migration
         Schema::create('penaltycomitteds', function (Blueprint $table) {
             $table->increments('PK_PenaltyCommittedID');
             $table->dateTime('PenaltyCommitted_DateTime');
+            $table->string('PenaltyCommitted_Name',255);
+            $table->string('PenaltyCommitted_Desciption',1028);
             $table->integer('FK_BillingID')->unsigned();
             $table->integer('FK_PenaltyID')->unsigned();
             $table->foreign('FK_BillingID')->references('PK_BillingID')->on('billings')->onDelete('cascade')->onUpdate('cascade');

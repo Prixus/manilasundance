@@ -1,4 +1,4 @@
-<img src = "img/mslogo/logo1.png" style="margin:5px 0 0 600px;">
+<center><img src = "img/mslogo/logo.png" style="height:170;width:500px;"></center>
 <div id="navbar" class="navbar-collapse collapse container">
           <ul class="nav navbar-nav navbar-right">
             <li style = "padding-top:13px;"><input class = "searchtxt" type = "text" placeholder = "Search..."></li>
@@ -9,7 +9,9 @@
           <ul class="nav navbar-nav navbar-left">
             <li @if(request()->segment(1)=='') class="activenav" @endif ><a href="/">HOME</a></li>
             <li @if(request()->segment(1)=='bazaar') class="activenav" @endif ><a href="/bazaar">BAZAAR</a></li>
-            <li class="dropdown" @if(request()->segment(1)=='brands') style = "background-color:#ffffa8;" class="dropdown activenav" @endif ><a href="/brands" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >BRANDS</a>
+            <li @if(request()->segment(1)=='brands') class="dropdown activenav" @endif ><a href="/brands">BRANDS</a></li>
+            <!--
+              <li class="dropdown" @if(request()->segment(1)=='brands') style = "background-color:#ffffa8;" class="dropdown activenav" @endif ><a href="/brands" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >BRANDS</a>
               <ul class="dropdown-menu">
                 <li><a href="/brands">All Categories</a></li>
                 <li role="separator" class="divider" style="padding:0px;margin:2px;"></li>
@@ -25,7 +27,7 @@
                 <li role="separator" class="divider" style="padding:0px;margin:2px;"></li>
                 <li><a href="#">Accessories</a></li>
               </ul>
-            </li>
+            </li> -->
           </ul>
         </div>
 

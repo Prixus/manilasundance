@@ -73,7 +73,7 @@
       <br>
       <h3 class="sub-header subsett">Contact Settings</h3>
       <br>
-        <h5 class="perrow"><div class="lbl">Official Brand Website:</div>    <input class="txtbox" value="{{$Info->GuestBrand_Website}}" type="text" maxlength="255" placeholder="Official Brand Website" name="txtBrandWebsiteName"></h5>
+        <h5 class="perrow"><div class="lbl">Official Brand Website:</div>    <input class="txtbox" value = "{{$Info->GuestBrand_Website}}" type="text" maxlength="255" placeholder="Official Brand Website" name="txtBrandWebsiteName"></h5>
 
       @foreach($Brand->socialMediaAssets as $socialMediaAsset)
       <h5 class="perrow"><div class="lbl">{{$socialMediaAsset->SocialMediaAsset_Type}}</div>    <input class="txtbox" type="text" value="{{$socialMediaAsset->SocialMediaAsset_Info}}" name="txt{{$socialMediaAsset->SocialMediaAsset_Type}}" maxlength="255"></h5>

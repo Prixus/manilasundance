@@ -97,3 +97,8 @@ Route::post('/admin/accounts/search','AccountsController@search');
 Route::post('/brand/changesettings','UpdateAccountSettings@updateBrand');
 Route::resource('/admin/discounts','DiscountsController');
 Route::resource('/admin/penalties','PenaltiesController');
+
+
+Route::resource('/brands','WebsiteBrandsController');
+Route::resource('/bazaar','WebsiteBazaarsController');
+Route::resource('/','WebsiteCarouselController');

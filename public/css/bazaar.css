@@ -212,14 +212,21 @@ ul#Discounts li{
 }
 
 #boxes .box img{
-    width: 150px;
+    width: 300px;
 }
 
 #samesize{
-    width: 180px;
-    height: 260px;
+    width: 300px;
+    height: 300px;
 }
 
+#bazaarDesc {
+    width:350px;
+    height:80px;
+    text-align:center;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
 
 /* Media Queries */
 @media(max-width: 768px){

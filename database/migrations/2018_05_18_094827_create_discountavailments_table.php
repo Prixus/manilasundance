@@ -15,7 +15,7 @@ class CreateDiscountavailmentsTable extends Migration
     {
         Schema::create('discountavailments', function (Blueprint $table) {
             $table->increments('PK_DiscountAvailmentID');
-            $table->dateTime('PK_DiscountAvailment_DateTime');
+            $table->dateTime('DiscountAvailment_DateTime');
             $table->integer('FK_BillingID')->unsigned();
             $table->integer('FK_DiscountID')->unsigned();
             $table->foreign('FK_BillingID')->references('PK_BillingID')->on('billings')->onUpdate('cascade')->onDelete('cascade');
