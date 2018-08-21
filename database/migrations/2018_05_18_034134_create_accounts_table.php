@@ -17,7 +17,7 @@ class CreateAccountsTable extends Migration
           $table->increments('PK_AccountID');
           $table->string('Account_UserName',255);
           $table->string('Account_Password',255);
-          $table->enum('Account_Status', ['Activated','Deactivated']);
+          $table->enum('Account_Status', ['Activated','Deactivated','ForApproval','Rejected']);
           $table->enum('Account_Rating',['Warning','Normal','Banned']);
           $table->enum('Account_AccessLevel',['Admin','Brand']);
           $table->string('Account_ProfilePicture',1028)->default("profilepicture/profilepicture.jpg");

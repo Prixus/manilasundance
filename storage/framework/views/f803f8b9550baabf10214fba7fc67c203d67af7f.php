@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
 <div class="container-fluid">
@@ -14,7 +12,8 @@
           <h1 class="header" style = "color:#3ce1e0;">Accounts
             <div style = "float:right;font-size:14px;color:black;margin-top:14px;">
               <form>
-                    {{ csrf_field()}}
+                    <?php echo e(csrf_field()); ?>
+
               <input type = "text" placeholder = "Search..." id="SearchWord">
               <button class = "btnSearch">GO</button>
               <!--
@@ -55,18 +54,18 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($ForApprovalaccounts as $ForApprovalaccount)
-                    <tr id = "AccountApproval{{$ForApprovalaccount->PK_AccountID}}">
-                      <td>{{$ForApprovalaccount->PK_AccountID}}</td>
-                      <td>{{$ForApprovalaccount->Account_UserName}}</td>
-                      <td>{{$ForApprovalaccount->Account_Status}}</td>
-                      <td>{{$ForApprovalaccount->Account_Rating}}</td>
-                      <td>{{$ForApprovalaccount->Account_AccessLevel}}</td>
-                      <td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '{{$ForApprovalaccount->PK_AccountID}}' data-name ='{{$ForApprovalaccount->Account_UserName}}' data-password = '{{$ForApprovalaccount->Account_Password}}' data-status='{{$ForApprovalaccount->Account_Status}}' data-rating = '{{$ForApprovalaccount->Account_Rating}}' data-accesslevel = '{{$ForApprovalaccount->Account_AccessLevel}}' id='btnApprove'>Approve</button></td>
-                      <td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '{{$ForApprovalaccount->PK_AccountID}}' data-name ='{{$ForApprovalaccount->Account_UserName}}' data-password = '{{$ForApprovalaccount->Account_Password}}' data-status='{{$ForApprovalaccount->Account_Status}}' data-rating = '{{$ForApprovalaccount->Account_Rating}}' data-accesslevel = '{{$ForApprovalaccount->Account_AccessLevel}}' id='btnReject'>Reject</button></td>
+                    <?php $__currentLoopData = $ForApprovalaccounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ForApprovalaccount): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <tr id = "AccountApproval<?php echo e($ForApprovalaccount->PK_AccountID); ?>">
+                      <td><?php echo e($ForApprovalaccount->PK_AccountID); ?></td>
+                      <td><?php echo e($ForApprovalaccount->Account_UserName); ?></td>
+                      <td><?php echo e($ForApprovalaccount->Account_Status); ?></td>
+                      <td><?php echo e($ForApprovalaccount->Account_Rating); ?></td>
+                      <td><?php echo e($ForApprovalaccount->Account_AccessLevel); ?></td>
+                      <td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '<?php echo e($ForApprovalaccount->PK_AccountID); ?>' data-name ='<?php echo e($ForApprovalaccount->Account_UserName); ?>' data-password = '<?php echo e($ForApprovalaccount->Account_Password); ?>' data-status='<?php echo e($ForApprovalaccount->Account_Status); ?>' data-rating = '<?php echo e($ForApprovalaccount->Account_Rating); ?>' data-accesslevel = '<?php echo e($ForApprovalaccount->Account_AccessLevel); ?>' id='btnApprove'>Approve</button></td>
+                      <td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '<?php echo e($ForApprovalaccount->PK_AccountID); ?>' data-name ='<?php echo e($ForApprovalaccount->Account_UserName); ?>' data-password = '<?php echo e($ForApprovalaccount->Account_Password); ?>' data-status='<?php echo e($ForApprovalaccount->Account_Status); ?>' data-rating = '<?php echo e($ForApprovalaccount->Account_Rating); ?>' data-accesslevel = '<?php echo e($ForApprovalaccount->Account_AccessLevel); ?>' id='btnReject'>Reject</button></td>
 
                     </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 
                   </tbody>
@@ -94,21 +93,22 @@
                   <th>Account Rating</th>
                   <th>Account Access Level</th>
                 </tr>
-                {{ csrf_field()}}
+                <?php echo e(csrf_field()); ?>
+
               </thead>
               <tbody>
-                @foreach($accounts as $account)
-                <tr id = "Account{{$account->PK_AccountID}}">
-                  <td>{{$account->PK_AccountID}}</td>
-                  <td>{{$account->Account_UserName}}</td>
-                  <td>{{$account->Account_Status}}</td>
-                  <td>{{$account->Account_Rating}}</td>
-                  <td>{{$account->Account_AccessLevel}}</td>
-                  <td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = '{{$account->Account_Rating}}' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnEdit'>Edit</button></td>
-                  <td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = '{{$account->Account_Rating}}' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnDelete'>Delete</button></td>
+                <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr id = "Account<?php echo e($account->PK_AccountID); ?>">
+                  <td><?php echo e($account->PK_AccountID); ?></td>
+                  <td><?php echo e($account->Account_UserName); ?></td>
+                  <td><?php echo e($account->Account_Status); ?></td>
+                  <td><?php echo e($account->Account_Rating); ?></td>
+                  <td><?php echo e($account->Account_AccessLevel); ?></td>
+                  <td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '<?php echo e($account->PK_AccountID); ?>' data-name ='<?php echo e($account->Account_UserName); ?>' data-password = '<?php echo e($account->Account_Password); ?>' data-status='<?php echo e($account->Account_Status); ?>' data-rating = '<?php echo e($account->Account_Rating); ?>' data-accesslevel = '<?php echo e($account->Account_AccessLevel); ?>' id='btnEdit'>Edit</button></td>
+                  <td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '<?php echo e($account->PK_AccountID); ?>' data-name ='<?php echo e($account->Account_UserName); ?>' data-password = '<?php echo e($account->Account_Password); ?>' data-status='<?php echo e($account->Account_Status); ?>' data-rating = '<?php echo e($account->Account_Rating); ?>' data-accesslevel = '<?php echo e($account->Account_AccessLevel); ?>' id='btnDelete'>Delete</button></td>
 
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                 </tbody>
             </table>
@@ -522,4 +522,6 @@
 
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

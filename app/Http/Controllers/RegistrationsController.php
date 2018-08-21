@@ -78,7 +78,7 @@ class RegistrationsController extends Controller
 
       $Account = new account;
       $Account->Account_UserName = $request->input('txtBrandUsername');
-      $Account->Account_Status = "Activated";
+      $Account->Account_Status = "ForApproval";
       $Account->Account_Password = $request->input('txtBrandPassword');
       $Account->Account_Rating = "Normal";
       $Account->Account_AccessLevel = "Brand";

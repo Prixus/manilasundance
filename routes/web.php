@@ -1,5 +1,6 @@
 <?php
-
+use App\Http\Middleware\checkrole;
+use App\Http\Middleware\checkroleAdmin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,15 +15,6 @@
 //get pag kukuha ng webpage
 //post pag kukuha ka ng values from forms
 
-Route::get('/', function () {
-    return view('navigation/carousel');
-});
-Route::get('/bazaar', function () {
-    return view('navigation/bazaar');
-});
-Route::get('/brands', function () {
-    return view('navigation/brands');
-});
 Route::get('/signup', function () {
     return view('navigation/signup');
 });
@@ -38,13 +30,13 @@ Route::get('brand/reservations', function () {
 */
 Route::get('/brand/billing', function () {
     return view('navigation/brand/billing');
-});
+})->middleware(checkrole::class);
 Route::get('/brand/bill', function () {
     return view('navigation/brand/bill');
-});
+})->middleware(checkrole::class);
 Route::get('brand/update_payment', function () {
     return view('navigation/brand/update_payment');
-});
+})->middleware(checkrole::class);
 //Route::post('contact/submit', 'MessagesController@submit');
 
 Route::post('/brand/register','RegistrationsController@submit');
@@ -54,7 +46,7 @@ Route::post('/brand/login','RegistrationsController@login');
 
 Route::get('/admin/dashboard', function () {
     return view('navigation/admin/dashboard');
-});
+})->middleware(checkrole::class);
 /*
 Route::get('/admin/accounts', function () {
     return view('navigation/admin/accounts');
@@ -62,43 +54,45 @@ Route::get('/admin/accounts', function () {
 */
 Route::get('/admin/billing', function () {
     return view('navigation/admin/billing');
-});
-Route::get('/admin/collection', 'PaymentsController@index');
+})->middleware(checkroleAdmin::class);
+Route::get('/admin/collection', 'PaymentsController@index')->middleware(checkroleAdmin::class);
 Route::get('/admin/bill', function () {
     return view('navigation/admin/bill');
-});
+})->middleware(checkroleAdmin::class);
 
 
 
 Route::get('/brand/discounts', function () {
 return view('navigation/brand/discounts');      //  here
-});
-Route::get('/brand/settings', 'PagesController@brandsettings');
+})->middleware(checkrole::class);
+Route::get('/brand/settings', 'PagesController@brandsettings')->middleware(checkrole::class);
       //  here 08-03-2018 1AM
-Route::get('/brand/stalls/viewbill','ReservationsController@viewBill');
-Route::get('/brand/stalls/{id}','ReservationsController@showStalls');
-Route::get('brand/reservations','ReservationsController@index');
+Route::get('/brand/stalls/viewbill','ReservationsController@viewBill')->middleware(checkrole::class);
+Route::get('/brand/stalls/{id}','ReservationsController@showStalls')->middleware(checkrole::class);
+Route::get('brand/reservations','ReservationsController@index')->middleware(checkrole::class);
 Route::get('/brand/pdf', 'ReservationsController@downloadPDF');
 Route::get('/test',function(){
   return view('test');
 });
 Route::post('/brand/stalls','ReservationsController@reserveStall');
 
-Route::resource('/brand/payments','PaymentsController');
-Route::resource('/brand/bazaars','BrandBazaarsController');
-Route::resource('/brand/products','ProductsController');
-Route::resource('/admin/bazaar','BazaarsController');
-Route::resource('/admin/manage_stalls', 'StallsController');
-Route::resource('/admin/calendar','CalendarController');
-Route::resource('/brand/calendar','CalendarController');
+Route::resource('/brand/payments','PaymentsController')->middleware(checkrole::class);
+Route::resource('/brand/bazaars','BrandBazaarsController')->middleware(checkrole::class);
+Route::resource('/brand/products','ProductsController')->middleware(checkrole::class);
+Route::resource('/admin/bazaar','BazaarsController')->middleware(checkroleAdmin::class);
+Route::resource('/admin/manage_stalls', 'StallsController')->middleware(checkroleAdmin::class);
+Route::resource('/admin/calendar','CalendarController')->middleware(checkroleAdmin::class);
+Route::resource('/brand/calendar','CalendarController')->middleware(checkrole::class);
 
-Route::resource('/admin/accounts','AccountsController');
+Route::resource('/admin/accounts','AccountsController')->middleware(checkroleAdmin::class);
 Route::post('/admin/accounts/search','AccountsController@search');
-Route::post('/brand/changesettings','UpdateAccountSettings@updateBrand');
-Route::resource('/admin/discounts','DiscountsController');
-Route::resource('/admin/penalties','PenaltiesController');
+Route::post('/brand/changesettings','UpdateAccountSettings@updateBrand')->middleware(checkrole::class);
+Route::resource('/admin/discounts','DiscountsController')->middleware(checkroleAdmin::class);
+Route::resource('/admin/penalties','PenaltiesController')->middleware(checkroleAdmin::class);
 
 
-Route::resource('/brands','WebsiteBrandsController');
-Route::resource('/bazaar','WebsiteBazaarsController');
-Route::resource('/','WebsiteCarouselController');
+Route::resource('/brands','WebsiteBrandsController')->middleware(checkrole::class);
+Route::resource('/bazaar','WebsiteBazaarsController')->middleware(checkrole::class);
+Route::resource('/','WebsiteCarouselController')->middleware(checkrole::class);
+
+Route::put('/admin/accounts/approve/{id}','AccountsController@approveAccount');

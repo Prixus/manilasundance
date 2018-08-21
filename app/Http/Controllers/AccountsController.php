@@ -31,8 +31,9 @@ class AccountsController extends Controller
     public function index()
     {
         //
-        $accounts = account::all();
-        return view('navigation/admin/accounts', ['accounts' => $accounts]);
+        $accounts = account::where('Account_Status','=','Activated')->get();
+        $ForApprovalaccounts = account::where('Account_Status','=','ForApproval')->get();
+        return view('navigation/admin/accounts', ['accounts' => $accounts,'ForApprovalaccounts'=> $ForApprovalaccounts]);
     }
 
     /**
@@ -133,7 +134,7 @@ class AccountsController extends Controller
     }
 
     public function search(Request $request){
-      $Accounts = account::where($request->category, 'like', '%'.$request->word.'%')->get();
+      $Accounts = account::where([['Account_UserName', 'like', '%'.$request->word.'%'], ['Account_Status','=','ForApproval']])->get();
       $output = "<table class='table table-striped' id ='AccountTable'><thead><tr><th>Account ID</th><th>Account Username</th><th>Account Password</th><th>Account Status</th><th>Account Rating</th><th>Account Access Level</th></tr></thead><tbody>";
 
       foreach($Accounts as $Account){
@@ -152,5 +153,24 @@ class AccountsController extends Controller
       return response()->json($output);
 
     //  return view('navigation/admin/accounts', ['accounts' => $Accounts]);
+    }
+
+    public function approveAccount(Request $request, $id)
+    {
+        //
+        $validator = Validator::make(Input::all(), $this->rules2);
+          if ($validator->fails()) {
+              return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+          }
+          else{
+        $Account = account::find($id);
+        $Account->Account_UserName = $request->name;
+        $Account->Account_Status = "Activated";
+        $Account->Account_Password = $request->password;
+        $Account->Account_Rating = $request->rating;
+        $Account->Account_AccessLevel = $request->accesslevel;
+        $Account->save();
+        return response()->json($Account);
+      }
     }
 }
