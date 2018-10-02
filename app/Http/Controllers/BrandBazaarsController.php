@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\bazaar;
+use App\account;
+use Session;
+use Carbon\Carbon;
 
 class BrandBazaarsController extends Controller
 {
@@ -15,9 +18,9 @@ class BrandBazaarsController extends Controller
      */
     public function index()
     {
-        //
-        $bazaar = bazaar::paginate(15);
-        return view('navigation/brand/bazaars', ['bazaars' => $bazaar]);
+        $currentAccount = account::where('PK_AccountID','=',Session::get('UserAccountID'))->first();
+        $bazaar = bazaar::where([['Bazaar_Status','=','Available'], ['Bazaar_DateStart', '>', Carbon::now()]])->get();
+        return view('navigation/brand/bazaars', ['bazaars' => $bazaar,'currentAccount'=>$currentAccount]);
 
 
     }

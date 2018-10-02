@@ -16,7 +16,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 
-            <li><a href="/">Logout</a></li>
+            <li><a href="/logout/{{$currentAccount->Account_AccessLevel}}">Logout</a></li>
           </ul>
 
         </div>
@@ -30,16 +30,16 @@
 <!-- Sidebar user panel -->
 <div class="user-panel">
 				<div class="pull-left image">
-				<img src="/img/users/user2-160x160.jpg" class="img-circle" alt="User Image">
-				</div>
+          <img src="/img/users/admin.jpg" class="img-circle" alt="User Image">
+  			</div>
 				<div class="pull-left info">
-				<p style = "color:black;">Administrator</p>
-				<p style = "font-size:12px;color:teal;">Manila Sundance</p>
+				<p style = "color:black;">{{$currentAccount->Account_UserName}}</p>
+				<p style = "font-size:12px;color:teal;">{{$currentAccount->Account_AccessLevel}}</p>
 				</div>
 				</div>
 			</li>
-      <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='dashboard') class="active" @endif ><a href="/admin/dashboard">Dashboard</a></li>
-      <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='accounts') class="active" @endif ><a href="/admin/accounts">Accounts</a></li>
+      <li @if(request()->segment(1)=='admin' AND (request()->segment(2)=='dashboard' OR request()->segment(2)=="reportform" OR request()->segment(2)=="viewreport")) class="active" @endif ><a href="/admin/dashboard">Dashboard</a></li>
+      <li @if(request()->segment(1)=='admin' AND (request()->segment(2)=='accounts' OR request()->segment(2)=='brandprofile')) class="active" @endif ><a href="/admin/accounts">Accounts</a></li>
       <li @if(request()->segment(1)=='admin' AND (request()->segment(2)=='bazaar' OR request()->segment(2)=='manage_stalls')) class="active" @endif ><a href="/admin/bazaar">Bazaar</a></li>
       <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='penalties') class="active" @endif ><a href="/admin/penalties">Penalties</a></li>
       <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='discounts') class="active" @endif ><a href="/admin/discounts">Discounts</a></li>

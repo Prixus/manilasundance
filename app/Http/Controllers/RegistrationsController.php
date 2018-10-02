@@ -83,9 +83,13 @@ class RegistrationsController extends Controller
       $Account->Account_Rating = "Normal";
       $Account->Account_AccessLevel = "Brand";
       $Account->FK_GuestBrandID = $GuestBrandID;
+      $Account->Account_Balance = 0.00;
       $Account->save();
 
-
+      $AdminAccounts = account::where('Account_AccessLevel','=','Admin');
+      foreach($AdminAccounts as $AdminAccount){
+        $AdminAccounts->notify(new AccountRegistration($Account));
+      }
 
       return redirect('/');
     }
@@ -94,10 +98,13 @@ class RegistrationsController extends Controller
      $username = $request->input('txtUserName');
      $password = $request->input('txtUserPassword');
 
-     $checkLogin = DB::table('accounts')->where(['Account_UserName' => $username,'Account_Password'=> $password])->get();
-     $checkLoginBrand = DB::table('guest_brands')->where(['PK_GuestBrandID' => $checkLogin[0]->FK_GuestBrandID])->get();
+     $checkLoginCount = DB::table('accounts')->where(['Account_UserName' => $username,'Account_Password'=> $password,'Account_Status'=>'Activated'])->count();
 
-     if(count($checkLogin) > 0){
+
+
+     if($checkLoginCount > 0){
+       $checkLogin = DB::table('accounts')->where(['Account_UserName' => $username,'Account_Password'=> $password,'Account_Status'=>'Activated'])->get();
+       $checkLoginBrand = DB::table('guest_brands')->where(['PK_GuestBrandID' => $checkLogin[0]->FK_GuestBrandID])->get();
        if($checkLogin[0]->Account_AccessLevel == "Brand"){
        Session::put('UserAccountID', $checkLogin[0]->PK_AccountID);
        Session::put('BrandID', $checkLoginBrand[0]->PK_GuestBrandID);
@@ -108,15 +115,22 @@ class RegistrationsController extends Controller
          return redirect('/admin/dashboard');
        }
        else{
-          return redirect('navigation/login');
+          return redirect('/login');
        }
      }
      else{
-       return redirect('navigation/login');
+       return redirect('/login')->with('status','No Existing Account or Account for Confirmation');
      }
     }
 
-    public function logout(){
+    public function logout($id){
+      if($id == "Admin"){
+        Session::put("UserID",null);
+      }
+      else{
+        Session::put("UserAccountID",null);
+      }
 
+      return redirect('/');
     }
 }

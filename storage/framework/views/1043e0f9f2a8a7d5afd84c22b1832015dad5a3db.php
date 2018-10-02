@@ -10,8 +10,10 @@
           <h2 class="sub-header">Reservations
 
 					<div style = "float:right;font-size:14px;">
-					<input type = "text" placeholder = "Search...">
-					<button class = "btnSearch">GO</button>
+
+      <button style = "background-color:#337ab7;" type="button" class="btn btn-primary"><a href = "/brand/bazaars" >Reserve Stall/s</a></button>
+					<!-- <input type = "text" placeholder = "Search...">
+					<button class = "btnSearch">GO</button> -->
 					<!-- <label>View:</label>
 							<select>
 								<option>All</option>
@@ -36,24 +38,30 @@
 					</h2>
 
 			<div id = "searchRecord" class="table-responsive">
-
-		  <button style = "background-color:#337ab7;" type="button" class="btn btn-primary"><a href = "/brand/bazaars" >Reserve Stall/s</a></button>
-            <table class="table table-striped">
+            <table class="table table-striped" id="BrandReservationsTable">
               <thead>
                 <tr>
 					             <th>Reservation ID</th>
 					             <th>Reservation Datetime</th>
 					             <th>Reservation Cost</th>
+                       <th>Reservation Amount to be Paid</th>
+                       <th></th>
 
                 </tr>
               </thead>
               <tbody>
+
                 <?php $__currentLoopData = $reservations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
+                <tr id="brandreservation<?php echo e($reservation->PK_ReservationID); ?>">
                   <td><?php echo e($reservation->PK_ReservationID); ?></td>
                   <td><?php echo e($reservation->Reservation_DateTime); ?></td>
                   <td><?php echo e($reservation->Billing_SubTotal); ?></td>
+                  <td><?php echo e($reservation->Billing_AmountToBePaid); ?></td>
+                  <?php if($reservation->Billing_AmountToBePaid==0): ?>
+                  <td><button style = "background-color:Green;" type="button" class="btn btn-primary" id="btnUploadPayment" data-billid = "<?php echo e($reservation->PK_BillingID); ?>" disabled>Upload Payment</button></td>
+                  <?php else: ?>
                   <td><button style = "background-color:Green;" type="button" class="btn btn-primary" id="btnUploadPayment" data-billid = "<?php echo e($reservation->PK_BillingID); ?>">Upload Payment</button></td>
+                  <?php endif; ?>
                 </tr>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -70,9 +78,9 @@
     <div class = "modal-dialog">
 
       <div class="modal-content">
-        <div class = "modal-header">
+        <div class = "modal-header" style = "background-color:#ffffa8">
           <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                <h4 class ="modal-title">Bazaar Registration</h4>
+                <h4 class ="modal-title">BAZAAR REGISTRATION</h4>
               </div>
               <div class="modal-body">
 
@@ -82,17 +90,17 @@
 
                   <div class="form-group">
                     <label> Payment BillID: </label>
-                    <?php echo e(Form::number('BillID',null,array('id'=>'billid','required'=>'required'))); ?>
+                    <?php echo e(Form::number('BillID',null,array('id'=>'billid','required'=>'required', 'readonly' =>'readonly'))); ?>
 
                   </div>
                   <div class="form-group">
-                    <label> Payment Account Number: </label>
-                    <?php echo e(Form::text('AccountNumber')); ?>
+                    <label> Payment Reference Number: </label>
+                    <?php echo e(Form::text('AccountNumber',null, array('required'=>'required', 'id'=>'AccountNumber'))); ?>
 
                   </div>
                   <div class="form-group">
                     <label> Payment Amount: </label>
-                    <?php echo e(Form::number('PaymentAmount')); ?>
+                    <?php echo e(Form::number('PaymentAmount',null,array('id'=>'billid','required'=>'required', 'min' => 1))); ?>
 
                   </div>
                   <div class = "form-group">
@@ -110,26 +118,36 @@
 
               <div class = "modal-footer">
 
-                <button type = "button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                <button type = "button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
               </div>
             </div>
       </div>
     </div>
 
+    <script type= "text/javascript">
 
 
-<script type= "text/javascript">
+    $(document).ready(function()
+    {
+
+      var table = $('#BrandReservationsTable').DataTable({
+        "order": [[ 0, "desc" ]]
+    });
+
+      $(document).on('click', '#btnUploadPayment', function(){
+        $('#billid').val($(this).data('billid'));
+        $('#ModalUploadPayment').modal('show');
+      });
 
 
-      $(document).ready(function()
-      {
-            $(document).on('click', '#btnUploadPayment', function(){
-            $('#billid').val($(this).data('billid'));
-            $('#ModalUploadPayment').modal('show');
-            });
-     });
-</script>
+    });
+  </script>
 
+<?php if($SucessAlert=='Payment has been received and awaiting confirmation'): ?>
+    <script type= "text/javascript">
+            toastr.success('Payment has been received and awaiting confirmation','Success Alert', {timeOut: 5000});
+    </script>
+<?php endif; ?>
 
 <?php $__env->stopSection(); ?>
 

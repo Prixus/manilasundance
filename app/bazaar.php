@@ -12,5 +12,9 @@ class bazaar extends Model
 
     protected $primaryKey= "PK_BazaarID";
     protected $guarded = [];
-
+    
+    public function stalls()
+    {
+        return $this->hasMany('App\stall','FK_BazaarID');
+    }
 }

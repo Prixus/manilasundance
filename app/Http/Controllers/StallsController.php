@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\stall;
+use App\bazaar;
+use App\account;
+use DB;
 use Session;
 use Validator;
 use Response;
@@ -79,12 +82,18 @@ class StallsController extends Controller
     public function show($id)
     {
         //
-        $stalls = stall::where("FK_BazaarID", $id)->get();
-        $stallCount = stall::where("FK_BazaarID", $id)->count();
-        $stallFirst = stall::where("FK_BazaarID", $id)->pluck("PK_StallID")->first();
+        $ldate = date('Y-m-d H:i:s'); //gets current date
+        $BazaarStalls = DB::table('stalls')
+        ->leftJoin('reservations','reservations.PK_ReservationID','=','stalls.FK_ReservationID')
+        ->leftJoin('accounts', 'accounts.PK_AccountID','=','reservations.FK_AccountID')
+        ->leftJoin('guest_brands', 'guest_brands.PK_GuestBrandID', '=', 'accounts.FK_GuestBrandID')
+        ->where('FK_BazaarID','=',$id)
+        ->get(); //gets all stalls for a specific bazaar
+        $BazaarVenue = bazaar::where("PK_BazaarID",$id)->pluck("Bazaar_Venue")->first();
         Session::put('BazaarID',$id);
 
-        return view("navigation/admin/manage_stalls" , ['stalls' => $stalls,'stallCount'=>$stallCount,'stallFirst'=>$stallFirst]);
+        $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
+        return view("navigation/admin/manage_stalls" , ['stalls'=> $BazaarStalls, 'BazaarVenue' =>$BazaarVenue, 'currentAccount'=>$currentAccount]);
 
 
     }

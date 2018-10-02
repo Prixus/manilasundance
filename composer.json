@@ -9,10 +9,12 @@
         "algolia/algoliasearch-client-php": "^1.26",
         "barryvdh/laravel-dompdf": "^0.8.2",
         "fideloper/proxy": "^4.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.6.*",
         "laravel/scout": "^4.0",
         "laravel/tinker": "^1.0",
-        "laravelcollective/html": "^5.2.0"
+        "laravelcollective/html": "^5.2.0",
+        "pusher/pusher-php-server": "~3.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

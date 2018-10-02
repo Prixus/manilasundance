@@ -2,6 +2,19 @@
 
 @section('content')
 
+<script type="text/javascript">
+
+ function showpassword() {
+    var x = document.getElementById("confirm_password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+
+</script>
+
 <div class="container-fluid">
   <div class="perrow">
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -60,9 +73,29 @@
         <h5 class="perrow"><div class="lbl">Official Username:</div>    <input class="txtbox" type="text" maxlength="255" value="{{$Info->Account_UserName}}" name="txtBrandUsername" onkeyup="check();" required></h5>
         <h5 class="perrow"><div class="lbl">Password:</div>    <input class="txtbox" type="password" value="{{$Info->Account_Password}}" name="txtBrandPassword" id= "password" onkeyup='check();' required ></h5>
         <h5 class="perrow"><div class="lbl">Retype Password:</div>    <input class="txtbox" type="password" placeholder="Confirm Password" name="txtConfirmBrandPassword" id="confirm_password" maxlength="255"  onkeyup='check();' required> <div class="lbl" id="message"></div></h5>
-        <h5 class="perrow"><div class="lbl">Recovery Question/Clue:</div>    <input class="txtbox" type="text" value = "What is the the brandClue?"></h5>
-        <h5 class="perrow"><div class="lbl">Recovery Answer:</div>    <input class="txtbox" type="text" value = "brandClue"></h5>
-        <h5 class="perrow"><div class="lbl">Profile Photo:</div>    <input class="txtbox" type="file" id="UploadedPic" name="ProfilePic"></h5>
+
+
+    <input class="lbl" style="margin-left:340px;display:inline-block;width:15px;height:15px;" name="Show Password" type="checkbox" onclick="showpassword()">
+    <label style="margin-left:10px;width:150px;display:inline-block;font-weight:normal;">Show Password</label><br><br>
+      <!-- start profilepicture dessa 2018-0909 -->
+
+        <h5 class="perrow"><div class="lbl">Current Profile Photo:</div>
+
+          <br><img onerror="this.src='/img/users/profilepicture.jpg'"  src="/{{$Info->Account_ProfilePicture}}" class="img-circle" style="margin-left:30%;width:10%;height:10%;" alt="User Image"><br><br>
+
+        </h5>
+
+        <h5 class="perrow"><div class="lbl">Change Profile Photo:</div>
+
+          <input style="margin-left:26%;" class="txtbox" type="file" id="UploadedPic" name="ProfilePic">
+
+        </h5><br>
+
+        <h5 class="perrow"><div class="lbl">Current Balance:</div>    <input class="txtbox" type="text" value="{{$Info->Account_Balance}}" disabled></h5>
+
+
+      <!-- end profilepicture dessa 2018-0909 -->
+
       <br>
       <h3 class="sub-header subsett">Brand Settings</h3>
       <br>

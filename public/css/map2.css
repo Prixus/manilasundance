@@ -32,12 +32,13 @@
     transition-duration: 0.4s;
     cursor: pointer;
     float:left;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    margin-top: 30px;
 }
 
 .buttonPrime {
-    background-color: white; 
-    color: black; 
+    background-color: white;
+    color: black;
     border: 2px solid #9A00FF;
 }
 
@@ -72,7 +73,6 @@
     background-color: white;
     color: black;
     border: 2px solid #FFA500;
-	margin-top: 50px;
 }
 
 .buttonFood:hover {
@@ -96,4 +96,11 @@
     padding: 0px;
     margin-bottom: 20px;
     background-color: white;
+}
+.TemporarilyReserved{
+  background-color:#f3f35f;
+}
+
+.Reserved{
+background-color:#f79391;
 }

@@ -10,10 +10,9 @@
 					<button class = "btnSearch">GO</button>
 					</div>
 					</h2>
+              <button style = "background-color:#337ab7;" type="button" class="btn btn-primary" id="BtnAdd">Add Penalty</button>
 
           <div class="table-responsive">
-		  <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Add Penalty</button></h2>
-
             <table id="PenaltiesTable" class="table table-striped">
               <thead>
                 <tr>
@@ -48,37 +47,38 @@
       </div>
     </div>
 
+
 		<!-- This is the Modal that will be called for add column -->
       <div class = "modal fade" id = "modalAdd" role = "dialog">
         <div class = "modal-dialog">
 
           <div class="modal-content">
-            <div class = "modal-header">
+            <div class = "modal-header" style = "background-color:#ffffa8">
               <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title">Penalty</h4>
+                    <h4 class ="modal-title">PENALTY</h4>
                   </div>
                   <div class="modal-body">
-                    <form style="text-align:center">
+                    <form>
                       <div class="form-group">
-                        <label> Penalty Name: </label>
-                        <input type= "text" name = "txtPenaltyName" id="AddPenaltyName" required>
+                        <label> PENALTY NAME: </label>
+                        <input type= "text" class="form-control" name = "txtPenaltyName" id="AddPenaltyName" required>
                       </div>
                       <div class = "form-group">
                         <div>
-                        <label> Penalty Description: </label>
+                        <label> PENALTY DESCRIPTION: </label>
                         </div>
-                        <textarea rows="4" cols="50" name="txtDescription" id="AddPenaltyDescription" required></textarea>
+                        <textarea rows="4" cols="50" name="txtDescription" class="form-control" id="AddPenaltyDescription" required></textarea>
                       </div>
 					            <div class = "form-group">
-                        <label> Penalty Cost: </label>
-                        <input type="number" min="0" step="0.01" name = "PenaltyCost" id="AddPenaltyCost" required>
+                        <label> PENALTY COST: </label>
+                        <input type="number" min="0" step="0.01" name = "PenaltyCost" class="form-control" id="AddPenaltyCost" required>
                       </div>
 
                   </form>
                   </div>
                   <div class = "modal-footer">
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal" id="SubmitAdd"> Add Penalty </button>
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                    <button type ="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitAdd"> ADD PENALTY </button>
+                    <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                   </div>
                 </div>
           </div>
@@ -89,36 +89,36 @@
             <div class = "modal-dialog">
 
               <div class="modal-content">
-                <div class = "modal-header">
+                <div class = "modal-header" style = "background-color:#ffffa8">
                   <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                        <h4 class ="modal-title">Penalty</h4>
+                        <h4 class ="modal-title">PENALTY</h4>
                       </div>
                       <div class="modal-body">
-                        <form style="text-align:center">
+                        <form>
                           <div class="form-group">
-                            <label> Penalty ID: </label>
-                            <input type= "text" name = "txtPenaltyName" id="EditPenaltyID" disabled>
+                            <label> PPENALTY ID: </label>
+                            <input type= "text" name = "txtPenaltyName" class="form-control" id="EditPenaltyID" disabled>
                           </div>
                           <div class="form-group">
-                            <label> Penalty Name: </label>
-                            <input type= "text" name = "txtPenaltyName" id="EditPenaltyName" required>
+                            <label> PENALTY NAME: </label>
+                            <input type= "text" name = "txtPenaltyName" class="form-control" id="EditPenaltyName" required>
                           </div>
                           <div class = "form-group">
                             <div>
-                            <label> Penalty Description: </label>
+                            <label> PENALTY DESCRIPTION: </label>
                             </div>
-                            <textarea rows="4" cols="50" name="txtDescription" id="EditPenaltyDescription" required></textarea>
+                            <textarea rows="4" cols="50" name="txtDescription" class="form-control" id="EditPenaltyDescription" required></textarea>
                           </div>
     					            <div class = "form-group">
-                            <label> Penalty Cost: </label>
-                            <input type="number" min="0" step="0.01" name = "PenaltyCost" id="EditPenaltyCost" required>
+                            <label> PENALTY COST: </label>
+                            <input type="number" min="0" step="0.01" name = "PenaltyCost" class="form-control" id="EditPenaltyCost" required>
                           </div>
 
                       </form>
                       </div>
                       <div class = "modal-footer">
-                        <button type ="button" class = "btn btn-default" data-dismiss = "modal" id="SubmitEdit"> Edit Penalty </button>
-                        <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                        <button type ="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit"> EDIT </button>
+                        <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                       </div>
                     </div>
               </div>
@@ -129,32 +129,32 @@
                 <div class = "modal-dialog">
 
                   <div class="modal-content">
-                    <div class = "modal-header">
+                    <div class = "modal-header" style = "background-color:#ffffa8">
                       <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                            <h4 class ="modal-title">Penalty</h4>
+                            <h4 class ="modal-title">PENALTY</h4>
                           </div>
                           <div class="modal-body">
-                            <form style="text-align:center">
+                            <form>
                               <div class="form-group">
-                                <label> Penalty Name: </label>
-                                <input type= "text" name = "txtPenaltyName" id="DeletePenaltyName" required>
+                                <label> PENALTY NAME: </label>
+                                <input type= "text" name = "txtPenaltyName" class="form-control" id="DeletePenaltyName" required>
                               </div>
                               <div class = "form-group">
                                 <div>
-                                <label> Penalty Description: </label>
+                                <label> PENALTY DESCRIPTION: </label>
                                 </div>
-                                <textarea rows="4" cols="50" name="txtDescription" id="DeletePenaltyDescription" required></textarea>
+                                <textarea rows="4" cols="50" name="txtDescription" class="form-control" id="DeletePenaltyDescription" required></textarea>
                               </div>
                               <div class = "form-group">
-                                <label> Penalty Cost: </label>
-                                <input type="number" min="0" step="0.01" name = "PenaltyCost" id="DeletePenaltyCost" required>
+                                <label> PENALTY COST: </label>
+                                <input type="number" min="0" step="0.01" name = "PenaltyCost" class="form-control" id="DeletePenaltyCost" required>
                               </div>
 
                           </form>
                           </div>
                           <div class = "modal-footer">
-                            <button type ="button" class = "btn btn-default" data-dismiss = "modal" id="SubmitDelete"> Delete Penalty </button>
-                            <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                            <button type ="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete"> DELETE PENALTY </button>
+                            <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                           </div>
                         </div>
                   </div>
@@ -162,6 +162,10 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+      $(document).on('click', '#BtnAdd', function(){
+            $('#modalAdd').modal('show');
+      });
 
       $('.modal-footer').on('click','#SubmitAdd',function(){
         $.ajax({
@@ -227,7 +231,7 @@
                   },
                 success: function(response){
                   toastr.warning('Successfully Deleted Penalty','Delete Alert',{timeOut:5000});
-                    $('#Discount' + response.PK_PenaltyID).remove();
+                    $('#Penalty' + response.PK_PenaltyID).remove();
                 }
                 });
       });

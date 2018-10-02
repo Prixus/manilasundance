@@ -4,8 +4,8 @@
 <div class="row">
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-<br><br>
-        <div id='calendar'></div>
+<br>
+        <div id='calendar' style="width:60%; height:60%;background-color: #ffffa8;margin-bottom: 0px;"></div>
         <script>
         $(document).ready(function() {
 
@@ -24,11 +24,11 @@
 
                 <?php $__currentLoopData = $bazaars; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bazaar): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 {
-                id:  '<?php echo e($bazaar->PK_BazaarID); ?>',
+                _id:  '<?php echo e($bazaar->PK_BazaarID); ?>',
                 title:  '<?php echo e($bazaar->Bazaar_Name); ?>',
                 //url: '',
                 start: '<?php echo e($bazaar->Bazaar_DateStart); ?>',
-                end: '<?php echo e($bazaar->Bazaar_DateEnd); ?>',
+                end: '<?php echo e($bazaar->Bazaar_DateEnd); ?>T23:59:59'
                 },
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -38,7 +38,7 @@
         });
 
         </script>
-<br><br>
+<br><br><br><br><br><br>
 
 </div>
 </div>

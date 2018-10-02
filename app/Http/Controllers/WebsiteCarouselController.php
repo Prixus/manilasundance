@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\bazaar;
 
+
 class WebsiteCarouselController extends Controller
 {
     /**
@@ -16,8 +17,10 @@ class WebsiteCarouselController extends Controller
     public function index()
     {
         //
-        $bazaars = bazaar::all();
-        return view('navigation/carousel', ['bazaars' => $bazaars]);
+        $bazaars = bazaar::where('Bazaar_Status','=','Available')->get();
+
+        $bazaarsTop3 = bazaar::where('Bazaar_Status','=','Available')->orderByRaw('Bazaar_DateStart DESC LIMIT 3')->get();
+        return view('navigation/carousel', ['bazaars' => $bazaars,'bazaarsTop3'=>$bazaarsTop3]);
 
 
     }

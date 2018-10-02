@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\discount;
+use App\account;
+use Session;
 use Validator;
 use Response;
 
@@ -28,9 +30,9 @@ class DiscountsController extends Controller
      ];
     public function index()
     {
-        //
+        $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
         $discounts = discount::orderBy('PK_DiscountID','DESC')->get();
-        return view('navigation/admin/discounts',['discounts' => $discounts]);
+        return view('navigation/admin/discounts',['discounts' => $discounts,'currentAccount'=>$currentAccount]);
     }
 
     /**

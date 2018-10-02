@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\product;
+use App\account;
 use Validator;
 use Response;
+use Session;
 
 class ProductsController extends Controller
 {
@@ -26,13 +28,14 @@ class ProductsController extends Controller
      protected $rules2 =
      [
        'name' =>'required',
-       'id' => 'required|unique:products,PK_ProductID',
+       'id' => 'required',
      ];
     public function index()
     {
         //
+        $currentAccount = account::where('PK_AccountID','=',Session::get('UserAccountID'))->first();
         $products = product::all();
-        return view('navigation/brand/products', ['products' => $products]);
+        return view('navigation/brand/products', ['products' => $products, 'currentAccount'=> $currentAccount]);
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\bazaar;
+use App\account;
+use Session;
 use Validator;
 use Response;
 
@@ -24,11 +26,12 @@ class CalendarController extends Controller
 
     public function index()
     {
-      $bazaars = bazaar::all();
-      return view('navigation/admin/calendar', ['bazaars' => $bazaars]);
+      $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
+      $bazaars = bazaar::where('Bazaar_Status','=','Available')->get();
+      return view('navigation/admin/calendar', ['bazaars' => $bazaars, 'currentAccount'=>$currentAccount]);
     }
 
-  
+
     /**
      * Show the form for creating a new resource.
      *

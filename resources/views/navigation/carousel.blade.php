@@ -76,44 +76,33 @@
       <!-- Three columns of text below the carousel -->
 
 
-
+@foreach($bazaarsTop3 as $top)
       <!-- START THE FEATURETTES -->
+      @if($top->PK_BazaarID%2==0)
       <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <h2 class="featurette-heading">{{$top->Bazaar_Name}}. <span class="text-muted">See for yourself.</span></h2>
+          <p class="lead">{{$top->Bazaar_Description}}</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block samesizefeat" data-src="/eventposter/(November 16 - November 19 2017).jpg" src="/eventposter/(November 16 - November 19 2017).jpg" data-holder-rendered="true">
+          <img class="featurette-image img-responsive center-block samesizefeat" src="/{{$top->Bazaar_EventPoster}}" data-holder-rendered="true">
         </div>
       </div>
-
+      @else
       <hr class="featurette-divider">
 
       <div class="row featurette">
         <div class="col-md-7">
-          <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+          <h2 class="featurette-heading">{{$top->Bazaar_Name ." "}}<span class="text-muted">It'll blow your mind.</span></h2>
+          <p class="lead">{{$top->Bazaar_Description}}</p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive center-block samesizefeat" data-src="/eventposter/1 (Aug 17-19 2018).jpg" src="/eventposter/1 (Aug 17-19 2018).jpg" data-holder-rendered="true">
+          <img class="featurette-image img-responsive center-block samesizefeat" src="/{{$top->Bazaar_EventPoster}}" data-holder-rendered="true">
         </div>
       </div>
-
-      <hr class="featurette-divider">
-
-      <div class="row featurette">
-        <div class="col-md-7 col-md-push-5">
-          <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-5 col-md-pull-7">
-          <img class="featurette-image img-responsive center-block samesizefeat" data-src="/eventposter/(February 2 - February 4 2018).jpg" src="/eventposter/(February 2 - February 4 2018).jpg" data-holder-rendered="true">
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
+      @endif
+      
+@endforeach
       <!-- /END THE FEATURETTES -->
 
 

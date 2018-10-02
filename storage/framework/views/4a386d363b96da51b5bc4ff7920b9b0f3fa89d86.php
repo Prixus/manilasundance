@@ -55,6 +55,7 @@
 <script src='/js/moment.min.js'></script>
 <script src='/js/fullcalendarjquery.min.js'></script>
 <script src='/js/fullcalendar.min.js'></script>
+<script src='/js/chart.min.js'></script>
 
 <style>
   body {
@@ -76,17 +77,25 @@
 </style>
 <?php endif; ?>
 
-<?php if(request()->segment(1)=='brand' AND request()->segment(2)=='settings'): ?>
+<script>
+window.Laravel = <?php echo json_encode([
+  'csrfToken' => csrf_token(),
+]); ?>;
+</script>
+<?php if((request()->segment(1)=='brand' AND request()->segment(2)=='settings') OR (request()->segment(1)=='admin' AND request()->segment(2)=='brandprofile')): ?>
 <link href='/css/accountsettings.css' rel='stylesheet' />
 <?php endif; ?>
 
-<?php if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls' AND request()->segment(3)!='2') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls' AND request()->segment(3)!='2')): ?>
+<?php if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls')): ?>
 <link href='/css/map.css' rel='stylesheet' />
 <?php endif; ?>
 
-<?php if((request()->segment(1)=='brand' AND request()->segment(2)=='stalls' AND request()->segment(3)=='2') OR (request()->segment(1)=='admin' AND request()->segment(2)=='manage_stalls' AND request()->segment(3)=='2')): ?>
-<link href='/css/map2.css' rel='stylesheet' />
+<?php if(request()->segment(1)=='admin' AND request()->segment(2)=='reportform'): ?>
+<link href='/css/accountsettings.css' rel='stylesheet' />
 <?php endif; ?>
+
+<link rel="stylesheet" type="text/css" href="/css/datatables.css">
+<script type="text/javascript" charset="utf8" src="/js/datatables.js"></script>
 
 </head>
 <body>
@@ -117,6 +126,62 @@
   <script src="/js/dashboard.js"></script>
 
 
+ <!-- start confirmLeave Dessa 2018-0925 -->
+
+<!-- <?php if(request()->segment(1)=='brand' AND request()->segment(2)=='stalls'): ?>
+
+  <script type="text/javascript"> -->
+<!-- //   window.onbeforeunload = function() {
+//     return "Hey, you're leaving the site. Bye!";
+// };
+
+// window.addEventListener('beforeunload', function (e) {
+//   // Cancel the event as stated by the standard.
+//   e.preventDefault();
+//   // Chrome requires returnValue to be set.
+//   e.returnValue = '';
+// });
+
+// window.onbeforeunload = function (e) {
+//   alert("eyy");
+// } -->
+
+<!-- $(document).ready(function() {
+  $('.leave').click(function() {
+    $('modalConfirmLeave').show()
+  })
+}); -->
+
+ <!--  </script>
+ -->
+          <!-- <div id = "modalConfirmLeave" class = "modal fade"  role = "dialog">
+            <div class = "modal-dialog">
+
+              <div class="modal-content">
+                <div class = "modal-header">
+                  <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                        <h4 class ="modal-title"> Are you sure you want to leave? </h4>
+                      </div>
+                      <div class="modal-body">
+                        <form style="text-align:center">
+
+                          <div class = "form-group">
+                            <label> Reservation process is not yet done. If you leave now, no reservation data will be saved.</label>
+                          </div>
+
+                      </form>
+                      </div>
+                      <div class = "modal-footer">
+                        <button type="button" class = "btn btn-default" data-dismiss = "modal"> LEAVE </button>
+                        <button type ="button" class = "btn btn-default" data-dismiss = "modal"> STAY </button>
+                      </div>
+                    </div>
+              </div>
+            </div> -->
+
+<!-- <?php endif; ?> -->
+
+ <!-- end confirmLeave Dessa 2018-0925 -->
 
   </body>
 </html>

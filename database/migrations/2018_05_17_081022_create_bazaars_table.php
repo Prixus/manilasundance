@@ -16,7 +16,7 @@ class CreateBazaarsTable extends Migration
         Schema::create('bazaars', function (Blueprint $table) {
             $table->increments('PK_BazaarID');
             $table->string('Bazaar_Name',255);
-            $table->string('Bazaar_Venue',255);
+            $table->enum('Bazaar_Venue',['MegatradeHall','WorldTradeCenter']);
             $table->date('Bazaar_DateStart');
             $table->date('Bazaar_DateEnd');
             $table->time('Bazaar_TimeStart');

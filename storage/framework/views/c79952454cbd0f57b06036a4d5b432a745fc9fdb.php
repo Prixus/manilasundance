@@ -40,6 +40,9 @@
     <input type="text" name="txtBrandOwnerName" placeholder="Owner Name" required/>
     <input type="text" name="txtBrandTinNumber" placeholder="Tin Number" maxlength="9" id="TinNumber" pattern=".{9}"  required/>
     <input type="text" name="txtBrandMobileNumber" placeholder="Mobile Number" id="mobileNumber" pattern=".{11}" maxlength="11" required/>
+
+    <a href = "#" style="text-decoration:none;">Don't forget to check your email for updates regarding your registration.</a><br>
+
     <input type="button" name="previous" class="previous action-button" value="Previous" />
     <input type="submit" name="signup" class="submit action-button" value="Submit" />
   </fieldset>

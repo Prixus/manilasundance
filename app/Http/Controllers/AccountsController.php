@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\guestBrand;
 use App\account;
+use App\Mail\RegistrationRejected;
+use App\Mail\RegistrationApproved;
 use Validator;
 use Response;
+use Session;
 
 class AccountsController extends Controller
 {
@@ -31,9 +38,14 @@ class AccountsController extends Controller
     public function index()
     {
         //
-        $accounts = account::where('Account_Status','=','Activated')->get();
-        $ForApprovalaccounts = account::where('Account_Status','=','ForApproval')->get();
-        return view('navigation/admin/accounts', ['accounts' => $accounts,'ForApprovalaccounts'=> $ForApprovalaccounts]);
+        $accounts = account::where('Account_Status','=','Activated')->orderBy('created_at','DESC')->get();
+        $ForApprovalaccounts = DB::table('accounts')
+        ->join('guest_brands','accounts.FK_GuestBrandID', '=', 'guest_brands.PK_GuestBrandID')
+        ->where('Account_Status','=','ForApproval')
+        ->orderBy('PK_AccountID','DESC')
+        ->get();
+        $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
+        return view('navigation/admin/accounts', ['accounts' => $accounts,'ForApprovalaccounts'=> $ForApprovalaccounts, 'currentAccount' => $currentAccount]);
     }
 
     /**
@@ -169,8 +181,44 @@ class AccountsController extends Controller
         $Account->Account_Password = $request->password;
         $Account->Account_Rating = $request->rating;
         $Account->Account_AccessLevel = $request->accesslevel;
+
         $Account->save();
+        Mail::to($request->email)->send(new RegistrationApproved($Account));
         return response()->json($Account);
       }
     }
+
+    public function markAsRead(){
+          $currentAccount->unreadNotifications->markAsRead();    
+    }
+
+    public function rejectAccount(Request $request, $id){
+      $validator = Validator::make(Input::all(), $this->rules2);
+          if ($validator->fails()) {
+              return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+          }
+          else{
+        $Account = account::find($id);
+        $Account->Account_UserName = $request->name;
+        $Account->Account_Status = "Rejected";
+        $Account->Account_Password = $request->password;
+        $Account->Account_Rating = $request->rating;
+        $Account->Account_AccessLevel = $request->accesslevel;
+        $Account->save();
+        Mail::to($request->email)->send(new RegistrationRejected($Account));
+        return response()->json($Account);
+
+    }
+  }
+
+    // public function brandprofile()
+    // {
+    //     //
+    //   $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
+    //   return view('navigation/admin/brandprofile', ['currentAccount' => $currentAccount]);
+
+
+      
+    // } this is no more needed, transferred to brandprofilecontroller
+  
 }

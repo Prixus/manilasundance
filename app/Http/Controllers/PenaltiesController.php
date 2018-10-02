@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use App\penalty;
+use App\account;
+use Session;
 use Validator;
 use Response;
 
@@ -24,9 +26,9 @@ class PenaltiesController extends Controller
      ];
     public function index()
     {
-        //
+        $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
         $Penalties = penalty::paginate(15);
-        return view('navigation/admin/penalties',['Penalties' => $Penalties]);
+        return view('navigation/admin/penalties',['Penalties' => $Penalties,'currentAccount'=>$currentAccount]);
 
     }
 

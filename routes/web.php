@@ -1,6 +1,9 @@
 <?php
 use App\Http\Middleware\checkrole;
 use App\Http\Middleware\checkroleAdmin;
+use App\Http\Middleware\hasAccountBalance;
+use App\Http\Middleware\checkPaymentDeadLine;
+use App\Http\Middleware\checkBillDueDate;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,7 +23,7 @@ Route::get('/signup', function () {
 });
 Route::get('/login', function () {
     return view('navigation/login');
-});
+})->middleware(checkPaymentDeadLine::class);
 
 //replaced by ReservationsController@index
 /*
@@ -28,12 +31,7 @@ Route::get('brand/reservations', function () {
     return view('navigation/brand/reservations');
 });
 */
-Route::get('/brand/billing', function () {
-    return view('navigation/brand/billing');
-})->middleware(checkrole::class);
-Route::get('/brand/bill', function () {
-    return view('navigation/brand/bill');
-})->middleware(checkrole::class);
+
 Route::get('brand/update_payment', function () {
     return view('navigation/brand/update_payment');
 })->middleware(checkrole::class);
@@ -44,21 +42,15 @@ Route::post('/brand/login','RegistrationsController@login');
 
 
 
-Route::get('/admin/dashboard', function () {
-    return view('navigation/admin/dashboard');
-})->middleware(checkrole::class);
+
 /*
 Route::get('/admin/accounts', function () {
     return view('navigation/admin/accounts');
 });
 */
-Route::get('/admin/billing', function () {
-    return view('navigation/admin/billing');
-})->middleware(checkroleAdmin::class);
+
 Route::get('/admin/collection', 'PaymentsController@index')->middleware(checkroleAdmin::class);
-Route::get('/admin/bill', function () {
-    return view('navigation/admin/bill');
-})->middleware(checkroleAdmin::class);
+
 
 
 
@@ -68,7 +60,7 @@ return view('navigation/brand/discounts');      //  here
 Route::get('/brand/settings', 'PagesController@brandsettings')->middleware(checkrole::class);
       //  here 08-03-2018 1AM
 Route::get('/brand/stalls/viewbill','ReservationsController@viewBill')->middleware(checkrole::class);
-Route::get('/brand/stalls/{id}','ReservationsController@showStalls')->middleware(checkrole::class);
+Route::get('/brand/stalls/{id}','ReservationsController@showStalls')->middleware(hasAccountBalance::class);
 Route::get('brand/reservations','ReservationsController@index')->middleware(checkrole::class);
 Route::get('/brand/pdf', 'ReservationsController@downloadPDF');
 Route::get('/test',function(){
@@ -77,12 +69,12 @@ Route::get('/test',function(){
 Route::post('/brand/stalls','ReservationsController@reserveStall');
 
 Route::resource('/brand/payments','PaymentsController')->middleware(checkrole::class);
-Route::resource('/brand/bazaars','BrandBazaarsController')->middleware(checkrole::class);
+Route::resource('/brand/bazaars','BrandBazaarsController')->middleware(checkBillDueDate::class);
 Route::resource('/brand/products','ProductsController')->middleware(checkrole::class);
 Route::resource('/admin/bazaar','BazaarsController')->middleware(checkroleAdmin::class);
 Route::resource('/admin/manage_stalls', 'StallsController')->middleware(checkroleAdmin::class);
 Route::resource('/admin/calendar','CalendarController')->middleware(checkroleAdmin::class);
-Route::resource('/brand/calendar','CalendarController')->middleware(checkrole::class);
+Route::get('/brand/calendar','BrandCalendarController@index')->middleware(checkrole::class);
 
 Route::resource('/admin/accounts','AccountsController')->middleware(checkroleAdmin::class);
 Route::post('/admin/accounts/search','AccountsController@search');
@@ -91,8 +83,49 @@ Route::resource('/admin/discounts','DiscountsController')->middleware(checkroleA
 Route::resource('/admin/penalties','PenaltiesController')->middleware(checkroleAdmin::class);
 
 
-Route::resource('/brands','WebsiteBrandsController')->middleware(checkrole::class);
-Route::resource('/bazaar','WebsiteBazaarsController')->middleware(checkrole::class);
-Route::resource('/','WebsiteCarouselController')->middleware(checkrole::class);
+Route::resource('/brands','WebsiteBrandsController');
+Route::resource('/bazaar','WebsiteBazaarsController');
+Route::resource('/','WebsiteCarouselController');
 
 Route::put('/admin/accounts/approve/{id}','AccountsController@approveAccount');
+Route::get('/admin/dashboard', 'adminDasboardController@index')->middleware(checkroleAdmin::class);
+
+Route::get('/brand/billing', 'BrandBillsController@index')->middleware(checkrole::class);
+Route::get('/brand/bill/{id}', 'BrandBillsController@showBill')->middleware(checkrole::class);
+Route::get('/brand/seepdf/{id}', 'BrandBillsController@printBills')->middleware(checkrole::class);
+Route::get('/admin/billing', 'AdminBillsController@index')->middleware(checkroleAdmin::class);
+Route::get('/admin/bill/{id}', 'AdminBillsController@showBill')->middleware(checkroleAdmin::class);
+Route::get('/admin/seepdf/{id}', 'AdminBillsController@printBills')->middleware(checkroleAdmin::class);
+
+
+Route::get('/admin/reportform', 'adminReportController@form')->middleware(checkroleAdmin::class);
+Route::get('/admin/viewreport', 'adminReportController@view')->middleware(checkroleAdmin::class);
+
+Route::get('/admin/detailedrevenue', 'adminReportController@detailedrevenue')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedregistrations', 'adminReportController@detailedregistrations')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations', 'adminReportController@detailedreservations')->middleware(checkroleAdmin::class);
+
+
+
+Route::get('/send', 'EmailsController@ship');
+
+Route::get('/markAsRead','AccountsController@markAsRead');
+
+
+Route::resource('/brand/notifs','NotifsController')->middleware(checkrole::class);
+Route::put('/admin/accounts/reject/{id}','AccountsController@rejectAccount'); // new added on september 07 10:45am
+Route::put('/admin/bazaar/cancel/{id}','BazaarsController@cancelBazaar'); // new added on september 07 10:45am
+
+
+// Route::get('/admin/brandprofile', 'AccountsController@brandprofile')->middleware(checkroleAdmin::class);
+
+Route::get('/logout/{id}','RegistrationsController@logout');
+Route::get('/brand/printReceipt/{id}', 'PaymentsController@printReceipt');
+
+
+
+Route::get('/admin/brandprofile/{id}', 'BrandProfileController@brandprofile')->middleware(checkroleAdmin::class);
+Route::get('/brand/paymenthistory', 'PaymentHistoryController@index')->middleware(checkrole::class);
+
+Route::put('/brand/payments/reject/{id}','PaymentsController@reject');
+Route::post('/brand/stalls/cancel','ReservationsController@cancelReserveStall');

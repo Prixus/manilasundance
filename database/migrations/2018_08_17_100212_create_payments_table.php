@@ -21,7 +21,7 @@ class CreatePaymentsTable extends Migration
             $table->enum('Payment_Status',['Approved','Not Approved', 'Pending for Approval']);
             $table->dateTime('Payment_Deadline')->nullable();
             $table->string('Payment_ImagePath',1028)->nullable();
-            $table->char('Payment_AccountNumber',13)->nullable();
+            $table->string('Payment_AccountNumber',256)->nullable();
             $table->integer('FK_BillingID')->unsigned();
             $table->integer('FK_AccountID')->unsigned();
             $table->foreign('FK_BillingID')->references('PK_BillingID')->on('billings')->onUpdate('cascade')->onDelete('cascade');

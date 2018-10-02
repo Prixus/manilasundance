@@ -13,4 +13,9 @@ class guestBrand extends Model
     {
       return $this->hasMany('App\socialMediaAssets', 'FK_GuestBrandID');
     }
+
+    public function products()
+    {
+      return $this->hasMany('App\product', 'FK_GuestBrandID');
+    }
 }

@@ -9,75 +9,139 @@
 
 
           <h2 class="sub-header">Manila Sundance</h2>
-		  <h4>Fashion Events</h4>
-		  <br>
-		  <div style = "float:right;">
-			  <h5>Bill Number:   <label>1001-0012</label></h5>
-			  <h5>Datetime:   <label>01-11-17 11:11:11</label></h5>
-			  <h5>Expiration:   <label>09-30-17 23:59:59</label></h5>
-			  </div>
-		  <br>
-		  <label>Bill By:</label>
-		  <br>
-			  <h5>Account Number:    <label>1002-0992-1902</label></h5>
-			  <h5>Account Name:    <label>Jennica Adena</label></h5>
-			  <h5>Contact Number:    <label>09111111111</label></h5>
+      <h4>Fashion Events</h4>
 
-			   <br>
-			  <label>Bill To:</label>
-			  <br>
-			  <h5>TIN Number:    <label>98789685451</label></h5>
-			  <h5>Brand Name:    <label>Thrift Apparel</label></h5>
-			  <h5>Owner's Name:    <label>Sheena Azucena</label></h5>
+      <br>
+        <h5>Address:    <label>Cityland Tower 1, Mandaluyong City</label></h5>
+        <h5>Tin Number    <label>894563286787</label></h5>
+        <h5>Telephone Number   <label>252-89-91</label></h5>
+        <h5>Fax:    <label>252-89-91</label></h5>
+        <h5>Website:   <label>ManilaSundance.com</label></h5>
+      <br>
+      <div>
+      <br>
+      <br>
+      <h5>Billing Party</h5>
 
-		  <br>
+        <h5>Tin Number:    <label>{{$ReservationAccountBrandInformations->GuestBrand_TinNumber}}</label></h5>
+        <h5>Company:    <label>{{$ReservationAccountBrandInformations->GuestBrand_Name}}</label></h5>
+        <h5>Name:    <label>{{$ReservationAccountBrandInformations->GuestBrand_OwnerName}}</label></h5>
+        <h5>Tel:    <label>{{$ReservationAccountBrandInformations->GuestBrand_MobileNumber}}</label></h5>
+        <h5>Website:    <label>{{$ReservationAccountBrandInformations->GuestBrand_Website}}</label></h5>
 
-				<div class="table-responsive">
+      <br>
+      </div>
+
+        <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Bazaar Name</th>
-                  <th>Stall Number</th>
-                  <th>Stall Fee</th>
+                  <th>Stall ID</th>
+                  <th>Stall Type</th>
+                  <th>Stall Size</th>
+                  <th>Stall Booking Cost</th>
+                  <th>Stall Rental Cost</th>
+                  <th>Subtotal Cost</th>
                 </tr>
               </thead>
               <tbody>
+                @foreach($ReservedStalls as $ReservedStall)
                 <tr>
-                  <td>Summer Sale 2018</td>
-                  <td>stl-1001</td>
-                  <td>16000</td>
+                  <td>{{$ReservedStall->PK_StallID}}</td>
+                  <td>{{$ReservedStall->Stall_Type}}</td>
+                  <td>{{$ReservedStall->Stall_Size}}</td>
+                  <td>{{$ReservedStall->Stall_BookingCost}}</td>
+                  <td>{{$ReservedStall->Stall_RentalCost}}</td>
+                  <td>{{$ReservedStall->Stall_RentalCost+$ReservedStall->Stall_BookingCost}}</td>
+                </tr>
+                @endforeach
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td style ="color:green">Balance From Previous Billing:</td>
+                  @if($ReservationAccountBrandInformations->Billing_BalanceFromPreviousBilling < 0)
+                  <td>{{$ReservationAccountBrandInformations->Billing_BalanceFromPreviousBilling}}</td>
+                  @else
+                  <td>({{$ReservationAccountBrandInformations->Billing_BalanceFromPreviousBilling}})</td>
+                  @endif
                 </tr>
                 <tr>
-                  <td>Valentine Sale 2018</td>
-                  <td>stl-1414</td>
-                  <td>18000</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td style ="color:green">Amount Paid:</td>
+                  @if($ReservationAccountBrandInformations->Billing_AmountPaid <= 0)
+                  <td>{{$ReservationAccountBrandInformations->Billing_AmountPaid}}</td>
+                  @else
+                  <td>({{$ReservationAccountBrandInformations->Billing_AmountPaid}})</td>
+                  @endif
                 </tr>
-                <tr>
-                  <td>New Year Sale 2018</td>
-                  <td>stl-1111</td>
-                  <td>16000</td>
-                </tr>
-				<tr>
-                  <th>Total Stall Rental Fee:</th>
-                  <th>-</th>
-                  <th>50000</th>
-                </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style ="color:red">Total Cost:</td>
+                    <td style="font-size: 1.3em; font-style: bold; color: black">{{$ReservationAccountBrandInformations->Billing_AmountToBePaid}}</td>
+                  </tr>
+
               </tbody>
             </table>
           </div>
-				<br>
-			  <h5>Stall Rental Fee:    <label>50000</label></h5>
-			  <h5>Reservation Fee:    <label>25000</label></h5>
-			  <h5>Subtotal Cost:    <label>75000</label></h5>
-			  <h5>Subtotal Discount:    <label>5000</label></h5>
-			  <br>
-			  <h4><label>Total Amount:    70000</label></h4>
+      <br><br>
 
-		  <br><br>
-		  <div>
-		  <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/collection">Back</a></button>
-		  <button style = "background-color:green;float:right;" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"><a href = "#" >Print</a></button>
-		  </div>
+
+
+              <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Payment ID</th>
+                  <th>Payment Type</th>
+                  <th>Payment Amount</th>
+                  <th>Payment Date</th>
+                  <th>Payment Reference Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($billing->paymentsMade as $Payments)
+                @if($Payments->Payment_Status == "Approved")
+                <tr>
+                  <td>{{$Payments->PK_PaymentID}}</td>
+                  <td>{{$Payments->Payment_Mode}}</td>
+                  <td>{{$Payments->Payment_Amount}}</td>
+                  <td>{{$Payments->created_at}}</td>
+                  <td>{{$Payments->Payment_AccountNumber}}</td>
+                </tr>
+                @endif
+                @endforeach
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td style ="color:green">Amount Paid:</td>
+                  @if($ReservationAccountBrandInformations->Billing_AmountPaid <= 0)
+                  <td>{{$ReservationAccountBrandInformations->Billing_AmountPaid}}</td>
+                  @else
+                  <td>({{$ReservationAccountBrandInformations->Billing_AmountPaid}})</td>
+                  @endif
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+      <label>Thank you for staying with us!</label>
+      <br><br>
+      <div>
+        @if($ReservationAccountBrandInformations->Billing_Status != "Void")
+            <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/brand/seepdf/{{$ReservationAccountBrandInformations->PK_ReservationID}}" >Print</a></button>
+        @endif
+
+      <button style = "background-color:green;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/billing" >Finished</a></button>
+      </div>
         </div>
 
     </div>

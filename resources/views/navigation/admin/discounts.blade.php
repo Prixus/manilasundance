@@ -12,16 +12,18 @@
 					<button class = "btnSearch">GO</button>
 					</div>
 					</h2>
-
+                <button style = "background-color:#337ab7;" type="button" class="btn btn-primary" id="BtnAdd">Add Discount</button>
           <div class="table-responsive">
-		  <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">Add Discount</button></h2>
+        <h2>
+
+        </h2>
 
             <table id ="DiscountTable" class="table table-striped">
               <thead>
                 <tr>
 					<th>Discount ID</th>
 					<th>Discount Name</th>
-                    <th>Discount Amount</th>
+          <th>Discount Amount</th>
 					<th>Description</th>
                 </tr>
                 {{csrf_field()}}
@@ -55,47 +57,47 @@
         <div class = "modal-dialog">
 
           <div class="modal-content">
-            <div class = "modal-header">
+            <div class = "modal-header" style = "background-color:#ffffa8">
               <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                    <h4 class ="modal-title">Discount</h4>
+                    <h4 class ="modal-title">DISCOUNT</h4>
                   </div>
                   <div class="modal-body">
-                    <form style="text-align:center">
+                    <form>
                       <div class = "form-group">
-                        <label> Discount Name: </label>
-                        <input type="text" name ="txtDiscountName" id="AddDiscountName" required>
+                        <label> DISCOUNT NAME: </label>
+                        <input type="text" name ="txtDiscountName" class="form-control" id="AddDiscountName" required>
                       </div>
                       <div class="form-group">
                         <div>
-                        <label> Discount Requirements: </label>
+                        <label> DISCOUNT REQUIREMENTS: </label>
                       </div>
-                        <textarea rows="4" cols="50" name="txtDiscountRequirements" id="AddDiscountRequirements"></textarea>
+                        <textarea rows="4" cols="50" name="txtDiscountRequirements" class="form-control" id="AddDiscountRequirements"></textarea>
                       </div>
                       <div class = "form-group">
-                        <label> Discount Validity date start: </label>
-                        <input type="date" name = "txtDiscountDateStart" id="AddDiscountDateStart" required>
+                        <label> DISCOUNT VALIDITY DATE START: </label>
+                        <input type="date" name = "txtDiscountDateStart" class="form-control" id="AddDiscountDateStart" required>
                       </div>
 					            <div class = "form-group">
-                        <label> Discount Validity date end: </label>
-                        <input type="date" name = "txtDiscountDateEnd" id="AddDiscountDateEnd" required>
+                        <label> DISCOUNT VALIDITY DATE END: </label>
+                        <input type="date" name = "txtDiscountDateEnd" class="form-control" id="AddDiscountDateEnd" required>
                       </div>
 					            <div class = "form-group">
-                        <label> Discount Validity time start: </label>
-                        <input type="time" name = "txtTimeStart"id="AddDiscountTimeStart" required>
+                        <label> DISCOUNT VALIDITY TIME START: </label>
+                        <input type="time" name = "txtTimeStart" class="form-control" id="AddDiscountTimeStart" required>
                       </div>
                       <div class = "form-group">
-                      <label> Discount Validity time end: </label>
-                      <input type="time" name = "txtTimeEnd" id="AddDiscountTimeEnd" required>
+                      <label> DISCOUNT VALIDITY TIME END: </label>
+                      <input type="time" name = "txtTimeEnd" class="form-control" id="AddDiscountTimeEnd" required>
                       </div>
                       <div class = "form-group">
-                      <label> Discount Amount:</label>
-                      <input type="number" min="0" name = "txtEmailAddress" step="0.01" id="AddDiscountAmount" required>
+                      <label> DISCOUNT AMOUNT:</label>
+                      <input type="number" min="0" name = "txtEmailAddress" step="0.01" class="form-control" id="AddDiscountAmount" required>
                       </div>
                   </form>
                   </div>
                   <div class = "modal-footer">
-                    <button type="button" class = "btn btn-default" data-dismiss = "modal" id="SubmitAdd">Add Discount</button>
-                    <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                    <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitAdd">ADD DISCOUNT</button>
+                    <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                   </div>
                 </div>
           </div>
@@ -107,51 +109,51 @@
                 <div class = "modal-dialog">
 
                   <div class="modal-content">
-                    <div class = "modal-header">
+                    <div class = "modal-header" style = "background-color:#ffffa8">
                       <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                            <h4 class ="modal-title">Discount</h4>
+                            <h4 class ="modal-title">DISCOUNT</h4>
                           </div>
                           <div class="modal-body">
-                            <form style="text-align:center">
+                            <form>
                               <div class = "form-group">
-                                <label> Discount ID: </label>
-                                <input type="text" name ="txtDiscountName" id="EditDiscountID" disabled>
+                                <label> DISCOUNT ID: </label>
+                                <input type="text" name ="txtDiscountName" class="form-control" id="EditDiscountID" disabled>
                               </div>
                               <div class = "form-group">
-                                <label> Discount Name: </label>
-                                <input type="text" name ="txtDiscountName" id="EditDiscountName" required>
+                                <label> DISCOUNT NAME: </label>
+                                <input type="text" name ="txtDiscountName" class="form-control" id="EditDiscountName" required>
                               </div>
                               <div class="form-group">
                                 <div>
-                                <label> Discount Requirements: </label>
+                                <label> DISCOUNT REQUIREMENTS: </label>
                               </div>
-                                <textarea rows="4" cols="50" name="txtDiscountRequirements" id="EditDiscountRequirements"></textarea>
+                                <textarea rows="4" cols="50" name="txtDiscountRequirements" class="form-control" id="EditDiscountRequirements"></textarea>
                               </div>
                               <div class = "form-group">
-                                <label> Discount Validity date start: </label>
-                                <input type="date" name = "txtDiscountDateStart" id="EditDiscountDateStart" required>
+                                <label> DISCOUNT VALIDITY DATE START: </label>
+                                <input type="date" name = "txtDiscountDateStart" class="form-control" id="EditDiscountDateStart" required>
                               </div>
         					            <div class = "form-group">
-                                <label> Discount Validity date end: </label>
-                                <input type="date" name = "txtDiscountDateEnd" id="EditDiscountDateEnd" required>
+                                <label> DISCOUNT VALIDITY DATE END: </label>
+                                <input type="date" name = "txtDiscountDateEnd" class="form-control" id="EditDiscountDateEnd" required>
                               </div>
         					            <div class = "form-group">
-                                <label> Discount Validity time start: </label>
-                                <input type="time" name = "txtTimeStart"id="EditDiscountTimeStart" required>
+                                <label> DISCOUNT VALIDITY TIME START: </label>
+                                <input type="time" name = "txtTimeStart" class="form-control" id="EditDiscountTimeStart" required>
                               </div>
                               <div class = "form-group">
-                              <label> Discount Validity time end: </label>
-                              <input type="time" name = "txtTimeEnd" id="EditDiscountTimeEnd" required>
+                              <label> DISCOUNT VALIDITY TIME END: </label>
+                              <input type="time" name = "txtTimeEnd" class="form-control" id="EditDiscountTimeEnd" required>
                               </div>
                               <div class = "form-group">
-                              <label> Discount Amount:</label>
-                              <input type="number" min="0" name = "txtEmailAddress" step="0.01" id="EditDiscountAmount" required>
+                              <label> DISCOUNT AMOUNT:</label>
+                              <input type="number" min="0" name = "txtEmailAddress" step="0.01" class="form-control" id="EditDiscountAmount" required>
                               </div>
                           </form>
                           </div>
                           <div class = "modal-footer">
-                            <button type="button" class = "btn btn-default" data-dismiss = "modal" id="SubmitEdit">Edit Discount</button>
-                            <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                            <button type="button" class = "btn btn-success" data-dismiss = "modal" id="SubmitEdit">EDIT DISCOUNT</button>
+                            <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                           </div>
                         </div>
                   </div>
@@ -162,51 +164,51 @@
                     <div class = "modal-dialog">
 
                       <div class="modal-content">
-                        <div class = "modal-header">
+                        <div class = "modal-header" style = "background-color:#ffffa8">
                           <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
-                                <h4 class ="modal-title">Discount</h4>
+                                <h4 class ="modal-title">DISCOUNT</h4>
                               </div>
                               <div class="modal-body">
-                                <form style="text-align:center">
+                                <form>
                                   <div class = "form-group">
-                                    <label> Discount ID: </label>
-                                    <input type="text" name ="txtDiscountName" id="DeleteDiscountID" disabled>
+                                    <label> DISCOUNT ID: </label>
+                                    <input type="text" name ="txtDiscountName" class="form-control" id="DeleteDiscountID" disabled>
                                   </div>
                                   <div class = "form-group">
-                                    <label> Discount Name: </label>
-                                    <input type="text" name ="txtDiscountName" id="DeleteDiscountName" disabled>
+                                    <label> DISCOUNT NAME: </label>
+                                    <input type="text" name ="txtDiscountName" class="form-control" id="DeleteDiscountName" disabled>
                                   </div>
                                   <div class="form-group">
                                     <div>
-                                    <label> Discount Requirements: </label>
+                                    <label> DISCOUNT REQUIREMENTS: </label>
                                   </div>
-                                    <textarea rows="4" cols="50" name="txtDiscountRequirements" id="DeleteDiscountRequirements" disabled></textarea>
-                                  </div>
-                                  <div class = "form-group">
-                                    <label> Discount Validity date start: </label>
-                                    <input type="date" name = "txtDiscountDateStart" id="DeleteDiscountDateStart" disabled>
+                                    <textarea rows="4" cols="50" name="txtDiscountRequirements" class="form-control" id="DeleteDiscountRequirements" disabled></textarea>
                                   </div>
                                   <div class = "form-group">
-                                    <label> Discount Validity date end: </label>
-                                    <input type="date" name = "txtDiscountDateEnd" id="DeleteDiscountDateEnd" disabled>
+                                    <label> DISCOUNT VALIDITY DATE START: </label>
+                                    <input type="date" name = "txtDiscountDateStart" class="form-control" id="DeleteDiscountDateStart" disabled>
                                   </div>
                                   <div class = "form-group">
-                                    <label> Discount Validity time start: </label>
-                                    <input type="time" name = "txtTimeStart" id="DeleteDiscountTimeStart" disabled>
+                                    <label> DISCOUNT VALIDITY DATE END: </label>
+                                    <input type="date" name = "txtDiscountDateEnd" class="form-control" id="DeleteDiscountDateEnd" disabled>
                                   </div>
                                   <div class = "form-group">
-                                  <label> Discount Validity time end: </label>
-                                  <input type="time" name = "txtTimeEnd" id="DeleteDiscountTimeEnd" disabled>
+                                    <label> DISCOUNT VALIDITY TIME START: </label>
+                                    <input type="time" name = "txtTimeStart" class="form-control" id="DeleteDiscountTimeStart" disabled>
                                   </div>
                                   <div class = "form-group">
-                                  <label> Discount Amount:</label>
-                                  <input type="number" min="0" name = "txtEmailAddress" step="0.01" id="DeleteDiscountAmount" disabled>
+                                  <label> DISCOUNT VALIDITY TIME END: </label>
+                                  <input type="time" name = "txtTimeEnd" class="form-control" id="DeleteDiscountTimeEnd" disabled>
+                                  </div>
+                                  <div class = "form-group">
+                                  <label> DISCOUNT AMOUNT:</label>
+                                  <input type="number" min="0" name = "txtEmailAddress" step="0.01" class="form-control" id="DeleteDiscountAmount" disabled>
                                   </div>
                               </form>
                               </div>
                               <div class = "modal-footer">
-                                <button type="button" class = "btn btn-default" data-dismiss = "modal" id="SubmitDelete">Delete Discount</button>
-                                <button type ="button" class = "btn btn-default" data-dismiss = "modal"> CLOSE </button>
+                                <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">DELETE DISCOUNT</button>
+                                <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                               </div>
                             </div>
                       </div>
@@ -214,6 +216,10 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
+        
+            $(document).on('click', '#BtnAdd', function(){
+            $('#modalAdd').modal('show');
+            });
 
         $('.modal-footer').on('click','#SubmitAdd',function(){
           $.ajax({

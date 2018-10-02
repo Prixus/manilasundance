@@ -5,3 +5,15 @@
   </script>
   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php endif; ?>
+
+<?php if(session('status')): ?>
+<script>
+    toastr.warning("<?php echo e(session('status')); ?>",'Error',{timeOut:5000});
+</script>
+<?php endif; ?>
+
+<?php if(session('good')): ?>
+<script>
+    toastr.success("<?php echo e(session('good')); ?>",'Error',{timeOut:5000});
+</script>
+<?php endif; ?>
