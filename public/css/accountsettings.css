@@ -1,0 +1,19 @@
+.lbl {
+	font-weight:bold;
+	width:230px;
+	padding-bottom:8px;
+	color:teal;
+	display:inline-block;
+}
+
+.txtbox {
+	left:50px;
+	display:inline-block;
+	width:300px;
+	font-weight:normal;
+}
+
+h5 {
+	margin-left: 10%;
+}
+
