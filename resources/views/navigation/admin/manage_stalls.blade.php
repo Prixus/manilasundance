@@ -5,10 +5,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header">Monitor<div style = "float:right;font-size:14px;">
+          <h2 class="sub-header">Monitor
+          <!-- <div style = "float:right;font-size:14px;">
 					<input type = "text" placeholder = "Search...">
 					<button class = "btnSearch">GO</button>
-					</div>
+					</div> -->
 					</h2>
   {{ csrf_field() }}
   @if($BazaarVenue=='MegatradeHall')
@@ -96,7 +97,12 @@
 
 </center>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div style="float:left;margin-top:-40px;">
+<p style="margin-left:310px;color:red;font-weight:bold;display:inline-block;width:150px;">*** E X I T ***</p>
+<p style="margin-left:220px;color:blue;font-weight:bold;display:inline-block;width:150px;">*** E N T R A N C E ***</p>
+</div>
+
+
 @endif
 
 @if($BazaarVenue=="WorldTradeCenter")
@@ -212,9 +218,15 @@
 <button class="button2 button{{$stalls[$ctr]->Stall_Type}} {{$stalls[$ctr]->Stall_Status}} bot" id="ReserveButton" data-id= "{{$stalls[$ctr]->PK_StallID}}" data-brandname= "{{$stalls[$ctr]->GuestBrand_Name}}"  data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}" data-reservationdate = "{{$allstalls[$ctr]->created_at}}" data-ownername = "{{$stalls[$ctr]->GuestBrand_OwnerName}}">{{$stalls[$ctr]->PK_StallID}}</button>
 @php $ctr++ @endphp
 </div>
-<br><br><br><br><br><br>
-
 </center>
+
+<br>
+<div style="float:left;">
+<p style="margin-left:168px;color:red;font-weight:bold;display:inline-block;width:150px;">*** E X I T ***</p>
+<p style="margin-left:450px;color:blue;font-weight:bold;display:inline-block;width:150px;">*** E N T R A N C E ***</p>
+</div>
+<br><br><br>
+
 @endif
 
 

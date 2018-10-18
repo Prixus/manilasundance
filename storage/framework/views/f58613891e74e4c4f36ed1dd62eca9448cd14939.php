@@ -92,7 +92,14 @@
 
    </center>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+<div style="float:left;margin-top:-40px;">
+<p style="margin-left:310px;color:red;font-weight:bold;display:inline-block;width:150px;">*** E X I T ***</p>
+<p style="margin-left:220px;color:blue;font-weight:bold;display:inline-block;width:150px;">*** E N T R A N C E ***</p>
+</div>
+
+<br><br><br><br><br><br>
+
 <?php endif; ?>
 
 <?php if($BazaarVenue=="WorldTradeCenter"): ?>
@@ -209,13 +216,21 @@
 <button class="button2 button<?php echo e($stalls[$ctr]->Stall_Type); ?> <?php echo e($stalls[$ctr]->Stall_Status); ?> bot" id="ReserveButton" data-id= "<?php echo e($stalls[$ctr]->PK_StallID); ?>" data-reservationid = "<?php echo e($stalls[$ctr]->FK_ReservationID); ?>" data-type= "<?php echo e($stalls[$ctr]->Stall_Type); ?>" data-size= "<?php echo e($stalls[$ctr]->Stall_Size); ?>" data-status = "<?php echo e($stalls[$ctr]->Stall_Status); ?>" data-rentalcost = "<?php echo e($stalls[$ctr]->Stall_RentalCost); ?>" data-bookingcost = "<?php echo e($stalls[$ctr]->Stall_BookingCost); ?>"><?php echo e($stalls[$ctr]->PK_StallID); ?></button>
 <?php $ctr++ ?>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 </center>
+
+<br>
+<div style="float:left;">
+<p style="margin-left:168px;color:red;font-weight:bold;display:inline-block;width:150px;">*** E X I T ***</p>
+<p style="margin-left:450px;color:blue;font-weight:bold;display:inline-block;width:150px;">*** E N T R A N C E ***</p>
+</div>
+<br><br><br>
+
 <?php endif; ?>
 
 
 
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 <div style="background-color:teal;padding:1px;"></div>
 <br>

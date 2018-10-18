@@ -93,7 +93,14 @@
 
    </center>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+<div style="float:left;margin-top:-40px;">
+<p style="margin-left:310px;color:red;font-weight:bold;display:inline-block;width:150px;">*** E X I T ***</p>
+<p style="margin-left:220px;color:blue;font-weight:bold;display:inline-block;width:150px;">*** E N T R A N C E ***</p>
+</div>
+
+<br><br><br><br><br><br>
+
 @endif
 
 @if($BazaarVenue=="WorldTradeCenter")
@@ -209,13 +216,21 @@
 <button class="button2 button{{$stalls[$ctr]->Stall_Type}} {{$stalls[$ctr]->Stall_Status}} bot" id="ReserveButton" data-id= "{{$stalls[$ctr]->PK_StallID}}" data-reservationid = "{{$stalls[$ctr]->FK_ReservationID}}" data-type= "{{$stalls[$ctr]->Stall_Type}}" data-size= "{{$stalls[$ctr]->Stall_Size}}" data-status = "{{$stalls[$ctr]->Stall_Status}}" data-rentalcost = "{{$stalls[$ctr]->Stall_RentalCost}}" data-bookingcost = "{{$stalls[$ctr]->Stall_BookingCost}}">{{$stalls[$ctr]->PK_StallID}}</button>
 @php $ctr++ @endphp
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 </center>
+
+<br>
+<div style="float:left;">
+<p style="margin-left:168px;color:red;font-weight:bold;display:inline-block;width:150px;">*** E X I T ***</p>
+<p style="margin-left:450px;color:blue;font-weight:bold;display:inline-block;width:150px;">*** E N T R A N C E ***</p>
+</div>
+<br><br><br>
+
 @endif
 
 
 
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 <div style="background-color:teal;padding:1px;"></div>
 <br>
