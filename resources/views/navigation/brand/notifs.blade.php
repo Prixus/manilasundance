@@ -34,7 +34,7 @@
                   @if($notification->type== "App\Notifications\PaymentVerified")
                   <td>Payment Approved</td>
                   <td>Your Payment worth of {{$notification->data['PaymentInformation']['Payment_Amount']}} for bill {{$notification->data['PaymentInformation']['FK_BillingID']}} was received on {{$notification->data['repliedTime']['date']}} </td>
-                  <td><button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/brand/printReceipt/{{$notification->data['PaymentInformation']['PK_PaymentID']}}" >Print Receipt</a></button></td>
+                  <td><button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" target="_blank" aria-pressed="false"><a href = "/brand/printReceipt/{{$notification->data['PaymentInformation']['PK_PaymentID']}}" target="_blank" >Print Receipt</a></button></td>
                 </tr>
                   @elseif($notification->type== "App\Notifications\PaymentRejected")
                   <td>Payment Rejection</td>
@@ -46,6 +46,18 @@
                   <td></td>
                   @elseif($notification->type== "App\Notifications\billDueDateNotification")
                   <td>Bill Due Date</td>
+                  <td>{{$notification->data['message']}}</td>
+                  <td></td>
+                  @elseif($notification->type== "App\Notifications\voidFiveDaysDeadline")
+                  <td>Reservation Void</td>
+                  <td>{{$notification->data['message']}}</td>
+                  <td></td>
+                  @elseif($notification->type== "App\Notifications\voidBeforeBazaarStart")
+                  <td>Reservation Void</td>
+                  <td>{{$notification->data['message']}}</td>
+                  <td></td>
+                  @elseif($notification->type== "App\Notifications\WarningsNotification")
+                  <td>Account Warning</td>
                   <td>{{$notification->data['message']}}</td>
                   <td></td>
                   @else

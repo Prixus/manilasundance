@@ -42,7 +42,7 @@
                      $dateObj = DateTime::createFromFormat('!m',$monthnum);
                      $monthname = $dateObj->format('F');
                      @endphp
-                  <p>{{$monthname}} Revenue</p>
+                  <p>{{$monthname}} Collection</p>
                 @endif
               @endforeach
 
@@ -58,7 +58,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-            @if($AccountRegistration == 'NULL')
+            @if($AccountRegistration != NULL)
                   @if($AccountRegistration->months = now()->month)
                   <h3>{{$AccountRegistration->Users}}</h3>
                      @php
@@ -68,6 +68,14 @@
                      @endphp
                   <p>{{$monthname}} User Registrations</p>
                   @endif
+              @else
+              <h3>0</h3>
+                 @php
+                 $monthnum = now()->month;
+                 $dateObj = DateTime::createFromFormat('!m',$monthnum);
+                 $monthname = $dateObj->format('F');
+                 @endphp
+              <p>{{$monthname}} User Registrations</p>
               @endif
 
             </div>
@@ -194,7 +202,7 @@
 
 <hr class="featurette-divider" style = "background-color:#3ce1e0;margin:0px;margin-left: 0%;height:3px;width:100%;">
 
-      
+
 <!-- Stall Reservations -->
 
           <h2 class="sub-header" style = "color:#3ce1e0;">Monthly Stall Reservations
@@ -302,7 +310,7 @@ var chartRegistration = new Chart(ctxRegistration, {
                  $monthname = $dateObj->format('F');
                  echo   '"'.$monthname.'"'.',';
             }
-                    
+
             @endphp
                 ],
                   datasets: [{
@@ -314,12 +322,12 @@ var chartRegistration = new Chart(ctxRegistration, {
                       foreach($chartRegistration as $Registration){
                           echo   "$Registration->count_row".",";
                       }
-                              
+
                       @endphp
                       ],
                   }]
     },
-  
+
     // Configuration options go here
     options: {}
 });
@@ -338,7 +346,7 @@ var chartReservation = new Chart(ctxReservation, {
                  $dateObj = DateTime::createFromFormat('!m',$monthnum);
                  $monthname = $dateObj->format('F');
                  echo   '"'.$monthname.'"'.',';
-            }                    
+            }
             @endphp
         ],
                   datasets: [{
@@ -350,7 +358,7 @@ var chartReservation = new Chart(ctxReservation, {
                       foreach($chartReservation as $Reservation){
                           echo   "$Reservation->count_row".",";
                       }
-                              
+
                       @endphp
                       ],
                   }]
@@ -359,7 +367,7 @@ var chartReservation = new Chart(ctxReservation, {
       // Configuration options go here
     options: {}
     });
-  
+
 var ctxCollection = document.getElementById('myChartCollection').getContext('2d');
 var chartCollection = new Chart(ctxCollection, {
     // The type of chart we want to create
@@ -374,7 +382,7 @@ var chartCollection = new Chart(ctxCollection, {
                  $dateObj = DateTime::createFromFormat('!m',$monthnum);
                  $monthname = $dateObj->format('F');
                  echo   '"'.$monthname.'"'.',';
-            }                    
+            }
             @endphp
         ],
                   datasets: [{
@@ -386,7 +394,7 @@ var chartCollection = new Chart(ctxCollection, {
                       foreach($chartCollection as $Collection){
                           echo   "$Collection->total".",";
                       }
-                              
+
                       @endphp
                       ],
                   }]
@@ -505,7 +513,7 @@ var chartCollection = new Chart(ctxCollection, {
 
 </script>
 
-<button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "" >Print Reports</a></button>
+<button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/generalreport/print" target="_blank" >Print</a></button>
     </div>
         </div>
       </div>

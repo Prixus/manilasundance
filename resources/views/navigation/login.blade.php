@@ -43,7 +43,7 @@
             <div class = "modal-dialog">
 
               <div class="modal-content">
-                <div class = "modal-header">
+                <div class = "modal-header" style="background-color: #ffffa8">
                   <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
                         <h4 class ="modal-title"> Recover Account Through Email </h4>
                       </div>
@@ -53,13 +53,15 @@
                           <div class = "form-group">
                             <label> To recover your account, we will send you an email regarding your account. We advise that you change your password immediately. </label>
                             <br>
-                            <input type="text" placeholder="Input your registered email here.">
+                            <br>
+                            <br>
+                            <input type="text" class = "form-control" placeholder="Input your registered email here." name="Email" id="Email">
                           </div>
 
                       </form>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-primary" data-dismiss = "modal"> SUBMIT </button>
+                        <button type="button" class = "btn btn-primary" data-dismiss = "modal" id="SubmitEmail"> SUBMIT </button>
                         <button type ="button" class = "btn btn-default" data-dismiss = "modal">CLOSE </button>
                       </div>
                     </div>
@@ -70,7 +72,7 @@
 
 
 <script type="text/javascript">
- 
+
        function showpassword() {
         var x = document.getElementById("id_password");
           if (x.type === "password") {
@@ -83,6 +85,27 @@
         $(document).on('click', '.fpass', function(){
           $('#modalForgotPassword').modal('show');
         });
+
+
+        $('.modal-footer').on('click','#SubmitEmail',function(){
+          $.ajax({
+            type: 'POST',
+            url: '/forgotpassword',
+            data: {
+              '_token': $('input[name=_token]').val(),
+              'Email': $('#Email').val()
+
+            },
+            success: function(response){
+
+              toastr.success('Successfully Sent Email to your Account','Success Alert', {timeOut:5000});
+
+            }
+
+          });
+        });
+
+
 
 </script>
 @endsection

@@ -8,13 +8,14 @@ use App\reservation;
 use App\billing;
 use Session;
 use DB;
+use PDF;
 use Carbon\Carbon;
 
 class adminDasboardController extends Controller
 {
     //
     public function index(){
-      $accountRevenue = DB::table('billings')->select(DB::raw("SUM(Billing_SubTotal) as TotalRevenue"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
+      $accountRevenue = DB::table('billings')->select(DB::raw("SUM(Billing_SubTotal) as TotalRevenue"), DB::raw("month(created_at) as months"))->where('Billing_Status', 'Paid')->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
 
       $accountRegistration = DB::table('accounts')->select(DB::raw("COUNT(*) as Users"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->where('Account_AccessLevel','=','brand')->orderBy('created_at','DESC')->groupBy(DB::raw("month(created_at), year(created_at)"))->first();
 
@@ -28,23 +29,32 @@ class adminDasboardController extends Controller
       $chartRegistration = DB::table('accounts')->select(DB::raw("COUNT(*) as count_row"), DB::raw("month(created_at) as months"))->where("Account_AccessLevel",'=','brand')->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get(); //to get count number
 
 
-      $chartReservation = DB::table('billings')->select(DB::raw("COUNT(*) as count_row"), DB::raw("month(created_at) as months"), DB::raw("year(created_at) as years"))->where([['Billing_SubTotal','>','0'],['Billing_Status','<>','Void']])->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get(); //to get count number
+      $chartReservation = DB::table('billings')->select(DB::raw("COUNT(*) as count_row"), DB::raw("month(created_at) as months"), DB::raw("year(created_at) as years"))->where([['Billing_Status','=','Paid']])->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get(); //to get count number
 
 
-      $chartCollection = DB::table('billings')->select(DB::raw("SUM(Billing_SubTotal) as total"), DB::raw("month(created_at) as months"), DB::raw("year(created_at) as years"))->where('Billing_Status', 'Paid')->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
+      $chartCollection = DB::table('billings')->select(DB::raw("SUM(Billing_SubTotal) as total"), DB::raw("month(created_at) as months"), DB::raw("year(created_at) as years"))->where([['Billing_Status', 'Paid'],['Billing_Status','<>','Void']])->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
 
       $yearlyReportsRevenue = DB::table('billings')->select(DB::raw("SUM(Billing_SubTotal) as TotalRevenue"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->where('Billing_Status', 'Paid')->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
 
-      $yearlyReportsRegistration = DB::table('accounts')->select(DB::raw("COUNT(*) as TotalUsers"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
+      $yearlyReportsRegistration = DB::table('accounts')->select(DB::raw("COUNT(*) as TotalUsers"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->where('Account_AccessLevel','=','brand')->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
 
-      $yearlyReportsReservation = DB::table('billings')->select(DB::raw("COUNT(*) as TotalReservation"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
+      $yearlyReportsReservation = DB::table('billings')->select(DB::raw("COUNT(*) as TotalReservation"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->where('Billing_Status','=','Paid')->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
 
       return view('navigation/admin/dashboard', ['currentAccount' =>$currentAccount,'AccountRevenue' =>$accountRevenue, 'AccountRegistration' =>$accountRegistration, 'ReservationsCount'=>$reservationsCount, 'chartRegistration'
       =>$chartRegistration, 'chartReservation' =>$chartReservation,  'chartCollection' =>$chartCollection, 'yearlyRevenue' => $yearlyReportsRevenue, 'yearlyRegistration' => $yearlyReportsRegistration, 'yearlyReservation' => $yearlyReportsReservation
       ]);
+    }
+
+    public function printgeneralreport(){
+      $yearlyReportsRevenue = DB::table('billings')->select(DB::raw("SUM(Billing_SubTotal) as TotalRevenue"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->where('Billing_Status', 'Paid')->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
+
+      $yearlyReportsRegistration = DB::table('accounts')->select(DB::raw("COUNT(*) as TotalUsers"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->where('Account_AccessLevel','=','brand')->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
+
+      $yearlyReportsReservation = DB::table('billings')->select(DB::raw("COUNT(*) as TotalReservation"), DB::raw("month(created_at) as months"))->whereYear('created_at','=',Carbon::now())->orderBy("created_at")->groupBy(DB::raw("month(created_at), year(created_at)"))->get();
 
 
-
-
+      $generalreport = PDF::loadView('pdf/generalreport', ['yearlyRevenue' => $yearlyReportsRevenue, 'yearlyRegistration' => $yearlyReportsRegistration, 'yearlyReservation' => $yearlyReportsReservation
+      ]);
+      return $generalreport->stream('invoice.pdf');
     }
 }

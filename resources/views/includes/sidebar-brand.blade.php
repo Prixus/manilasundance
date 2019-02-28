@@ -16,7 +16,7 @@
               </div>
               <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                  <li class="leave"><a href="#">Logout</a></li>
+                  <li id="logoutleave"><a href="#">Logout</a></li>
                 </ul>
 
               </div>
@@ -39,15 +39,15 @@
                       </div>
                     </div>
                   </li>
-                  <li class="active leave"><a href="#">Bazaars</a></li>
-                  <li class="leave"><a href="#">Reservations</a></li>
-                  <li class="leave"><a href="#">Billing</a></li>
-                  <li class="leave"><a href="#">Products</a></li>
-                  <li class="leave"><a href="#">Calendar</a></li>
-                  <li class="leave"><a href="#">Account Settings</a></li>
-                  <li class="leave"><a href="#">Payment History</a></li>
+                  <li class="active leave bazaar" id="bazaar"><a href="#">Bazaars</a></li>
+                  <li class="leave reservation" id="reservation"><a href="#">Reservations</a></li>
+                  <li class="leave billing" id="billing"><a href="#">Billing</a></li>
+                  <li class="leave product" id="product"><a href="#">Products</a></li>
+                  <li class="leave calendar" id="calendar"><a href="#">Calendar</a></li>
+                  <li class="leave setting" id="setting"><a href="#">Account Settings</a></li>
+                  <li class="leave paymenthistory" id="paymenthistory"><a href="#">Payment History</a></li>
 
-                  <li class="leave"><a href="#">Notifications @if($currentAccount->unreadNotifications->count() > 0)<span style="float:right;"
+                  <li class="leave notification" id="notification"><a href="#">Notifications @if($currentAccount->unreadNotifications->count() > 0)<span style="float:right;"
                       class="badge alert-danger">{{$currentAccount->unreadNotifications->count()}}</a></li>
                   @else
                   </a></li>

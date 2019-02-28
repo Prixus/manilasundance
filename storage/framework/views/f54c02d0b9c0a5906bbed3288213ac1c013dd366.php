@@ -40,7 +40,7 @@
                      $dateObj = DateTime::createFromFormat('!m',$monthnum);
                      $monthname = $dateObj->format('F');
                      ?>
-                  <p><?php echo e($monthname); ?> Revenue</p>
+                  <p><?php echo e($monthname); ?> Collection</p>
                 <?php endif; ?>
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -56,7 +56,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-            <?php if($AccountRegistration == 'NULL'): ?>
+            <?php if($AccountRegistration != NULL): ?>
                   <?php if($AccountRegistration->months = now()->month): ?>
                   <h3><?php echo e($AccountRegistration->Users); ?></h3>
                      <?php
@@ -66,6 +66,14 @@
                      ?>
                   <p><?php echo e($monthname); ?> User Registrations</p>
                   <?php endif; ?>
+              <?php else: ?>
+              <h3>0</h3>
+                 <?php
+                 $monthnum = now()->month;
+                 $dateObj = DateTime::createFromFormat('!m',$monthnum);
+                 $monthname = $dateObj->format('F');
+                 ?>
+              <p><?php echo e($monthname); ?> User Registrations</p>
               <?php endif; ?>
 
             </div>
@@ -192,7 +200,7 @@
 
 <hr class="featurette-divider" style = "background-color:#3ce1e0;margin:0px;margin-left: 0%;height:3px;width:100%;">
 
-      
+
 <!-- Stall Reservations -->
 
           <h2 class="sub-header" style = "color:#3ce1e0;">Monthly Stall Reservations
@@ -300,7 +308,7 @@ var chartRegistration = new Chart(ctxRegistration, {
                  $monthname = $dateObj->format('F');
                  echo   '"'.$monthname.'"'.',';
             }
-                    
+
             ?>
                 ],
                   datasets: [{
@@ -312,12 +320,12 @@ var chartRegistration = new Chart(ctxRegistration, {
                       foreach($chartRegistration as $Registration){
                           echo   "$Registration->count_row".",";
                       }
-                              
+
                       ?>
                       ],
                   }]
     },
-  
+
     // Configuration options go here
     options: {}
 });
@@ -336,7 +344,7 @@ var chartReservation = new Chart(ctxReservation, {
                  $dateObj = DateTime::createFromFormat('!m',$monthnum);
                  $monthname = $dateObj->format('F');
                  echo   '"'.$monthname.'"'.',';
-            }                    
+            }
             ?>
         ],
                   datasets: [{
@@ -348,7 +356,7 @@ var chartReservation = new Chart(ctxReservation, {
                       foreach($chartReservation as $Reservation){
                           echo   "$Reservation->count_row".",";
                       }
-                              
+
                       ?>
                       ],
                   }]
@@ -357,7 +365,7 @@ var chartReservation = new Chart(ctxReservation, {
       // Configuration options go here
     options: {}
     });
-  
+
 var ctxCollection = document.getElementById('myChartCollection').getContext('2d');
 var chartCollection = new Chart(ctxCollection, {
     // The type of chart we want to create
@@ -372,7 +380,7 @@ var chartCollection = new Chart(ctxCollection, {
                  $dateObj = DateTime::createFromFormat('!m',$monthnum);
                  $monthname = $dateObj->format('F');
                  echo   '"'.$monthname.'"'.',';
-            }                    
+            }
             ?>
         ],
                   datasets: [{
@@ -384,7 +392,7 @@ var chartCollection = new Chart(ctxCollection, {
                       foreach($chartCollection as $Collection){
                           echo   "$Collection->total".",";
                       }
-                              
+
                       ?>
                       ],
                   }]
@@ -503,10 +511,11 @@ var chartCollection = new Chart(ctxCollection, {
 
 </script>
 
-<button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "" >Print Reports</a></button>
+<button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/generalreport/print" target="_blank" >Print</a></button>
     </div>
         </div>
       </div>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

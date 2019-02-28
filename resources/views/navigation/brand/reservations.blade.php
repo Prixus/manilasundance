@@ -91,15 +91,15 @@
                   {!! Form::open(array('url' => '/brand/payments','files'=>'true','method'=>'POST')) !!}
                   <div class="form-group">
                     <label> Payment BillID: </label>
-                    {{Form::number('BillID',null,array('id'=>'billid','required'=>'required', 'readonly' =>'readonly'))}}
+                    {{Form::number('BillID',null,array('id'=>'billid','required'=>'required', 'readonly' =>'readonly', 'class'=>'form-control'))}}
                   </div>
                   <div class="form-group">
                     <label> Payment Reference Number: </label>
-                    {{Form::text('AccountNumber',null, array('required'=>'required', 'id'=>'AccountNumber'))}}
+                    {{Form::text('AccountNumber',null, array('required'=>'required', 'id'=>'AccountNumber', 'class'=>'form-control', 'maxlength'=>'15'))}}
                   </div>
                   <div class="form-group">
                     <label> Payment Amount: </label>
-                    {{Form::number('PaymentAmount',null,array('id'=>'billid','required'=>'required', 'min' => 1))}}
+                    {{Form::number('PaymentAmount',null,array('id'=>'billid','required'=>'required', 'min' => 1, 'class'=>'form-control'))}}
                   </div>
                   <div class = "form-group">
                     <label> Upload Deposit Slip: </label>

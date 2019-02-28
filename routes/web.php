@@ -69,6 +69,7 @@ Route::get('/test',function(){
 Route::post('/brand/stalls','ReservationsController@reserveStall');
 
 Route::resource('/brand/payments','PaymentsController')->middleware(checkrole::class);
+Route::put('/brand/payments/confirm/{id}','PaymentsController@confirmPayment');
 Route::resource('/brand/bazaars','BrandBazaarsController')->middleware(checkBillDueDate::class);
 Route::resource('/brand/products','ProductsController')->middleware(checkrole::class);
 Route::resource('/admin/bazaar','BazaarsController')->middleware(checkroleAdmin::class);
@@ -78,6 +79,8 @@ Route::get('/brand/calendar','BrandCalendarController@index')->middleware(checkr
 
 Route::resource('/admin/accounts','AccountsController')->middleware(checkroleAdmin::class);
 Route::post('/admin/accounts/search','AccountsController@search');
+Route::put('/admin/accounts/updateStatus/{id}','AccountsController@updateStatus');
+Route::put('/admin/accounts/updateStatusRestore/{id}','AccountsController@updateStatusRestore');
 Route::post('/brand/changesettings','UpdateAccountSettings@updateBrand')->middleware(checkrole::class);
 Route::resource('/admin/discounts','DiscountsController')->middleware(checkroleAdmin::class);
 Route::resource('/admin/penalties','PenaltiesController')->middleware(checkroleAdmin::class);
@@ -105,9 +108,35 @@ Route::get('/admin/detailedrevenue', 'adminReportController@detailedrevenue')->m
 Route::get('/admin/detailedregistrations', 'adminReportController@detailedregistrations')->middleware(checkroleAdmin::class);
 Route::get('/admin/detailedreservations', 'adminReportController@detailedreservations')->middleware(checkroleAdmin::class);
 
+Route::get('/admin/detailedreservations/print', 'adminReportController@printreservationreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/monthly', 'adminReportController@printmonthlyreservationreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/monthly/void', 'adminReportController@printmonthlyvoidreservationreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/monthlyperbazaar', 'adminReportController@printmonthlyreservationperbazaarreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/monthlyperbazaar/void', 'adminReportController@printmonthlyvoidreservationperbazaarreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/monthlybazaarcount', 'adminReportController@printmonthlyBazaarReport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/semiannual', 'adminReportController@printsemiannualreservationReport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/quarterly', 'adminReportController@printquarterlyreservationReport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/semiannual/void', 'adminReportController@printsemiannualvoidreservationReport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedreservations/print/quarterly/void', 'adminReportController@printquarterlyvoidreservationReport')->middleware(checkroleAdmin::class);
+
+
+Route::get('/admin/detailedrevenue/print', 'adminReportController@printrevenuereport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedrevenue/print/monthly', 'adminReportController@printmonthlyrevenuereport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedrevenue/print/monthlyperbazaar', 'adminReportController@printmonthlyrevenueperbazaarreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedrevenue/print/quarterly', 'adminReportController@printquarterlyrevenuereport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedrevenue/print/SemiAnnual', 'adminReportController@printsemiannualrevenuereport')->middleware(checkroleAdmin::class);
+
+Route::get('/admin/detailedregistrations/print', 'adminReportController@printregistrationreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedregistrations/print/quarterly', 'adminReportController@printquarterlyregistrationreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedregistrations/print/annually', 'adminReportController@printsemiannualregistrationreport')->middleware(checkroleAdmin::class);
+Route::get('/admin/detailedregistrations/print/monthly', 'adminReportController@printmonthlyregistrationreport')->middleware(checkroleAdmin::class);
+
+Route::get('/admin/customreport/print', 'adminReportController@printcustomreport');
+Route::get('/admin/generalreport/print', 'adminDasboardController@printgeneralreport');
 
 
 Route::get('/send', 'EmailsController@ship');
+Route::post('/forgotpassword','RegistrationsController@forgotpassword');
 
 Route::get('/markAsRead','AccountsController@markAsRead');
 
@@ -129,3 +158,4 @@ Route::get('/brand/paymenthistory', 'PaymentHistoryController@index')->middlewar
 
 Route::put('/brand/payments/reject/{id}','PaymentsController@reject');
 Route::post('/brand/stalls/cancel','ReservationsController@cancelReserveStall');
+Route::post('/brand/stalls/reservations/cancel', 'ReservationsController@cancelReservation')->middleware(checkrole::class);

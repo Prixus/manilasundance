@@ -317,7 +317,7 @@
                       </form>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-danger" data-dismiss = "modal"> LEAVE </button>
+                        <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="leavereservation"> LEAVE </button>
                         <button type ="button" class = "btn btn-success" data-dismiss = "modal"> STAY </button>
                       </div>
                     </div>
@@ -326,17 +326,81 @@
 
 <!--  end confirm leave dessa 2018-0925  -->
 
+<div id = "modalConfirmLogoutLeave" class = "modal fade"  role = "dialog">
+            <div class = "modal-dialog">
+
+              <div class="modal-content">
+                <div class = "modal-header" style = "background-color:#ffffa8">
+                  <button type="button" class = "close" data-dismiss ="modal"> &times;</button>
+                        <h4 class ="modal-title"> ARE YOU SURE YOU WANT TO LEAVE? </h4>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+
+                          <div class = "form-group">
+                            <label> Reservation process is not yet done. If you leave now, no reservation data will be saved.</label>
+                          </div>
+
+                      </form>
+                      </div>
+                      <div class = "modal-footer">
+                        <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="LogoutAndLeave"> LEAVE </button>
+                        <button type ="button" class = "btn btn-success" data-dismiss = "modal"> STAY </button>
+                      </div>
+                    </div>
+              </div>
+            </div>
+
+
                 <script type= "text/javascript">
 
                       var brandID = {{ Session::get('BrandID')}};
                       $(document).ready(function()
                       {
+                        console.log("{{Session::get('ReservationID')}}");
 
 // start confirm leave dessa 2018-0925
+  var route;
+  $(document).on('click', '#bazaar', function(){
+      route="/brand/bazaars";
+      console.log(route);
+      $('#modalConfirmLeave').modal('show');
 
-  $(document).on('click', '.leave', function(){
+  });
+  $(document).on('click', '#reservation', function(){
+      route="/brand/reservations";
       $('#modalConfirmLeave').modal('show');
   });
+  $(document).on('click', '#billing', function(){
+      route="/brand/billing";
+      $('#modalConfirmLeave').modal('show');
+  });
+  $(document).on('click', '#product', function(){
+      route="/brand/products";
+      $('#modalConfirmLeave').modal('show');
+  });
+  $(document).on('click', '#calendar', function(){
+      route="/brand/calendar";
+      $('#modalConfirmLeave').modal('show');
+  });
+  $(document).on('click', '#setting', function(){
+      route="/brand/settings";
+      $('#modalConfirmLeave').modal('show');
+  });
+  $(document).on('click', '#paymenthistory', function(){
+      route="/brand/paymenthistory";
+      $('#modalConfirmLeave').modal('show');
+  });
+  $(document).on('click', '#notification', function(){
+      route="/brand/notifs";
+      $('#modalConfirmLeave').modal('show');
+  });
+
+  $(document).on('click', '#logoutleave', function(){
+      route="/logout/{{$currentAccount->Account_AccessLevel}}";
+      $('#modalConfirmLeave').modal('show');
+  });
+
 
 //   $("#BtnDelete").click(function(){
 //     $(this).data('clicked', true);
@@ -424,6 +488,35 @@
                                             }
                                           });
                             });
+
+                              $('.modal-footer').on('click', '#leavereservation', function(){
+                                $.ajax({
+                                  type: 'POST',
+                                  url: 'reservations/cancel',
+                                  data: {
+                                    '_token': $('input[name=_token]').val(),
+                                    'route': route,
+                                  },
+                                  success: function(response){
+                                    window.location.href=response;
+                                  }
+                                });
+                              });
+
+                              $('.modal-footer').on('click', '#LogoutAndLeave', function(){
+                                  route="/logout/{{$currentAccount->Account_AccessLevel}}";
+                                  $.ajax({
+                                    type: 'POST',
+                                    url: 'reservations/cancel',
+                                    data: {
+                                      '_token': $('input[name=_token]').val(),
+                                      'route': route,
+                                    },
+                                    success: function(response){
+                                    window.location.href=response;
+                                    }
+                                  });
+                              });
 
                       });
                 </script>

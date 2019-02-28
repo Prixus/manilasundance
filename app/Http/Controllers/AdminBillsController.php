@@ -72,6 +72,6 @@ class AdminBillsController extends Controller
       ->first();
 
         $brand = PDF::loadView("pdf/bill",['ReservedStalls'=> $reservation->stalls,'TotalCost' => $TotalCost, 'ReservationAccountBrandInformations' => $ReservationAccountBrandInformations,'billing'=>$billing]);
-        return $brand->download('invoice.pdf');
+        return $brand->stream('invoice.pdf');
     }
 }

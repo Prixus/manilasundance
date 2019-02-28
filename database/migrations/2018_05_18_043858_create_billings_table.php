@@ -24,6 +24,8 @@ class CreateBillingsTable extends Migration
             $table->dateTime('Billing_DateTimePaid')->nullable();
             $table->enum('Billing_Status',['Paid','Half Paid','Not Paid','Void','Refund']);
             $table->integer('FK_AccountID')->unsigned();
+            $table->integer('FK_BazaarID')->unsigned()->nullable();
+            $table->foreign('FK_BazaarID')->references('PK_BazaarID')->on('bazaars');
             $table->foreign('FK_AccountID')->references('PK_AccountID')->on('accounts')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

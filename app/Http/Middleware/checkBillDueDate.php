@@ -27,8 +27,8 @@ class checkBillDueDate
       else{
           $billings = billing::where([['FK_AccountID','=',Session::get('UserAccountID')],['Billing_Status','=','Half Paid']])->orWhere([['FK_AccountID','=',Session::get('UserAccountID')],['Billing_Status','=','Not Paid']])->get();
           foreach($billings as $billing){
-          $notification = DB::table('notifications')->whereRaw("data LIKE '%You have pending balance to be paid to make a half payment. Your Total balance to be paid is%' AND DATE_FORMAT(created_at,'%d' ) = DATE_FORMAT(NOW(),'%d')")->count();
-              if($notification <= 0){
+          $notification = DB::table('notifications')->whereRaw("DATE_FORMAT(TIMESTAMP(created_at),'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d') AND notifications.data LIKE '%You have pending%'")->count();
+              if($notification == 0){
               $accountToBeNotified = account::find(Session::get('UserAccountID'));
               $accountToBeNotified->notify(new billDueDateNotification($billing));
 

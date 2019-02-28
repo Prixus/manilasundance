@@ -42,7 +42,7 @@ class AccountRegistration extends Notification
     {
         return [
             'repliedTime' => Carbon::now(),
-            'accountRegistrations' =>  $this->accountRegistrations       
+            'accountRegistrations' =>  $this->accountRegistrations
         ];
     }
 
@@ -50,7 +50,7 @@ class AccountRegistration extends Notification
     {
         return new BroadcastMessage([
             'repliedTime' => Carbon::now(),
-            'accountRegistrations' =>  $this->accountRegistrations       
+            'accountRegistrations' =>  $this->accountRegistrations
         ]);
     }
 

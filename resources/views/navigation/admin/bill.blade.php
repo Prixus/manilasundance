@@ -126,7 +126,7 @@
                   @if($ReservationAccountBrandInformations->Billing_AmountPaid <= 0)
                   <td>{{$ReservationAccountBrandInformations->Billing_AmountPaid}}</td>
                   @else
-                  <td>({{$ReservationAccountBrandInformations->Billing_AmountPaid}})</td>
+                  <td>{{$ReservationAccountBrandInformations->Billing_AmountPaid}}</td>
                   @endif
                 </tr>
 
@@ -137,7 +137,7 @@
       <br><br>
       <div>
         @if($ReservationAccountBrandInformations->Billing_Status != "Void")
-            <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/brand/seepdf/{{$ReservationAccountBrandInformations->PK_ReservationID}}" >Print</a></button>
+            <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/seepdf/{{$ReservationAccountBrandInformations->PK_ReservationID}}" target="_blank">Print</a></button>
         @endif
 
       <button style = "background-color:green;float:right;" type="button" class="btn btn-primary" aria-pressed="false"><a href = "/admin/billing" >Finished</a></button>

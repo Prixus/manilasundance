@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use App\guestBrand;
+use App\account;
 use Validator;
 use Response;
 
@@ -18,7 +21,12 @@ class WebsiteBrandsController extends Controller
 
     public function index()
     {
-      $brands = guestBrand::all();
+      // $brands = guestBrand::all();
+       $brands = DB::table('guest_brands')
+        ->join('accounts','accounts.FK_GuestBrandID', '=', 'guest_brands.PK_GuestBrandID')
+        ->where('Account_Status','=','Activated')
+        ->orderBy('PK_AccountID','DESC')
+        ->get();
       return view('navigation/brands', ['brands' => $brands]);
     }
 

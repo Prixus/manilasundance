@@ -92,8 +92,13 @@ class StallsController extends Controller
         $BazaarVenue = bazaar::where("PK_BazaarID",$id)->pluck("Bazaar_Venue")->first();
         Session::put('BazaarID',$id);
 
+        $allstalls = DB::table('stalls')
+        ->leftJoin('reservations','reservations.PK_ReservationID','=','stalls.FK_ReservationID')
+        ->where('FK_BazaarID','=',$id)
+        ->get(); //gets all stalls for a specific bazaar
+        
         $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
-        return view("navigation/admin/manage_stalls" , ['stalls'=> $BazaarStalls, 'BazaarVenue' =>$BazaarVenue, 'currentAccount'=>$currentAccount]);
+        return view("navigation/admin/manage_stalls" , ['stalls'=> $BazaarStalls, 'BazaarVenue' =>$BazaarVenue, 'currentAccount'=>$currentAccount, 'allstalls'=>$allstalls]);
 
 
     }

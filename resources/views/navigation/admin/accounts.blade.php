@@ -13,25 +13,12 @@
 
           <h1 class="header" style = "color:#3ce1e0;">Accounts
             <div style = "float:right;font-size:14px;color:black;margin-top:14px;">
-              <form style = "float:left;">
+              <!-- <form style = "float:left;">
                     {{ csrf_field()}}
               <input type = "text" placeholder = "Search..." id="SearchWord">
               <button class = "btnSearch">GO</button>
-              <!--
-              <select id="SearchCategory">
-                <option value="Account_UserName">Username</option>
-                <option value="PK_AccountID">AccountID</option>
-                <option value="Account_Status">Status</option>
-                <option value="Account_AccessLevel">Accesslevel</option>
-                <option value="Account_Rating">Rating</option>
-              </select>
-              <button class = "btnSearch">GO</button>
-              -->
-              <!-- MODAL data toggle data-target-->
-
-              <!-- MODAL data toggle data-target-->
-              </form>
-                            <button style = "float:right;background-color:#337ab7;margin:-10px 5px 0 25px;" class="btn btn-primary" id="btnAdd">Add Account</button>
+              </form> -->
+              <button style = "float:right;background-color:#337ab7;margin:-10px 5px 0 25px;" class="btn btn-primary" id="btnAdd">Add Account</button>
             </div>
           </h1>
         <hr class="featurette-divider" style = "background-color:#3ce1e0;margin:0px;margin-left: 0%;height:3px;width:100%;">
@@ -96,6 +83,8 @@
                   <th>Account Status</th>
                   <th>Account Rating</th>
                   <th>Account Access Level</th>
+                  <th></th>
+                  <th></th>
                 </tr>
                 {{ csrf_field()}}
               </thead>
@@ -108,9 +97,21 @@
                   <td>{{$account->Account_Rating}}</td>
                   <td>{{$account->Account_AccessLevel}}</td>
                   <td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = '{{$account->Account_Rating}}' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnEdit'>Edit</button></td>
-                  <td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = '{{$account->Account_Rating}}' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnDelete'>Delete</button></td>
+                  @if($account->Account_AccessLevel != "Admin")
+                    @if($account->Account_Rating == "Warning")
+                    <td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = 'Banned' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnDelete'>Ban Account</button></td>
+                    @elseif($account->Account_Rating == "Normal")
+                    <td><button style = 'background-color:orange;float:right;' class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = 'Warning' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnDelete'>Warn Account</button></td>
+                    @else
+                    <td><button style = 'background-color:green;float:right;' class='btn btn-primary' data-id = '{{$account->PK_AccountID}}' data-name ='{{$account->Account_UserName}}' data-password = '{{$account->Account_Password}}' data-status='{{$account->Account_Status}}' data-rating = 'Normal' data-accesslevel = '{{$account->Account_AccessLevel}}' id='btnRestore'>Restore Account Rating to Normal</button></td>
+                    @endif
+                  @else
+                  <td></td>
+                  @endif
                   @if($account->Account_AccessLevel == "Brand")
                   <td><button style = 'background-color:#337ab7;float:right;' class='btn btn-primary'><a style = "color:#fff;" href="/admin/brandprofile/{{$account->PK_AccountID}}">See Profile</a></button></td>
+                  @else
+                  <td></td>
                   @endif
                 </tr>
                 @endforeach
@@ -184,7 +185,7 @@
                         </div>
                         <div class = "form-group">
                           <label> ACCOUNT STATUS: </label>
-                          <select id="EditStatus" class="form-control">
+                          <select id="EditStatus" class="form-control" disabled>
                             <option value="Activated">Activated</option>
                             <option value="Deactivated">Deactivated</option>
                             <option value="ForApproval">For Approval</option>
@@ -192,7 +193,7 @@
                         </div>
   					              <div class = "form-group">
                           <label> ACCOUNT RATING:</label>
-                            <select id="EditRating" class="form-control">
+                            <select id="EditRating" class="form-control" disabled>
                               <option value="Warning">Warning</option>
                               <option value="Normal">Normal</option>
                               <option value="Banned">Banned</option>
@@ -263,16 +264,86 @@
                               <option value="Brand">Brand</option>
                             </select>
                           </div>
+                          <div class = "form-group">
+                          <label> Type Of Report: </label>
+                          <select id="DeleteReport"  class="form-control">
+                            @foreach($Penalties as $Penalty)
+                            <option value="{{$Penalty->PK_PenaltyID}}">{{$Penalty->Penalty_Name}}</option>
+                            @endforeach
+                          </select>
+                        </div>
 
                       </form>
                       </div>
                       <div class = "modal-footer">
-                        <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">DELETE ACCOUNT </button>
+                        @if($PenaltiesCount == 0)
+                        <button  type="button" class = "btn btn-Success" data-dismiss = "modal" id="SubmitDelete" disabled>Confirm</button>
+                        @else
+                        <button type="button" class = "btn btn-Success" data-dismiss = "modal" id="SubmitDelete">Confirm</button>
+                        @endif
                         <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                       </div>
                     </div>
               </div>
             </div>
+
+            <!-- This is the Modal that will be called for delete column -->
+            <div class = "modal fade" id = "ModalRestore" role = "dialog">
+              <div class = "modal-dialog">
+
+                <div class="modal-content">
+                  <div class = "modal-header" style = "background-color:#ffffa8">
+                    <button type="button" class = "close" data-dismiss ="modal"> &times;</button> <!--MODAL copy-->
+                          <h4 class ="modal-title">ACCOUNT REGISTRATION </h4>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class = "form-group">
+                              <label> ACCOUNT ID: </label>
+                              <input type="number" class="form-control" id="RestoreAccountID" disabled>
+                            </div>
+                            <div class = "form-group">
+                              <label> ACCOUNT USERNAME: </label>
+                              <input type="text" class="form-control" placeholder="Enter Username" id="RestoreUsername" disabled>
+                            </div>
+                            <div class="form-group">
+                              <label> ACCOUNT PASSWORD: </label>
+                              <input type= "password" class="form-control" placeholder="Enter Password" id="RestorePassword" disabled>
+                            </div>
+                            <div class = "form-group">
+                              <label> ACCOUNT STATUS: </label>
+                              <select id="RestoreStatus" disabled class="form-control">
+                                <option value="Activated">Activated</option>
+                                <option value="Deactivated">Deactivated</option>
+                                <option value="ForApproval">For Approval</option>
+                              </select>
+                            </div>
+                              <div class = "form-group">
+                                <label> ACCOUNT RATING: </label>
+                                <select id="RestoreRating" disabled class="form-control">
+                                  <option value="Warning">Warning</option>
+                                  <option value="Normal">Normal</option>
+                                  <option value="Banned">Banned</option>
+                                </select>
+                            </div>
+                              <div class = "form-group">
+                              <label> ACCOUNT ACCESS LEVEL: </label>
+                              <select id="RestoreAccessLevel" disabled class="form-control">
+                                <option value="Admin">Admin</option>
+                                <option value="Brand">Brand</option>
+                              </select>
+                            </div>
+
+
+                        </form>
+                        </div>
+                        <div class = "modal-footer">
+                          <button type="button" class = "btn btn-Success" data-dismiss = "modal" id="SubmitRestore">Confirm</button>
+                          <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
+                        </div>
+                      </div>
+                </div>
+              </div>
 
 
 
@@ -315,7 +386,7 @@
                                   <option value="Banned">Banned</option>
                                 </select>
                             </div>
-                            
+
                             <div class = "form-group">
                               <label> ACCOUNT EMAIL: </label>
                               <input type="text" class="form-control" placeholder="Enter Username" id="ApprovalEmail" disabled>
@@ -329,7 +400,7 @@
                               </select>
                             </div>
 
-                            
+
                         </form>
                         </div>
                         <div class = "modal-footer">
@@ -378,7 +449,7 @@
                                   <option value="Banned">Banned</option>
                                 </select>
                             </div>
-                            
+
                             <div class = "form-group">
                               <label> Account Email: </label>
                               <input type="text" class="form-control" placeholder="Enter Username" id="RejectEmail" disabled>
@@ -392,7 +463,7 @@
                               </select>
                             </div>
 
-                            
+
                         </form>
                         </div>
                         <div class = "modal-footer">
@@ -427,7 +498,8 @@
               else{
 
               toastr.success('Successfully Added Account','Success Alert', {timeOut:5000});
-              $('#AccountTable').prepend("<tr id = 'Account" + response.PK_AccountID + "'><td>" + response.PK_AccountID + "</td><td>" + response.Account_UserName +  "</td><td>" + response.Account_Status + "</td><td>" + response.Account_Rating + "</td><td>" + response.Account_AccessLevel + "</td><td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnEdit'>Edit</button></td><td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnDelete'>Delete</button></td></tr>");
+              // $('#AccountTable').prepend("<tr id = 'Account" + response.PK_AccountID + "'><td>" + response.PK_AccountID + "</td><td>" + response.Account_UserName +  "</td><td>" + response.Account_Status + "</td><td>" + response.Account_Rating + "</td><td>" + response.Account_AccessLevel + "</td><td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnEdit'>Edit</button></td><td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnDelete'>Delete</button></td></tr>");
+              window.location.reload();
               }
             }
 
@@ -463,7 +535,7 @@
               }
               else{
               toastr.success('Successfully Added Account','Success Alert', {timeOut:5000});
-              $('#Account' + response.PK_AccountID).replaceWith("<tr id = 'Account" + response.PK_AccountID + "'><td>" + response.PK_AccountID + "</td><td>" + response.Account_UserName + "</td><td>"  + response.Account_Status + "</td><td>" + response.Account_Rating + "</td><td>" + response.Account_AccessLevel + "</td><td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnEdit'>Edit</button></td><td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnDelete'>Delete</button></td></tr>");
+              window.location.reload();
               }
             }
           });
@@ -478,20 +550,58 @@
           $('#DeleteRating').val($(this).data('rating'));
           $('#DeleteAccessLevel').val($(this).data('accesslevel'));
           $('#ModalDelete').modal('show');
-
-
         });
 
         $('.modal-footer').on('click','#SubmitDelete',function()
         {
           $.ajax({
-            type:'DELETE',
-            url: '/admin/accounts/' + id,
+            type:'PUT',
+            url: '/admin/accounts/updateStatus/' + id,
             data: {
               '_token': $('input[name=_token]').val(),
+              'name': $('#DeleteUsername').val(),
+              'password': $('#DeletePassword').val(),
+              'status': $('#DeleteStatus').val(),
+              'rating': $('#DeleteRating').val(),
+              'accesslevel': $('#DeleteAccessLevel').val(),
+              'penaltyID': $('#DeleteReport').val()
             },
           success: function(response){
-              $('#Account' + response.PK_AccountID).remove();
+            toastr.success('Successfully Changed Brand Status','Success',{timeOut:5000})
+            window.location.reload();
+
+          }
+          });
+        });
+
+        $(document).on('click', '#btnRestore', function(){
+          id = $(this).data('id');
+          $('#RestoreAccountID').val($(this).data('id'));
+          $('#RestoreUsername').val($(this).data('name'));
+          $('#RestorePassword').val($(this).data('password'));
+          $('#RestoreStatus').val($(this).data('status'));
+          $('#RestoreRating').val($(this).data('rating'));
+          $('#RestoreAccessLevel').val($(this).data('accesslevel'));
+          $('#ModalRestore').modal('show');
+        });
+
+        $('.modal-footer').on('click','#SubmitRestore',function()
+        {
+          $.ajax({
+            type:'PUT',
+            url: '/admin/accounts/updateStatusRestore/' + id,
+            data: {
+              '_token': $('input[name=_token]').val(),
+              'name': $('#RestoreUsername').val(),
+              'password': $('#RestorePassword').val(),
+              'status': $('#RestoreStatus').val(),
+              'rating': $('#RestoreRating').val(),
+              'accesslevel': $('#RestoreAccessLevel').val(),
+            },
+          success: function(response){
+            toastr.success('Successfully Changed Brand Status','Success',{timeOut:5000})
+            window.location.reload();
+
           }
           });
         });
@@ -539,7 +649,8 @@
             $(this).text('Expand');
         }
     });
-    $(".btn[data-target='#registeredaccounts']").text('Collapse');
+
+  $(".btn[data-target='#registeredaccounts']").text('Collapse');
   $(".btn[data-target='#registeredaccounts']").click(function() {
       if ($(this).text() == 'Expand') {
           $(this).text('Collapse');
@@ -589,7 +700,8 @@
 
         toastr.success('Successfully Approved Account','Success Alert', {timeOut:5000});
         $('#AccountApproval' + response.PK_AccountID).remove();
-        $('#AccountTable').prepend("<tr id = 'Account" + response.PK_AccountID + "'><td>" + response.PK_AccountID + "</td><td>" + response.Account_UserName + "</td><td>"  + response.Account_Status + "</td><td>" + response.Account_Rating + "</td><td>" + response.Account_AccessLevel + "</td><td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnEdit'>Edit</button></td><td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnDelete'>Delete</button></td></tr>");
+        // $('#AccountTable').prepend("<tr id = 'Account" + response.PK_AccountID + "'><td>" + response.PK_AccountID + "</td><td>" + response.Account_UserName + "</td><td>"  + response.Account_Status + "</td><td>" + response.Account_Rating + "</td><td>" + response.Account_AccessLevel + "</td><td><button style = 'background-color:green;float:left;'  class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnEdit'>Edit</button></td><td><button style = 'background-color:red;float:right;' class='btn btn-primary' data-id = '" + response.PK_AccountID + "' data-name ='" + response.Account_UserName + "' data-password = '" + response.Account_Password + "' data-status='" + response.Account_Status + "' data-rating = '" + response.Account_Rating + "' data-accesslevel = '" + response.Account_AccessLevel + "' id='btnDelete'>Delete</button></td></tr>");
+        window.location.reload();
         }
       }
 

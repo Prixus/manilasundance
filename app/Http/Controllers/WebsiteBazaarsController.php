@@ -16,7 +16,7 @@ class WebsiteBazaarsController extends Controller
     public function index()
     {
         //
-        $bazaars = bazaar::all();
+        $bazaars = bazaar::where('Bazaar_Status','=','Available')->get();
         return view('navigation/bazaar', ['bazaars' => $bazaars]);
 
 

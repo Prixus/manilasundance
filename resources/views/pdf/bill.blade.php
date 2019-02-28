@@ -134,8 +134,8 @@
               </table>
             </div>
 <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
+              <table class="table table-striped" style = "width:100%; border-top:3px solid #3CE1E0">
+                <thead style = "width:100%; border-bottom:3px solid #3CE1E0">
                 <tr>
                   <th>Payment ID</th>
                   <th>Payment Type</th>
@@ -164,7 +164,7 @@
                   @if($ReservationAccountBrandInformations->Billing_AmountPaid <= 0)
                   <td>{{$ReservationAccountBrandInformations->Billing_AmountPaid}}</td>
                   @else
-                  <td>({{$ReservationAccountBrandInformations->Billing_AmountPaid}})</td>
+                  <td>{{$ReservationAccountBrandInformations->Billing_AmountPaid}}</td>
                   @endif
                 </tr>
 

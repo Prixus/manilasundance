@@ -47,8 +47,7 @@ class ReservationsController extends Controller
         ->get();
 
 
-        $pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
-        if($pageWasRefreshed ) {
+        if(Session::get('ReservationID') != null) {
         //do something because page was refreshed;
         }
         else {
@@ -62,6 +61,7 @@ class ReservationsController extends Controller
           $billing->Billing_BalanceFromPreviousBilling = 0;
           $billing->Billing_Status = "Not Paid";
           $billing->FK_AccountID = Session::get('UserAccountID');
+          $billing->FK_BazaarID = $id;
           $billing->save();
           Session::put('BillingID', $billing->PK_BillingID);
           $reservation = new reservation;
@@ -70,12 +70,7 @@ class ReservationsController extends Controller
           $reservation->Reservation_Cost = 0.00;
           $reservation->FK_AccountID = Session::get('UserAccountID');
           $reservation->save();
-
-
           Session::put('ReservationID', $reservation->PK_ReservationID);
-
-
-
         }
         $currentAccount = account::where('PK_AccountID','=',Session::get('UserAccountID'))->first();
 
@@ -107,7 +102,7 @@ class ReservationsController extends Controller
 
     public function viewBill(){
       $TotalCost = 0.00;
-      $reservationID = Session::get('ReservationID');
+      $reservationID = Session::get('BillingID');
       $reservation = reservation::find($reservationID);
 
        $account = account::find(Session::get('UserAccountID'));
@@ -117,12 +112,13 @@ class ReservationsController extends Controller
                         $TotalCost += $stalls->Stall_RentalCost + $stalls->Stall_BookingCost;
       }
 
-              $pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
-        if($pageWasRefreshed ) {
-        //do something because page was refreshed;
-        }
+      if(Session::get('ReservationID') == null) {
+      //do something because page was refreshed;
+      $billing = billing::find(Session::get('BillingID'));
+
+      }
         else {
- $billing = billing::find(Session::get('BillingID'));
+      $billing = billing::find(Session::get('BillingID'));
       // $BillAmountSum = billing::where('FK_AccountID','=',Session::get('UserAccountID'))->sum('Billing_SubTotal');
       // $BillAmountPaidSum = billing::where('FK_AccountID','=',Session::get('UserAccountID'))->sum('Billing_AmountPaid');
       $billing->Billing_BalanceFromPreviousBilling = $account->Account_Balance;
@@ -183,11 +179,11 @@ class ReservationsController extends Controller
       }
       $account->save();
       $billing->save();
-
+      Session::put('ReservationID',null);
         }
-      
 
-      
+
+
 
       $ReservationAccountBrandInformations = DB::table('stalls')
       ->join('reservations','stalls.FK_ReservationID', '=', 'reservations.PK_ReservationID')
@@ -198,6 +194,11 @@ class ReservationsController extends Controller
       ->first();
 
       if($ReservationAccountBrandInformations == null){
+        $reservation = reservation::find($reservationID);
+        $billing = billing::find($reservationID);
+
+        $reservation->delete();
+        $billing->delete();        
         return back()->with('status', 'You must reserve a stall before viewing bill');
       }
 
@@ -227,6 +228,29 @@ class ReservationsController extends Controller
       ->first();
 
         $brand = PDF::loadView("pdf/bill",['ReservedStalls'=> $reservation->stalls,'TotalCost' => $TotalCost, 'ReservationAccountBrandInformations' => $ReservationAccountBrandInformations]);
-        return $brand->download('invoice.pdf');
+        return $brand->stream('invoice.pdf');
+    }
+
+    public function cancelReservation(Request $request){
+              $reservationID = Session::get('ReservationID');
+              $reservation = reservation::find($reservationID);
+              $billing = billing::find($reservationID);
+              $billing->FK_BazaarID = null;
+              $billing->save();
+
+              $billing = billing::find($reservationID);
+
+              foreach ($reservation->stalls as $stall) {
+                $stall->Stall_Status = "Available";
+                $stall->FK_ReservationID = null;
+                $stall->save();
+              }
+              Session::put('ReservationID',null);
+              Session::put('BillingID',null);
+
+              $reservation->delete();
+              $billing->delete();
+
+              return response($request->route);
     }
 }

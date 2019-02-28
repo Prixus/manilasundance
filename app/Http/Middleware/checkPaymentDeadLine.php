@@ -10,6 +10,8 @@ use App\stallsarchive;
 use App\stall;
 use App\account;
 use DB;
+use App\Notifications\voidBeforeBazaarStart;
+use App\Notifications\voidFiveDaysDeadline;
 use Carbon\Carbon;
 
 class checkPaymentDeadLine
@@ -44,7 +46,7 @@ class checkPaymentDeadLine
         $bill = billing::find($StallsBazaarBillingReservationInformation->PK_BillingID);
         $reservation = reservation::find($StallsBazaarBillingReservationInformation->PK_ReservationID);
 
-        if(((Carbon::now() > $StallsBazaarBillingReservationInformation->Bazaar_DateStart) && ($StallsBazaarBillingReservationInformation->Billing_Status =="Half Paid"))){ // if full payment has not been received after Bazaar start date then reservation is void.
+        if(((Carbon::now() >= $StallsBazaarBillingReservationInformation->Bazaar_DateStart) && ($StallsBazaarBillingReservationInformation->Billing_Status =="Half Paid"))){ // if full payment has not been received after Bazaar start date then reservation is void.
           $reservation = reservation::find($StallsBazaarBillingReservationInformation->PK_BillingID);
           $currentBill = billing::find($StallsBazaarBillingReservationInformation->PK_BillingID);
           $currentBill->Billing_Status = "Void";
@@ -56,18 +58,47 @@ class checkPaymentDeadLine
               $stallWithReservation->Stall_Status = "Available";
               $stallWithReservation->FK_ReservationID = null;
               $stallWithReservation->save();
-      
+
               $stallArchived = new stallsarchive();
               $stallArchived->FK_BillingID = $currentBill->PK_BillingID;
               $stallArchived->FK_StallID = $stallWithReservation->PK_StallID;
               $stallArchived->save();
-      
-              
+
+
             }
 
            $accountToBeRefunded = account::find($currentBill->FK_AccountID);             //voiding of reservation
-              $accountToBeRefunded->Account_Balance -= ($currentBill->Billing_SubTotal);    // the subtotal will be deducted
-              $accountToBeRefunded->save(); 
+           $accountToBeRefunded->Account_Balance -= ($currentBill->Billing_SubTotal);    // the subtotal will be deducted
+           $accountToBeRefunded->notify(new voidBeforeBazaarStart($currentBill));
+           $accountToBeRefunded->save();
+
+        }
+
+        if(((Carbon::now() >= $StallsBazaarBillingReservationInformation->Bazaar_DateStart) && ($StallsBazaarBillingReservationInformation->Billing_Status =="Not Paid"))){ // if full payment has not been received after Bazaar start date then reservation is void.
+          $reservation = reservation::find($StallsBazaarBillingReservationInformation->PK_BillingID);
+          $currentBill = billing::find($StallsBazaarBillingReservationInformation->PK_BillingID);
+          $currentBill->Billing_Status = "Void";
+          $currentBill->save();
+          $stallWithReservation = stall::find($StallsBazaarBillingReservationInformation->PK_StallID);
+
+              foreach ($reservation->stalls as $stall) {
+              $stallWithReservation = stall::find($stall->PK_StallID);
+              $stallWithReservation->Stall_Status = "Available";
+              $stallWithReservation->FK_ReservationID = null;
+              $stallWithReservation->save();
+
+              $stallArchived = new stallsarchive();
+              $stallArchived->FK_BillingID = $currentBill->PK_BillingID;
+              $stallArchived->FK_StallID = $stallWithReservation->PK_StallID;
+              $stallArchived->save();
+
+
+            }
+
+           $accountToBeRefunded = account::find($currentBill->FK_AccountID);             //voiding of reservation
+           $accountToBeRefunded->Account_Balance -= ($currentBill->Billing_SubTotal);    // the subtotal will be deducted
+           $accountToBeRefunded->save();
+           $accountToBeRefunded->notify(new voidBeforeBazaarStart($currentBill));
 
         }
 
@@ -82,18 +113,19 @@ class checkPaymentDeadLine
               $stallWithReservation->Stall_Status = "Available";
               $stallWithReservation->FK_ReservationID = null;
               $stallWithReservation->save();
-      
+
               $stallArchived = new stallsarchive();
               $stallArchived->FK_BillingID = $currentBill->PK_BillingID;
               $stallArchived->FK_StallID = $stallWithReservation->PK_StallID;
               $stallArchived->save();
-      
-              
+
+
             }
 
-           $accountToBeRefunded = account::find($currentBill->FK_AccountID);             //voiding of reservation
+              $accountToBeRefunded = account::find($currentBill->FK_AccountID);             //voiding of reservation
               $accountToBeRefunded->Account_Balance -= ($currentBill->Billing_SubTotal);    // the subtotal will be deducted
-              $accountToBeRefunded->save(); 
+              $accountToBeRefunded->notify(new voidFiveDaysDeadline($currentBill));
+              $accountToBeRefunded->save();
         }
 
         else{
@@ -113,12 +145,12 @@ class checkPaymentDeadLine
             //   $stallWithReservation->Stall_Status = "Available";
             //   $stallWithReservation->FK_ReservationID = null;
             //   $stallWithReservation->save();
-      
+
             //   $stallArchived = new stallsarchive();
             //   $stallArchived->FK_BillingID = $currentBill->PK_BillingID;
             //   $stallArchived->FK_StallID = $stallWithReservation->PK_StallID;
             //   $stallArchived->save();
-      
+
             //   $accountToBeRefunded = account::find($currentBill->FK_AccountID);             //voiding of reservation
             //   $accountToBeRefunded->Account_Balance -= ($currentBill->Billing_SubTotal);    // the subtotal will be deducted
             //   $accountToBeRefunded->save();

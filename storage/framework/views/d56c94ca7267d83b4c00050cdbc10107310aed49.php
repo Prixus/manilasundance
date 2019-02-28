@@ -14,6 +14,6 @@
 
 <?php if(session('good')): ?>
 <script>
-    toastr.success("<?php echo e(session('good')); ?>",'Error',{timeOut:5000});
+    toastr.success("<?php echo e(session('good')); ?>",'Success',{timeOut:5000});
 </script>
 <?php endif; ?>

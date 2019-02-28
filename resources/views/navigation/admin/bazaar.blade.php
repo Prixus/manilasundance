@@ -7,46 +7,20 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 
-<!-- Start Dessa 2018-0829 -->
 
-          <div class="col-lg-6 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-aqua">
-            <div class="inner">
-              <h3> August</h3>
-              <p>Month</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-calendar"></i>
-            </div>
-          </div>
-        </div>
 
-          <div class="col-lg-6 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner">
-              <h3>253</h3>
-              <p>Forecasted Number of Bazaar Attendees</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-person"></i>
-            </div>
-          </div>
-          <br>
-        </div>
-
-<!-- End Dessa 2018-0829 -->
-
-          <h2 class="sub-header">Bazaars<!-- <div style = "float:right;font-size:14px;">
+          <h2 class="sub-header" style="color:#3ce1e0;">Bazaars
+          <!-- <div style = "float:right;font-size:14px;">
 					<input type = "text" placeholder = "Search...">
 					<button class = "btnSearch">GO</button>
 					</div>
-					 --></h2>
+					 -->
+             <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" id="BtnAdd">Add Bazaar</button>
+           </h2>
 
           <div class="table-responsive">
 
-		  <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary" id="BtnAdd">Add Bazaar</button></h2>
+		  
 
             <table class="table table-striped" id="BazaarTable">
               <thead>
@@ -100,40 +74,42 @@
                       {!! Form::open(array('url' => '/admin/bazaar','files'=>'true')) !!}
                       <div class = "form-group">
                         <label> BAZAAR NAME: </label>
-                        {{Form::text('Bazaar_Name',null,array('placeholder'=>'Enter Bazaar Name','required'=>'required'))}}
+                        {{Form::text('Bazaar_Name',null,array('placeholder'=>'Enter Bazaar Name','required'=>'required', 'class'=>'form-control'))}}
                       </div>
                       <div class = "form-group">
                         <label> BAZAAR STARTING DATE: </label>
-                        {{Form::date('Bazaar_DateStart')}}
+                        {{Form::date('Bazaar_DateStart',null,array('class'=>'form-control'))}}
                       </div>
                       <div class="form-group">
                         <label> BAZAAR ENDING DATE: </label>
-                        {{Form::date('Bazaar_DateEnd')}}
+                        {{Form::date('Bazaar_DateEnd',null,array('class'=>'form-control'))}}
                       </div>
                       <div class = "form-group">
                         <label> BAZAAR STARTING TIME: </label>
-                        {{Form::time('Bazaar_TimeStart')}}
+                        {{Form::time('Bazaar_TimeStart',null,array('class'=>'form-control'))}}
                       </div>
                       <div class="form-group">
                         <label> BAZAAR ENDING TIME: </label>
-                        {{Form::time('Bazaar_TimeEnd')}}
+                        {{Form::time('Bazaar_TimeEnd',null,array('class'=>'form-control'))}}
                       </div>
 
                       <div class = "form-group">
                         <label> BAZAAR VENUE: </label>
-                        {{Form::select('Bazaar_Venue',array('WorldTradeCenter' => 'World Trade Center','MegatradeHall'=> 'Mega Trade Hall'),null)}}
+                        {{Form::select('Bazaar_Venue',array('WorldTradeCenter' => 'World Trade Center','MegatradeHall'=> 'Mega Trade Hall'),null,array('class'=>'form-control'))}}
                       </div>
                       <div class = "form-group">
                         <label> BAZAAR EVENT DESCRIPTION: </label>
-                        <textarea name="Bazaar_Description" required></textarea>
+                        <textarea name="Bazaar_Description" class = "form-control" required></textarea>
                       </div>
                       <div class = "form-group">
                         <label> BAZAAR EVENT POSTER: </label>
-                        {{Form::file('Bazaar_EventPoster')}}
+                        {{Form::file('Bazaar_EventPoster',null,array('class'=>'form-control'))}}
                       </div>
                       <div class = "form-group">
+                      <!--   <input type="submit" class = "btn btn-success" data-dismiss = "modal" name="SubmitAdd" value ="submit"> -->
                         {{Form::submit('SubmitAdd')}}
                       </div>
+
               {!! Form::close() !!}
                   </div>
 
@@ -267,11 +243,18 @@
                             <textarea name="Bazaar_Description" class="form-control" id ="DeleteDescription" disabled></textarea>
                           </div>
                         </div>
+                        <div class = "form-group">
+                          <label> BAZAAR Purpose of Cancellation: </label>
+                          <select id= "DeletePurpose" class="form-control">
+                            <option value="Calamaties">Calamaties</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
 
                   </form>
                     </div>
                   <div class = "modal-footer">
-                    <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitEdit">CANCEL </button>
+                    <button type="button" class = "btn btn-danger" data-dismiss = "modal" id="SubmitDelete">CANCEL </button>
                     <button type ="button" class = "btn btn-primary" data-dismiss = "modal"> CLOSE </button>
                   </div>
                 </div>

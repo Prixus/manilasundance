@@ -35,7 +35,13 @@ class billDueDateNotification extends Notification
           foreach ($stallwithreservations as $stallwithreservation) {
             // code...
             $bazaar = bazaar::find($stallwithreservation->FK_BazaarID);
-            $this->message = "You have pending balance to be paid. Your balance to be paid is". $billing->Billing_AmountToBePaid ."php it must be paid before". $bazaar->Bazaar_DateStart. ". You have only " . $bazaar->Bazaar_DateStart - Carbon::now() . "to pay your remaining balance";
+            $deadline = $bazaar->Bazaar_DateStart;
+            $datetoday = Carbon::now();
+            $deadline1 =new DateTime($bazaar->Bazaar_DateStart);
+            $datetoday = new DateTime($datetoday);
+            $days = $deadline1->diff($datetoday);
+            $days = $days->format('%a');
+            $this->message = "You have pending balance to be paid. Your balance to be paid is ". $billing->Billing_AmountToBePaid ."php it must be paid before ". $deadline. ". You have only " . $days . " days to pay your remaining balance";
           }
         }
         elseif($billing->Billing_Status == "Not Paid"){
@@ -50,7 +56,7 @@ class billDueDateNotification extends Notification
           foreach ($stallwithreservations as $stallwithreservation) {
             // code...
             $bazaar = bazaar::find($stallwithreservation->FK_BazaarID);
-            $this->message = "You have pending balance to be paid to make a half payment. Your Total balance to be paid is ". ($billing->Billing_SubTotal+$billing->Billing_BalanceFromPreviousBilling)/2 ."php it must be paid before ". $deadline . ". You have only ".$days. " to pay your remaining balance";
+            $this->message = "You have pending balance to be paid to make a half payment. Your balance to be paid to make half payment is ". ($billing->Billing_SubTotal+$billing->Billing_BalanceFromPreviousBilling)/2 ."php it must be paid before ". $deadline . ". You have only ".$days. " days to pay your remaining balance";
           }
 
         }

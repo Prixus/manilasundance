@@ -17,7 +17,7 @@ class CreatePenaltiesTable extends Migration
             $table->increments('PK_PenaltyID');
             $table->string('Penalty_Name',255);
             $table->string('Penalty_Description',1028);
-            $table->decimal('Penalty_Cost',15,2);
+            // $table->decimal('Penalty_Cost',15,2);
             $table->timestamps();
         });
     }

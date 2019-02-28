@@ -422,19 +422,12 @@ class BazaarsController extends Controller
       if($request->PurposeOfDelete == "Calamaties"){
         $bazaar = bazaar::findorfail($id);
         $stallsWithReservation = $bazaar->stalls()->where('FK_ReservationID', '!=', 'null')->get();
+
+
         foreach($stallsWithReservation as $stallWithReservation){
           $ReservationandBillID = $stallWithReservation->FK_ReservationID;
           $billing = billing::find($ReservationandBillID);
-          $CashToBePaid = $billing->Billing_AmountToBePaid;
-          $accountToBeRefunded = account::find($billing->FK_AccountID);
-          $accountToBeRefunded->Account_Balance -= $CashToBePaid; //the cash for refund will be refunded to their current cash
 
-          if($billing->Billing_Status != "Void"){
-          $accountToBeRefunded ->notify(new notifyCancelBazaarCalamities($billing));
-          }
-
-          $billing->Billing_Status = "Void";
-          $accountToBeRefunded->save(); // the cash will now be refunded
           $reservation = reservation::find($ReservationandBillID);
 
           //the following stalls will be archived
@@ -442,6 +435,26 @@ class BazaarsController extends Controller
           $stallArchived->FK_BillingID = $billing->PK_BillingID;
           $stallArchived->FK_StallID = $stallWithReservation->PK_StallID;
           $stallArchived->save();
+
+          if($billing->Billing_Status != "Void"){
+            $accountToBeRefunded = account::find($billing->FK_AccountID);
+          $accountToBeRefunded ->notify(new notifyCancelBazaarCalamities($billing));
+          $CashToBePaid = $billing->Billing_AmountToBePaid;
+
+          $accountToBeRefunded->Account_Balance -= $CashToBePaid; //the cash for refund will be refunded to their current cash
+          $accountToBeRefunded->save(); // the cash will now be refunded
+          $billing->Billing_Status = "Void";
+          }
+
+
+            $billing->save();
+
+            foreach ($billing->paymentsMade as $payment) {
+               if($payment->Payment_Status == "Pending for Approval"){
+                 $payment->Payment_Status = "Not Approved";
+                 $payment->save();
+               }
+            }
         }
 
         $bazaar->Bazaar_Status = "Not Available";
@@ -456,10 +469,7 @@ class BazaarsController extends Controller
         foreach($stallsWithReservation as $stallWithReservation){
           $ReservationandBillID = $stallWithReservation->FK_ReservationID;
           $billing = billing::find($ReservationandBillID);
-          $CashPaidforRefund = $billing->Billing_AmountPaid;
-          if($billing->Billing_BalanceFromPreviousBilling < 0){
-            $CashPaidforRefund-=$billing->Billing_BalanceFromPreviousBilling;
-          }
+
 
           //the following stalls will be archived
           $stallArchived = new stallsarchive();
@@ -467,19 +477,26 @@ class BazaarsController extends Controller
           $stallArchived->FK_StallID = $stallWithReservation->PK_StallID;
           $stallArchived->save();
 
-           // the cash will now be refunded
-          $CashToBePaid = $billing->Billing_AmountToBePaid;
-          $accountToBeRefunded = account::find($billing->FK_AccountID);
-          $accountToBeRefunded->Account_Balance -= $CashToBePaid; //the cash for refund will be refunded to their current cash
-          $accountToBeRefunded->Account_Balance -= $CashPaidforRefund;
-          $accountToBeRefunded->save();
-
-
           if($billing->Billing_Status != "Void"){
-          $accountToBeRefunded ->notify(new notifyCancelBazaarCalamities($billing));
+              $accountToBeRefunded = account::find($billing->FK_AccountID);
+              $accountToBeRefunded ->notify(new notifyCancelBazaarCalamities($billing));
+              $CashPaidforRefund = $billing->Billing_AmountPaid;
+                if($billing->Billing_BalanceFromPreviousBilling < 0){
+                  $CashPaidforRefund-=$billing->Billing_BalanceFromPreviousBilling;
+                }
+              // the cash will now be refunded
+             $CashToBePaid = $billing->Billing_AmountToBePaid;
+
+             $accountToBeRefunded->Account_Balance -= $CashToBePaid; //the cash for refund will be refunded to their current cash
+             $accountToBeRefunded->Account_Balance -= $CashPaidforRefund;
+             $accountToBeRefunded->save();
+             $billing->Billing_Status = "Void";
+
+
           }
+
           $reservation = reservation::find($ReservationandBillID);
-          $billing->Billing_Status = "Void";
+
           $billing->save();
         }
         $bazaar->Bazaar_Status = "Not Available";

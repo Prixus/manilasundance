@@ -156,60 +156,80 @@ class PaymentsController extends Controller
         $billing->Billing_AmountPaid = $billing->Billing_AmountPaid + $payment->Payment_Amount;
         $account = account::find($payment->FK_AccountID);
 
-        if($payment->Payment_Amount > $billing->Billing_AmountToBePaid){ //checks if the payment amount is greater than amount to be paid
-        $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount; // computes for the account balance and will return a negative account balance
-        $billing->Billing_Status = "Paid";
-        $billing->Billing_AmountToBePaid = 0.00; //because payment exceeded amount to be paid the amount to be paid will be 0 and the excess will be deducted to the account balance
-          foreach($reservation->stalls as $stall){      //changes the status of all the stalls to be reserved to reserved
-            $stall = stall::find($stall->PK_StallID);
-            $stall->Stall_Status = "Reserved";
-            $stall->save();
+        if($billing->Billing_Status == "Void"){
+          foreach ($billing->paymentsMade as $payment) {
+             if($payment->Payment_Status == "Pending for Approval"){
+               $payment->Payment_Status = "Approved";
+               $payment->save();
+              $account->Account_Balance -= $payment->Payment_Amount;
+               $account->notify(new PaymentVerified($payment));
+               $account->save();
+               if($account->Account_Balance<0){    //notify if payment exceeded the amount to be paid
+                 $account->notify(new ExcessPayment($payment));
+               }
+               return response()->json($payment);
+             }
           }
         }
 
-        else if($payment->Payment_Amount == $billing->Billing_AmountToBePaid){ //checks if the payment amount is equal to the amount to be paid
-          $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount; //computes for the account balance. The account balance will be 0
-          $account->Account_Balance= 0;
+        else{
+          if($payment->Payment_Amount > $billing->Billing_AmountToBePaid){ //checks if the payment amount is greater than amount to be paid
+          $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount; // computes for the account balance and will return a negative account balance
           $billing->Billing_Status = "Paid";
-          $billing->Billing_AmountToBePaid = 0.00;
-            foreach($reservation->stalls as $stall){
+          $billing->Billing_AmountToBePaid = 0.00; //because payment exceeded amount to be paid the amount to be paid will be 0 and the excess will be deducted to the account balance
+            foreach($reservation->stalls as $stall){      //changes the status of all the stalls to be reserved to reserved
               $stall = stall::find($stall->PK_StallID);
               $stall->Stall_Status = "Reserved";
               $stall->save();
             }
           }
 
-        else{
-        if($billing->Billing_AmountPaid >= ($billing->Billing_AmountToBePaid/2)){ //checks if the account balance will be half of the amount to be paid
-          $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount;
-          $billing->Billing_Status = "Half Paid";
-          $billing->Billing_AmountToBePaid -= $payment->Payment_Amount;
-
-            foreach($reservation->stalls as $stall){
-              $stall = stall::find($stall->PK_StallID);
-              $stall->Stall_Status = "TemporarilyReserved";
-              $stall->save();
+          else if($payment->Payment_Amount == $billing->Billing_AmountToBePaid){ //checks if the payment amount is equal to the amount to be paid
+            $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount; //computes for the account balance. The account balance will be 0
+            $account->Account_Balance= 0;
+            $billing->Billing_Status = "Paid";
+            $billing->Billing_AmountToBePaid = 0.00;
+              foreach($reservation->stalls as $stall){
+                $stall = stall::find($stall->PK_StallID);
+                $stall->Stall_Status = "Reserved";
+                $stall->save();
+              }
             }
-          }
+
           else{
-            $billing->Billing_AmountToBePaid -= $payment->Payment_Amount;
-            $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount;
-            //to be used for partial payment
-            foreach($reservation->stalls as $stall){
-              $stall = stall::find($stall->PK_StallID);
-              $stall->Stall_Status = "TemporarilyReserved";
-              $stall->save();
-            }
-          }
-         }
-        $billing->save();
-        $account->notify(new PaymentVerified($payment));
-        $account->save();
+          if($billing->Billing_AmountPaid >= ($billing->Billing_AmountToBePaid/2)){ //checks if the account balance will be half of the amount to be paid
+              $billing->Billing_AmountToBePaid -= $payment->Payment_Amount;
+            $account->Account_Balance= $billing->Billing_AmountToBePaid;
+            $billing->Billing_Status = "Half Paid";
 
-        if($account->Account_Balance<0){    //notify if payment exceeded the amount to be paid
-          $account->notify(new ExcessPayment($payment));
+
+              foreach($reservation->stalls as $stall){
+                $stall = stall::find($stall->PK_StallID);
+                $stall->Stall_Status = "TemporarilyReserved";
+                $stall->save();
+              }
+            }
+            else{
+              $billing->Billing_AmountToBePaid -= $payment->Payment_Amount;
+              $account->Account_Balance= $billing->Billing_AmountToBePaid;
+              //to be used for partial payment
+              foreach($reservation->stalls as $stall){
+                $stall = stall::find($stall->PK_StallID);
+                $stall->Stall_Status = "TemporarilyReserved";
+                $stall->save();
+              }
+            }
+           }
+          $billing->save();
+          $account->notify(new PaymentVerified($payment));
+          $account->save();
+
+          if($account->Account_Balance<0){    //notify if payment exceeded the amount to be paid
+            $account->notify(new ExcessPayment($payment));
+          }
+          return response()->json($payment);
         }
-        return response()->json($payment);
+
 
           }
 
@@ -275,6 +295,113 @@ class PaymentsController extends Controller
 
 
         $brand = PDF::loadView("pdf/receipt",['ReservedStalls'=> $reservation->stalls, 'ReservationAccountBrandInformations' => $ReservationAccountBrandInformations, 'dategenerated' => $dategenerated]);
-        return $brand->download('receipt.pdf');
+        return $brand->stream('receipt.pdf');
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmPayment(Request $request, $id)
+    {
+      //make a query where you will get the sum amount to be paid and amount paid to get Account_Balance
+      $payments = payment::all();
+
+      foreach ($payments as $payment) {
+        if(($request->ReferenceNumber == $payment->Payment_AccountNumber) && ($payment->Payment_Status == "Approved")){
+        return response()->json("A bank deposit with a same transaction number has already been approved.");
+        }
+      }
+
+        $ldate = date('Y-m-d H:i:s');
+        $payment = payment::find($id);
+        $payment->Payment_Amount = $request->PaymentAmount;
+        $payment->Payment_Status = "Approved";
+        $payment->save();
+
+        $billing = billing::find($request->BillingID);
+        $reservation = reservation::where('FK_BillingID', '=', $billing->PK_BillingID)->first();
+
+        $billing->Billing_AmountPaid = $billing->Billing_AmountPaid + $payment->Payment_Amount;
+        $account = account::find($payment->FK_AccountID);
+
+        if($billing->Billing_Status == "Void"){
+          foreach ($billing->paymentsMade as $payment) {
+             if($payment->Payment_Status == "Pending for Approval"){
+               $payment->Payment_Status = "Approved";
+               $payment->save();
+              $account->Account_Balance -= $payment->Payment_Amount;
+               $account->notify(new PaymentVerified($payment));
+               $account->save();
+               if($account->Account_Balance<0){    //notify if payment exceeded the amount to be paid
+                 $account->notify(new ExcessPayment($payment));
+               }
+               return response()->json($payment);
+             }
+          }
+        }
+
+        else{
+          if($payment->Payment_Amount > $billing->Billing_AmountToBePaid){ //checks if the payment amount is greater than amount to be paid
+          $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount; // computes for the account balance and will return a negative account balance
+          $billing->Billing_Status = "Paid";
+          $billing->Billing_AmountToBePaid = 0.00; //because payment exceeded amount to be paid the amount to be paid will be 0 and the excess will be deducted to the account balance
+            foreach($reservation->stalls as $stall){      //changes the status of all the stalls to be reserved to reserved
+              $stall = stall::find($stall->PK_StallID);
+              $stall->Stall_Status = "Reserved";
+              $stall->save();
+            }
+          }
+
+          else if($payment->Payment_Amount == $billing->Billing_AmountToBePaid){ //checks if the payment amount is equal to the amount to be paid
+            $account->Account_Balance= $billing->Billing_AmountToBePaid - $payment->Payment_Amount; //computes for the account balance. The account balance will be 0
+            $account->Account_Balance= 0;
+            $billing->Billing_Status = "Paid";
+            $billing->Billing_AmountToBePaid = 0.00;
+              foreach($reservation->stalls as $stall){
+                $stall = stall::find($stall->PK_StallID);
+                $stall->Stall_Status = "Reserved";
+                $stall->save();
+              }
+            }
+
+          else{
+          if($billing->Billing_AmountPaid >= ($billing->Billing_AmountToBePaid/2)){ //checks if the account balance will be half of the amount to be paid
+              $billing->Billing_AmountToBePaid -= $payment->Payment_Amount;
+            $account->Account_Balance= $billing->Billing_AmountToBePaid;
+            $billing->Billing_Status = "Half Paid";
+
+
+              foreach($reservation->stalls as $stall){
+                $stall = stall::find($stall->PK_StallID);
+                $stall->Stall_Status = "TemporarilyReserved";
+                $stall->save();
+              }
+            }
+            else{
+              $billing->Billing_AmountToBePaid -= $payment->Payment_Amount;
+              $account->Account_Balance= $billing->Billing_AmountToBePaid;
+              //to be used for partial payment
+              foreach($reservation->stalls as $stall){
+                $stall = stall::find($stall->PK_StallID);
+                $stall->Stall_Status = "TemporarilyReserved";
+                $stall->save();
+              }
+            }
+           }
+          $billing->save();
+          $account->notify(new PaymentVerified($payment));
+          $account->save();
+
+          if($account->Account_Balance<0){    //notify if payment exceeded the amount to be paid
+            $account->notify(new ExcessPayment($payment));
+          }
+          return response()->json($payment);
+        }
+
+
+          }
 }

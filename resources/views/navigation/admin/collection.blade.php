@@ -14,38 +14,6 @@
           </div> -->
           </h2>
 
-<!-- Start Dessa 2018-0829 -->
-
-          <div class="col-lg-6 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-aqua">
-            <div class="inner">
-              <h3> August</h3>
-              <p>Month</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-calendar"></i>
-            </div>
-          </div>
-        </div>
-
-          <div class="col-lg-6 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-yellow">
-            <div class="inner">
-              <h3 title="253000.00">253000.00</h3>
-              <p>Forecasted Revenue for this month</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-          </div>
-          <br>
-        </div>
-
-        <hr class="featurette-divider" style = "background-color:#3ce1e0;margin:0px;margin-left: 0%;height:3px;width:100%;">
-
-<!-- End Dessa 2018-0829 -->
 
 
           <h2 class="sub-header" style = "color:#f79391;">Payments For Approval
@@ -176,7 +144,7 @@
                       </div>
                       <div class = "form-group" >
                         <label> PAYMENT DATE: </label>
-                        <input type='datetime' class="form-control" id="PaymentDate" required>
+                        <input type='datetime' class="form-control" id="PaymentDate" disabled>
                       </div>
                       <div class = "form-group">
                         <label> PAYMENT REFERENCE NUMBER: </label>
@@ -225,7 +193,7 @@ var table = $('.classapproved').DataTable({
 
           $.ajax({
             type: 'PUT',
-            url: '/brand/payments/' + id,
+            url: '/brand/payments/confirm/' + id,
             data: {
               '_token':$('input[name=_token]').val(),
               'PaymentAmount' : $('#PaymentAmount').val(),

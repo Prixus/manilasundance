@@ -9,8 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\guestBrand;
 use App\account;
+use App\penalty;
 use App\Mail\RegistrationRejected;
 use App\Mail\RegistrationApproved;
+use App\Mail\BannedAccountReport;
+use App\Mail\RestoreAccount;
+use App\Notifications\WarningsNotification;
 use Validator;
 use Response;
 use Session;
@@ -44,8 +48,10 @@ class AccountsController extends Controller
         ->where('Account_Status','=','ForApproval')
         ->orderBy('PK_AccountID','DESC')
         ->get();
+        $Penalties = penalty::all();
+        $PenaltiesCount = penalty::count();
         $currentAccount = account::where('PK_AccountID','=',Session::get('UserID'))->first();
-        return view('navigation/admin/accounts', ['accounts' => $accounts,'ForApprovalaccounts'=> $ForApprovalaccounts, 'currentAccount' => $currentAccount]);
+        return view('navigation/admin/accounts', ['accounts' => $accounts,'ForApprovalaccounts'=> $ForApprovalaccounts, 'currentAccount' => $currentAccount,'Penalties'=>$Penalties,'PenaltiesCount'=>$PenaltiesCount]);
     }
 
     /**
@@ -126,6 +132,7 @@ class AccountsController extends Controller
         $Account->Account_Rating = $request->rating;
         $Account->Account_AccessLevel = $request->accesslevel;
         $Account->save();
+
         return response()->json($Account);
       }
     }
@@ -189,7 +196,7 @@ class AccountsController extends Controller
     }
 
     public function markAsRead(){
-          $currentAccount->unreadNotifications->markAsRead();    
+          $currentAccount->unreadNotifications->markAsRead();
     }
 
     public function rejectAccount(Request $request, $id){
@@ -211,6 +218,66 @@ class AccountsController extends Controller
     }
   }
 
+  public function updateStatus(Request $request, $id)
+  {
+      //
+      $validator = Validator::make(Input::all(), $this->rules2);
+        if ($validator->fails()) {
+            return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
+        else{
+      $Account = account::find($id);
+      $Account->Account_UserName = $request->name;
+      $Account->Account_Status = $request->status;
+      $Account->Account_Password = $request->password;
+      $Account->Account_Rating = $request->rating;
+      $Account->Account_AccessLevel = $request->accesslevel;
+      $Account->save();
+
+      $penalty = penalty::find($request->penaltyID);
+
+      if($Account->Account_Rating == "Warning"){
+        $Account->notify(new WarningsNotification($penalty));
+      }
+      elseif ($Account->Account_Rating == "Banned") {
+        $guestBrand = guestBrand::find($Account->FK_GuestBrandID);
+        Mail::to($guestBrand->GuestBrand_EmailAddress)->send(new BannedAccountReport($penalty));
+      }
+      else{
+
+      }
+
+      return response()->json($Account);
+    }
+  }
+
+
+  public function updateStatusRestore(Request $request, $id)
+  {
+      //
+      $validator = Validator::make(Input::all(), $this->rules2);
+        if ($validator->fails()) {
+            return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+        }
+        else{
+      $Account = account::find($id);
+      $Account->Account_UserName = $request->name;
+      $Account->Account_Status = $request->status;
+      $Account->Account_Password = $request->password;
+      $Account->Account_Rating = $request->rating;
+      $Account->Account_AccessLevel = $request->accesslevel;
+      $Account->save();
+
+      $penalty = penalty::find($request->penaltyID);
+
+      if($Account->Account_Rating == "Normal"){
+        $guestBrand = guestBrand::find($Account->FK_GuestBrandID);
+        Mail::to($guestBrand->GuestBrand_EmailAddress)->send(new RestoreAccount());
+      }
+
+      return response()->json($Account);
+    }
+  }
     // public function brandprofile()
     // {
     //     //
@@ -218,7 +285,7 @@ class AccountsController extends Controller
     //   return view('navigation/admin/brandprofile', ['currentAccount' => $currentAccount]);
 
 
-      
+
     // } this is no more needed, transferred to brandprofilecontroller
-  
+
 }

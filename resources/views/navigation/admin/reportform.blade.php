@@ -8,24 +8,23 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
  <h1 class="page-header">ADMINISTRATOR</h1>
 
-	<form method="POST">
+	<form action="/admin/viewreport" target="_blank">
       <h3 class="sub-header subsett">Customize your report.</h3>
       <br>
 
 
         <h5 class="perrow"><div class="lbl">Report:</div>
-			<select class="txtbox">
+			<select class="txtbox" name="TypeOfReport">
 				<option>Revenue</option>
 				<option>User Registration</option>
 				<option>Stall Reservations</option>
-				<option>All</option>
 			</select>
 			</h5>
-        <h5 class="perrow"><div class="lbl">Starting From:</div>    <input class="txtbox" type="date"></h5>
-        <h5 class="perrow"><div class="lbl">Until:</div>    <input class="txtbox" type="date"> <div class="lbl" id="message"></div></h5>
+        <h5 class="perrow"><div class="lbl">Starting From:</div>    <input class="txtbox" type="date" name="StartDate"></h5>
+        <h5 class="perrow"><div class="lbl">Until:</div>    <input class="txtbox" type="date" name="EndDate"> <div class="lbl" id="message"></div></h5>
       <br><br>
       		<button style = "background-color:red;float:right;margin-left:5px;" type="button" class="btn btn-primary"><a href="/admin/dashboard">Back</a></button>
-		  <button style = "background-color:#337ab7;float:right;" type="button" class="btn btn-primary"><a href="/admin/viewreport">View Report</a></button>
+		  <input type="submit" class="btn btn-primary"  value="View Report" >
 		  <br><br>
     </form>
 		  <br><br>

@@ -42,7 +42,7 @@
       <li @if(request()->segment(1)=='admin' AND (request()->segment(2)=='accounts' OR request()->segment(2)=='brandprofile')) class="active" @endif ><a href="/admin/accounts">Accounts</a></li>
       <li @if(request()->segment(1)=='admin' AND (request()->segment(2)=='bazaar' OR request()->segment(2)=='manage_stalls')) class="active" @endif ><a href="/admin/bazaar">Bazaar</a></li>
       <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='penalties') class="active" @endif ><a href="/admin/penalties">Penalties</a></li>
-      <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='discounts') class="active" @endif ><a href="/admin/discounts">Discounts</a></li>
+     <!--  <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='discounts') class="active" @endif ><a href="/admin/discounts">Discounts</a></li> -->
       <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='calendar') class="active" @endif ><a href="/admin/calendar">Calendar</a></li>
       <li @if(request()->segment(1)=='admin' AND request()->segment(2)=='billing') class="active" @endif ><a href="/admin/billing">Billing</a></li>
       <li @if(request()->segment(1)=='admin' AND (request()->segment(2)=='collection' OR request()->segment(2)=='bill')) class="active" @endif ><a href="/admin/collection">Collection</a></li>

@@ -121,6 +121,8 @@ window.Laravel = <?php echo json_encode([
     <script src='js/sign/jquery.min.js'></script>
     <script src='js/sign/jquery.easing.min.js'></script>
     <script src="js/sign/index.js"></script>
+
+    <script src="/js/bootstrap.min.js"></script>
 <?php endif; ?>
 
   <script src="/js/dashboard.js"></script>

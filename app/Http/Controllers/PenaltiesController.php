@@ -22,7 +22,7 @@ class PenaltiesController extends Controller
      [
        'name' => 'required|max:255',
        'description' => 'required|max:1028',
-       'cost' => 'required|min:0',
+
      ];
     public function index()
     {
@@ -58,7 +58,7 @@ class PenaltiesController extends Controller
         else{
         $Penalty = new penalty;
         $Penalty->Penalty_Name = $request->name;
-        $Penalty->Penalty_Cost = $request->cost;
+
         $Penalty->Penalty_Description = $request->description;
         $Penalty->save();
         return response()->json($Penalty);
@@ -105,7 +105,6 @@ class PenaltiesController extends Controller
         $Penalty = penalty::find($id);
         $Penalty->Penalty_Name = $request->name;
         $Penalty->Penalty_Description = $request->description;
-        $Penalty->Penalty_Cost = $request->cost;
         $Penalty->save();
         return response()->json($Penalty);
         }

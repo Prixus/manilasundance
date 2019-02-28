@@ -7,12 +7,14 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
 
-          <h2 class="sub-header">Discounts<div style = "float:right;font-size:14px;">
-					<input type = "text" placeholder = "Search...">
-					<button class = "btnSearch">GO</button>
-					</div>
+          <h2 class="sub-header">Discounts
+            <!-- <div style = "float:right;font-size:14px;">
+    					<input type = "text" placeholder = "Search...">
+    					<button class = "btnSearch">GO</button>
+  					</div> -->
+            <button style = "background-color:#337ab7;" type="button" class="btn btn-primary" id="BtnAdd">Add Discount</button>
 					</h2>
-                <button style = "background-color:#337ab7;" type="button" class="btn btn-primary" id="BtnAdd">Add Discount</button>
+                
           <div class="table-responsive">
         <h2>
 

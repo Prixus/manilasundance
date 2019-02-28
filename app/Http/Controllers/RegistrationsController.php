@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use DB;
 use Session;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPasswordEmail;
 use Illuminate\Http\Request;
 use App\guestBrand;
 use App\account;
@@ -41,6 +42,13 @@ class RegistrationsController extends Controller
 
                   return redirect('/');
           */
+          $GuestBrands = DB::table('guest_brands')->join('accounts','accounts.FK_GuestBrandID','=','guest_brands.PK_GuestBrandID')->get();
+          foreach ($GuestBrands as $GuestBrand) {
+            if(($request->txtBrandEmailAddress == $GuestBrand->GuestBrand_EmailAddress) && ($GuestBrand->Account_Status =="Activated")){
+              return back()->with('status', 'An account with the same email address has already been activated.');
+            }
+    }
+
       $Brand = new guestBrand;
       $Brand->GuestBrand_Name = $request->input('txtBrandName');
       $Brand->GuestBrand_Description = $request->input('txtBrandDescription');
@@ -98,7 +106,7 @@ class RegistrationsController extends Controller
      $username = $request->input('txtUserName');
      $password = $request->input('txtUserPassword');
 
-     $checkLoginCount = DB::table('accounts')->where(['Account_UserName' => $username,'Account_Password'=> $password,'Account_Status'=>'Activated'])->count();
+     $checkLoginCount = DB::table('accounts')->where(['Account_UserName' => $username,'Account_Password'=> $password,'Account_Status'=>'Activated',['Account_Rating','<>','Banned']])->count();
 
 
 
@@ -132,5 +140,21 @@ class RegistrationsController extends Controller
       }
 
       return redirect('/');
+    }
+
+    public function forgotpassword(Request $request){
+      $accountandguestbrand = DB::table('accounts')
+                 ->join('guest_brands','PK_GuestBrandID','=','FK_GuestBrandID')
+                 ->where('guest_brands.GuestBrand_EmailAddress','=',$request->Email)
+                 ->get();
+
+        foreach ($accountandguestbrand as $accountID) {
+              $account = account::find($accountID->PK_AccountID);
+        }
+
+
+        Mail::to($request->Email)->send(new ForgotPasswordEmail($account));
+
+        return response($accountandguestbrand);
     }
 }

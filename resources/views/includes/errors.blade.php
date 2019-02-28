@@ -14,6 +14,6 @@
 
 @if(session('good'))
 <script>
-    toastr.success("{{session('good')}}",'Error',{timeOut:5000});
+    toastr.success("{{session('good')}}",'Success',{timeOut:5000});
 </script>
 @endif
