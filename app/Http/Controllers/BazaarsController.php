@@ -438,7 +438,7 @@ class BazaarsController extends Controller
 
           if($billing->Billing_Status != "Void"){
             $accountToBeRefunded = account::find($billing->FK_AccountID);
-          $accountToBeRefunded ->notify(new notifyCancelBazaarCalamities($billing));
+          $accountToBeRefunded->notify(new notifyCancelBazaarCalamities($billing));
           $CashToBePaid = $billing->Billing_AmountToBePaid;
 
           $accountToBeRefunded->Account_Balance -= $CashToBePaid; //the cash for refund will be refunded to their current cash
